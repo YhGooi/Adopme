@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+import '../css/common.css';
+import '../css/login.css';
+
 type LoginForm = {
     email: string;
     password: string;
@@ -24,52 +27,41 @@ const Login: React.FC = () => {
     };
 
     return (
-        <div style={{ 
-            width: '100vw', 
-            height: '100vh',
-            backgroundColor: '#faf1e2',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center'
-        }}>
-            <div style={{ 
-                width: '100%', 
-                maxWidth: '400px', 
-                padding: '2rem', 
-                margin: '0 1rem', 
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)', 
-                borderRadius: '8px',
-                backgroundColor: '#fff',
-                color: '#000' // Makes all text black
-            }}>
-                <h2 style={{ textAlign: 'center' }}>Login</h2>
-                <form onSubmit={handleSubmit}>
-                    <div style={{ marginBottom: '1rem' }}>
-                        <label>Email:</label><br />
-                        <input
-                            type="email"
-                            name="email"
-                            value={form.email}
-                            onChange={handleChange}
-                            required
-                            style={{ width: '100%', padding: '0.5rem' }}
-                        />
-                    </div>
-                    <div style={{ marginBottom: '1rem' }}>
-                        <label>Password:</label><br />
-                        <input
-                            type="password"
-                            name="password"
-                            value={form.password}
-                            onChange={handleChange}
-                            required
-                            style={{ width: '100%', padding: '0.5rem' }}
-                        />
-                    </div>
-                    <button type="submit" style={{ width: '100%', padding: '0.75rem', fontWeight: 'bold' }}>
-                        Login
-                    </button>
-                </form>
+        <div className="common_theme">
+            {/* Container for left and right panel*/}
+            <div className="login-panel-container">
+                {/* Login Form Panel */}
+                <div className='login-panel'>
+                    <h2>LOGIN</h2>
+                    <form onSubmit={handleSubmit}>
+                        <div>
+                            <label>Email</label><br/>
+                            <input
+                                type="email" name="email"
+                                value={form.email}
+                                onChange={handleChange}
+                                required
+                                placeholder="john@gmail.com"
+                            />
+                        </div>
+                        <div>
+                            <label>Password</label><br/>
+                            <input
+                                type="password" name="password"
+                                value={form.password}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <button> Login </button>
+                    </form>
+                </div>
+
+                {/* Sign Up Side Panel */}
+                <div className="login-side-panel">
+                    <h2>NEW TO US?</h2>
+                    <button> Sign Up </button>
+                </div>
             </div>
         </div>
     );
