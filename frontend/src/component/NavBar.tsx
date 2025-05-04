@@ -40,7 +40,7 @@ const NavBar = () => {
             </div>
 
             {/* Page content */}
-            <div className="page-content">
+            <div>
                 <Outlet />
             </div>
         </div>

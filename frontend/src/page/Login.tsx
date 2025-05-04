@@ -1,28 +1,32 @@
 import React, { useState } from 'react';
 
+import { useAuthStore } from '../store/auth.store';
+
 import '../css/common.css';
 import '../css/login.css';
 
-type LoginForm = {
-    email: string;
-    password: string;
-};
+// type LoginForm = {
+//     email: string;
+//     password: string;
+// };
 
 const Login: React.FC = () => {
-    const [form, setForm] = useState<LoginForm>({ email: '', password: '' });
+    // const [form, setForm] = useState<LoginForm>({ email: '', password: '' });
+
+    const authStore = useAuthStore((state) => state) as any
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setForm((prev) => ({ ...prev, [name]: value }));
+        authStore.set(e.target.name, e.target.value)
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!form.email || !form.password) {
+
+        if (!authStore.email || !authStore.password) {
             alert('Please fill in all fields.');
             return;
         }
-        console.log('Logging in with:', form);
+        console.log('Logging in with:', authStore);
         // Future: Call API here
     };
 
@@ -38,7 +42,7 @@ const Login: React.FC = () => {
                             <label>Email</label><br/>
                             <input
                                 type="email" name="email"
-                                value={form.email}
+                                value={authStore.email}
                                 onChange={handleChange}
                                 required
                                 placeholder="john@gmail.com"
@@ -48,7 +52,7 @@ const Login: React.FC = () => {
                             <label>Password</label><br/>
                             <input
                                 type="password" name="password"
-                                value={form.password}
+                                value={authStore.password}
                                 onChange={handleChange}
                                 required
                             />

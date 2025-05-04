@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 
-import Footer from './Footer';
-import NavBar from './NavBar';
+import Footer from './component/Footer';
+import NavBar from './component/NavBar';
 
 import { useEffect } from 'react';
 
