@@ -40,8 +40,8 @@ public class Account {
     @Column(nullable = false, length = 255)
     private String address;
 
-    @Column(nullable = false, length = 20)
-    private String postCode;
+    // @Column(nullable = false, length = 20)
+    // private String postCode;
 
     @Column(nullable = false, unique = true, length = 100)
     private String email;
