@@ -15,5 +15,4 @@ public class LoginService {
     public String getPasswordHashed(String email){
         return accountsRepository.findPasswordHashByEmail(email);
     }
-
 }
