@@ -1,8 +1,7 @@
 .common_theme {
-    width: 100vw;
-    height: 100vh;
-    background-color: #faf1e2;
     display: flex;
     justify-content: center;
+    width: 100%;
+    min-height: calc(100vh - 272px);
     align-items: center;
 }

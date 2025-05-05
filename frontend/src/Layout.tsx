@@ -3,15 +3,17 @@ import { Outlet } from 'react-router-dom';
 import Footer from './component/Footer';
 import NavBar from './component/NavBar';
 
-import { useEffect } from 'react';
+import '/src/css/layout.css'; // Importing the CSS file
 
 const Layout = () => {
     return (
-        <div className="flex flex-col h-screen">
-            <main className="flex-grow">
-                <Outlet />
-            </main>
-            
+        <div className="layout-container">
+            <NavBar />
+            <div className="layout-content">
+                <main className="p-4">
+                    <Outlet />
+                </main>
+            </div>
             <Footer />
         </div>
     );

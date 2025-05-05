@@ -1,18 +1,14 @@
 /* Navbar Container */
-.navbar {
-    display: flex;
-    background-color: #B2D8E8;
-    padding: 16px 24px;
+.navbar-container {
     width: 100%;
     position: fixed;
     top: 0;
-    left: 0;
     z-index: 1000;
-    max-width: 100%;
+    height: 72px;
     box-sizing: border-box;
+    background-color: #B2D8E8;
 }
 
-/* Navbar Content (flex layout) */
 .navbar-content {
     display: flex;
     justify-content: space-between;
@@ -20,19 +16,24 @@
     width: 100%;
 }
 
-/* Buttons container */
 .navbar-buttons {
     display: flex;
-    gap: 16px;
-    font-weight: 700;
     color: #000000;
 }
 
+.navbar-buttons button{
+    font-weight: 500;
+}
+
 /* Logo */
-.navbar-logo {
+.navbar-logo{
     height: 40px;
     width: auto;
-    object-fit: contain;
+}
+
+.navbar-user-icon{
+    height: 40px;
+    width: auto;
 }
 
 /* Button styling */
@@ -47,44 +48,4 @@
 
 .navbar-buttons button:hover {
     color: #1D4ED8; /* Blue color on hover */
-}
-
-/* Active Link Highlight (if using NavLink) */
-.navbar-buttons .active {
-    color: #1D4ED8; /* Blue color for active link */
-}
-
-/* Responsive styles */
-@media (max-width: 768px) {
-    .navbar-buttons {
-        display: none; /* Hide buttons by default on small screens */
-        flex-direction: column;
-        background-color: #B2D8E8;
-        position: absolute;
-        top: 72px;
-        right: 0;
-        padding: 12px 24px;
-        width: 100%;
-    }
-
-    .navbar-buttons.active {
-        display: flex;
-    }
-
-    .hamburger {
-        display: block;
-        cursor: pointer;
-    }
-}
-
-.hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.hamburger div {
-    width: 24px;
-    height: 2px;
-    background-color: #333;
 }

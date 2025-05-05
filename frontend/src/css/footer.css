@@ -3,32 +3,27 @@
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
-    width: 100%;
-    max-width: 100%;
-    padding: 16px 24px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;
+    width: 100vw;
+    height:200px;
+    padding: 0px 12px;
     background-color: #B2D8E8;
     box-sizing: border-box;
+    position: relative;
 }
 
 /* Each column */
 .footer-column {
-    min-width: 200px;
+    min-width: 50px;
 }
 
 .footer-column h4 {
     margin-bottom: 8px;
-    font-size: 1rem;
     font-weight: bold;
     color: #000000;
 }
 
 .footer-column p {
-    margin-bottom: 8px;
-    font-size: 1rem;
+    margin-bottom: 8px; 
     color: #000000;
 }
 
