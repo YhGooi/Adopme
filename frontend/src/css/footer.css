@@ -1,19 +1,21 @@
-.footer {
+.footer-container {
     display: flex;
-    background-color: #B2D8E8;
-    padding: 16px 24px;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
     width: 100%;
+    max-width: 100%;
+    padding: 16px 24px;
     position: fixed;
     bottom: 0;
     left: 0;
     z-index: 1000;
-    max-width: 100%;
-    box-sizing: border-box; /* For positioning */
+    background-color: #B2D8E8;
+    box-sizing: border-box;
 }
 
 /* Each column */
 .footer-column {
-    flex: 1;
     min-width: 200px;
 }
 
@@ -47,4 +49,5 @@
 
 .footer-column a:hover {
     text-decoration: underline;
+    color: #1D4ED8;
 }
