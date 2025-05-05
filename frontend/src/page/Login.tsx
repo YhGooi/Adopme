@@ -28,6 +28,22 @@ const Login: React.FC = () => {
         }
         console.log('Logging in with:', authStore);
         // Future: Call API here
+
+        try {
+            const response = fetch('http://localhost:8080/Login/test/abc@gmail.com', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+    
+            console.log('Login successful:', response);
+    
+            // You can now store token, redirect, or update UI as needed
+        } catch (error) {
+            console.error('Error logging in:', error);
+            alert('An error occurred during login.');
+        }
     };
 
     return (
