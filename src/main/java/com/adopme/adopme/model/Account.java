@@ -62,4 +62,29 @@ public class Account {
     private LocalDateTime updateDate;
 
     // Getters, Setters, Constructors, etc.
+    
+    /**
+     * @return Long return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    public Account(String passwordHash, String type, String name, Integer age, String address, String postCode,
+            String email, String phoneNo, LocalDateTime lastLoginDate, LocalDateTime createDate, String updatedBy,
+            LocalDateTime updateDate) {
+        this.passwordHash = passwordHash;
+        this.type = type;
+        this.name = name;
+        this.age = age;
+        this.address = address;
+        this.postCode = postCode;
+        this.email = email;
+        this.phoneNo = phoneNo;
+        this.lastLoginDate = lastLoginDate;
+        this.createDate = createDate;
+        this.updatedBy = updatedBy;
+        this.updateDate = updateDate;
+    }
+
 }
