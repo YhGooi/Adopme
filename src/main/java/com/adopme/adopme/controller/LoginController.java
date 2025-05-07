@@ -1,35 +1,39 @@
 package com.adopme.adopme.controller;
 
+import java.util.Collections;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.adopme.adopme.dto.account.LoginRequest;
+import com.adopme.adopme.security.JwtUtil;
 import com.adopme.adopme.service.LoginService;
 
-@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/Login")
 public class LoginController {
     private final LoginService loginService;
+    private final JwtUtil jwtUtil;
 
-    public LoginController(LoginService loginService){
+    public LoginController(LoginService loginService, JwtUtil jwtUtil){
         this.loginService=loginService;
+        this.jwtUtil = jwtUtil;
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<String> getCampaignById(@PathVariable String email) {
-        System.out.println("GET PASSWORD" + ResponseEntity.ok(loginService.getPasswordHashed(email)));
-        return ResponseEntity.ok(loginService.getPasswordHashed(email));
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+        boolean isAuthenticated = loginService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
+        if (isAuthenticated) {
+            String token = jwtUtil.generateToken(loginRequest.getEmail());
+            return ResponseEntity.ok(Collections.singletonMap("token", token));
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+        }
     }
 
 
-    //TEST API
-    @GetMapping("/test/{email}")
-    public ResponseEntity<String> testAPI(@PathVariable String email) {
-        System.out.println("CALLED TEST API");
-        return ResponseEntity.ok(email);
-    }
 }

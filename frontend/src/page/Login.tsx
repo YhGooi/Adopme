@@ -19,30 +19,66 @@ const Login: React.FC = () => {
         authStore.set(e.target.name, e.target.value)
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!authStore.email || !authStore.password) {
             alert('Please fill in all fields.');
             return;
         }
-        console.log('Logging in with:', authStore);
-        // Future: Call API here
 
         try {
-            const response = fetch('http://localhost:8080/Login/test/abc@gmail.com', {
-                method: 'GET',
+            const response = await fetch('http://localhost:8080/Login/login', {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                }
+                },
+                body: JSON.stringify({
+                    email: authStore.email,
+                    password: authStore.password,
+                }),
             });
-    
-            console.log('Login successful:', response);
-    
-            // You can now store token, redirect, or update UI as needed
+
+            if (!response.ok) {
+                throw new Error('Login failed');
+            }
+
+            const data = await response.json();
+            console.log('Login successful:', data);
+
+            const token = data.token;
+            localStorage.setItem('token', token);
+
+            // Redirect or update UI
+            alert('Login successful!');
+            // navigate('/dashboard'); // if using react-router
         } catch (error) {
             console.error('Error logging in:', error);
-            alert('An error occurred during login.');
+            alert('Invalid email or password.');
+        }
+    };
+
+    const fetchData = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) return alert('No token found');
+    
+        try {
+            const res = await fetch(`http://localhost:8080/Token/authenticate`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+ token,
+                },
+                body: JSON.stringify({
+                    email: authStore.email
+                }),
+            });
+            if (!res.ok) throw new Error(`Status ${res.status}`);
+            const data = await res.json();
+            console.log('Success:', data);
+        } catch (e: any) {
+            console.error('Fetch error:', e.message);
+            alert(e.message);
         }
     };
 
@@ -80,7 +116,8 @@ const Login: React.FC = () => {
                 {/* Sign Up Side Panel */}
                 <div className="login-side-panel">
                     <h2>NEW TO US?</h2>
-                    <button> Sign Up </button>
+                    <button>Sign Up</button>
+                    <button onClick={fetchData}>Test Token</button>
                 </div>
             </div>
         </div>
