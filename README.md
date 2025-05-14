@@ -4,7 +4,7 @@ Adopme is a web application designed to streamline pet adoption processes for pe
 ## Prerequisites
 - Node.js
 - Java 21
-- Docker
+- Docker / MySQL Workbench
 
 ## Getting Started
 ### Running The Frontend Application
@@ -23,6 +23,7 @@ npm run dev
 To terminate the application, press `Ctrl + C`.
 
 ### Running The Backend Application
+#### Using Docker
 1. From the root of the project, run following command to start the docker containers.
 ```shell
 docker compose up -d
@@ -33,6 +34,11 @@ To terminate all docker containers:
 ```shell
 docker compose down
 ```
+#### Using MySQL Workbench
+1. Create a new schema called `adopme`.
+2. Run the application.
+
+
 ### Running Spotless
 The Maven Spotless Plugin is a tool that automatically formats and enforces code style standards across various programming languages, during the build process.
 
