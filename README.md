@@ -33,4 +33,11 @@ To terminate all docker containers:
 ```shell
 docker compose down
 ```
+### Running Spotless
+The Maven Spotless Plugin is a tool that automatically formats and enforces code style standards across various programming languages, during the build process.
 
+To run Spotless, execute the following command from the root of the project:
+```shell
+mvn spotless:apply
+```
+This will format the code according to the defined rules in the `pom.xml` file.
