@@ -8,8 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 @SpringBootApplication
 public class AdopmeApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(AdopmeApplication.class, args);
-	}
-
+  public static void main(String[] args) {
+    SpringApplication.run(AdopmeApplication.class, args);
+  }
 }
