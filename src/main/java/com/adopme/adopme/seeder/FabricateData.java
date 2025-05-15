@@ -24,7 +24,7 @@ public class FabricateData implements CommandLineRunner {
     @Autowired private UserRepository userRepository;
     private final Random random = new Random();
 
-    @Value("${FABRICATE_USER:true}")
+    @Value("${FABRICATE_USER:false}")
     private Boolean fabricateUser;
 
     @Override
