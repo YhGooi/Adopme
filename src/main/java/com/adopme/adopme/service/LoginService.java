@@ -1,6 +1,6 @@
 package com.adopme.adopme.service;
 
-import com.adopme.adopme.repository.AccountRepository;
+import com.adopme.adopme.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -11,18 +11,18 @@ import java.security.NoSuchAlgorithmException;
 @Service
 public class LoginService {
 
-    public final AccountRepository accountsRepository;
+    public final UserRepository userRepository;
 
     @Value("${SKIP_LOGIN_ENCRYPTION:false}")
     private Boolean skip_encryption;
 
     // Constructor
-    public LoginService(AccountRepository accountsRepository) {
-        this.accountsRepository = accountsRepository;
+    public LoginService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public Boolean authenticate(String email, String password) {
-        String passwordHashed = accountsRepository.findPasswordHashByEmail(email);
+        String passwordHashed = userRepository.findPasswordHashByEmail(email);
         return skip_encryption
                 ? passwordHashed.equals(password)
                 : passwordHashed.equals(hashSHA256(password));
