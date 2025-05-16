@@ -1,4 +1,4 @@
-package com.adopme.adopme.dto.account;
+package com.adopme.adopme.dto.user;
 
 // dto data transfer object
 public class SignUpRequest {

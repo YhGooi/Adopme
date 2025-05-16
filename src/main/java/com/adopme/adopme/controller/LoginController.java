@@ -1,6 +1,6 @@
 package com.adopme.adopme.controller;
 
-import com.adopme.adopme.dto.account.LoginRequest;
+import com.adopme.adopme.dto.user.LoginRequest;
 import com.adopme.adopme.security.JwtUtil;
 import com.adopme.adopme.service.LoginService;
 
