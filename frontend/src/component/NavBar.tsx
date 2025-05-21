@@ -2,9 +2,14 @@ import { Link, Outlet, useNavigate } from "react-router-dom"
 import logo from '../assets/png/Logo.png';
 import login_icon from '../assets/png/User_icon.png';
 import '/src/css/navbar.css'; // Importing the CSS file
+import { useAuthStore } from '../store/auth.store';
 
 const NavBar = () => {
+    const authStore = useAuthStore((state) => state) as any
     const navigate = useNavigate()
+    const token = authStore.isLogin;
+    
+    console.log("token:" + token);
 
     return (
         <div>
@@ -20,9 +25,25 @@ const NavBar = () => {
                         <button onClick={() => navigate("/request_adopt")}>Request for Adoption</button>
                         <button onClick={() => navigate("/donation/Donation")}>Donation</button>
                         <button onClick={() => navigate("/contact")}>Contact Us</button>
-                        <button onClick={() => navigate("/login")} className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-white">
-                            <img src={login_icon} alt="User Icon" className="navbar-user-icon"/>
-                        </button>
+
+                        <div className="dropdown">
+                            <button className="dropdown-toggle">
+                            <img src={login_icon} alt="User Icon" className="navbar-user-icon" />
+                            </button>
+                            <div className="dropdown-menu">
+                                {!authStore.isLogin ? (
+                                    <>
+                                        <button onClick={() => navigate("/login")}>Login</button>
+                                        <button onClick={() => navigate("/signup")}>Sign Up</button>
+                                    </>
+                                ) : (
+                                    <>
+                                    <button onClick={() => navigate("/profile")}>Profile</button>
+                                    <button onClick={() => navigate("/logout")}>logout</button>
+                                    </>
+                                )}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
