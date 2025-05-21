@@ -15,6 +15,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u.passwordHash FROM User u WHERE u.email = :email")
     String findPasswordHashByEmail(@Param("email") String email);
 
+    @Query("SELECT u.type FROM User u WHERE u.email = :email")
+    String findTypeByEmail(@Param("email") String email);
+
     Optional<User> findByEmail(String email);
 
     List<User> findByType(UserType userType);

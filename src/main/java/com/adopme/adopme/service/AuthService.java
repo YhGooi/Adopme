@@ -9,23 +9,28 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 @Service
-public class LoginService {
+public class AuthService {
 
     public final UserRepository userRepository;
 
-    @Value("${SKIP_LOGIN_ENCRYPTION:false}")
+    @Value("${SKIP_LOGIN_ENCRYPTION:true}")
     private Boolean skip_encryption;
 
     // Constructor
-    public LoginService(UserRepository userRepository) {
+    public AuthService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     public Boolean authenticate(String email, String password) {
         String passwordHashed = userRepository.findPasswordHashByEmail(email);
+        System.out.println("passwordHashed: " + passwordHashed);
         return skip_encryption
                 ? passwordHashed.equals(password)
                 : passwordHashed.equals(hashSHA256(password));
+    }
+
+    public String getUserType(String email){
+        return userRepository.findTypeByEmail(email);
     }
 
     public static String hashSHA256(String input) {

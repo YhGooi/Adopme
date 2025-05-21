@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useAuthStore } from '../store/auth.store';
 
 import '../css/common.css';
-import '../css/login.css';
 
 // type LoginForm = {
 //     email: string;
@@ -11,13 +10,7 @@ import '../css/login.css';
 // };
 
 const Login: React.FC = () => {
-    // const [form, setForm] = useState<LoginForm>({ email: '', password: '' });
-
     const authStore = useAuthStore((state) => state) as any
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        authStore.set(e.target.name, e.target.value)
-    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -89,44 +82,54 @@ const Login: React.FC = () => {
 
     return (
         <div className="common_theme">
-            {/* Container for left and right panel*/}
-            <div className="login-panel-container">
-                {/* Login Form Panel */}
-                <div className='login-panel'>
-                    <h2>LOGIN</h2>
-                    <form onSubmit={handleSubmit}>
-                        <div>
-                            <label>Email</label><br/>
-                            <input
-                                type="email" name="email"
-                                value={authStore.email}
-                                onChange={handleChange}
-                                required
-                                placeholder="john@gmail.com"
-                            />
-                        </div>
-                        <div>
-                            <label>Password</label><br/>
-                            <input
-                                type="password" name="password"
-                                value={authStore.password}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
-                        <button> Login </button>
-                    </form>
-                </div>
+            <div className="green_container">
+                <a className="back-link" href="#">&#x3C; Already have an account?</a>
+                <div className="center">
+                <h2>SIGN UP</h2>
+                    <label>Name</label>
+                    <input type="text" id="name" placeholder="John Smith"  />
 
-                {/* Sign Up Side Panel */}
-                <div className="login-side-panel">
-                    <h2>NEW TO US?</h2>
-                    <button>Sign Up</button>
-                    <button onClick={fetchData}>Test Token</button>
+                    <label>Date of Birth</label>
+                    <select id="dob" >
+                    <option>01 Jan 2025</option>
+                    {/* Add more options if needed */}
+                    </select>
+
+                    <label>Phone Number</label>
+                    <input type="tel" id="phone" placeholder="+60123456789"  />
+
+                    <label>Residential Address</label>
+                    <textarea id="address"  placeholder="1, Jalan Satu, 42000 Selangor, Malaysia." ></textarea>
+
+                    <label>Housing Type</label>
+                    <input type="text" id="housing" placeholder="Condominium"  />
+
+                    <label>Occupation</label>
+                    <input type="text" id="occupation" placeholder="Student"  />
+
+                    <label>Petting Experience</label>
+                    <select id="experience" >
+                        <option>I have never had any pet before.</option>
+                        {/* Add more options here if needed */}
+                    </select>
+
+                    <label>Current Number of Pets at Home</label>
+                    <input type="number" id="pets" placeholder="1" min="0"  />
+
+                    <label>Email</label>
+                    <input type="email" id="email" placeholder="john@gmail.com" />
+
+                    <label>Password</label>
+                    <input type="password" id="password" placeholder="Enter your password here..." />
+
+                    <label>Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm your password here..." />
+                    <br/>
+                    <button type="submit">Register</button>
                 </div>
             </div>
         </div>
-    );
+  );
 };
 
 export default Login;

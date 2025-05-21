@@ -7,6 +7,7 @@ import NavBar from "./component/NavBar";
 //setup url mapping
 import Home from "./page/Home";
 import Login from "./page/Login";
+import Signup from "./page/SignUp";
 import Donation from "./page/donation/Donation";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/donation/Donation" element={<Donation />} />
         </Route>
       </Routes>
