@@ -1,135 +1,179 @@
-import React, { useState } from 'react';
-
+import React, { useState,useEffect } from 'react';
 import { useAuthStore } from '../store/auth.store';
-
+import { user_details } from '../store/auth.store';
 import '../css/common.css';
 
-// type LoginForm = {
-//     email: string;
-//     password: string;
-// };
+const Register: React.FC = () => {
+    const authStore = useAuthStore((state) => state) as any;
+    const userStore = user_details((state) => state) as any;
 
-const Login: React.FC = () => {
-    const authStore = useAuthStore((state) => state) as any
+    const [formData, setFormData] = useState({
+        name: '',
+        dateOfBirth: '',
+        phoneNo: '',
+        address: '',
+        housingType: '',
+        occupation: '',
+        pettingExperience: '',
+        currentPets: 0,
+        email: '',
+        password: '',
+        confirmPassword: '',
+    });
+
+    // Populate form if logged in
+    useEffect(() => {
+        if (authStore.isLogin) {
+            setFormData({
+                name: userStore.name || '',
+                dateOfBirth: userStore.dateOfBirth || '',
+                phoneNo: userStore.phoneNo || '',
+                address: userStore.address || '',
+                housingType: userStore.housingType || '',
+                occupation: userStore.occupation || '',
+                pettingExperience: userStore.pettingExperience || '',
+                currentPets: userStore.currentPets || 0,
+                email: userStore.email || '',
+                password: '',
+                confirmPassword: '',
+            });
+        }
+    }, [authStore.isLogin]);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { id, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [id]: id === 'currentPets' ? Number(value) : value,
+        }));
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        if (!authStore.email || !authStore.password) {
-            alert('Please fill in all fields.');
+        if (formData.password !== formData.confirmPassword) {
+            alert("Passwords do not match");
             return;
         }
-
+        if (!formData.housingType) {
+            alert("Please select a valid housing type.");
+            return;
+        }
         try {
-            const response = await fetch('http://localhost:8080/user/login', {
+            const url = authStore.isLogin
+            ? 'http://localhost:8080/user/update'
+            : 'http://localhost:8080/user/register';
+
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authStore.token}`,
                 },
-                body: JSON.stringify({
-                    email: authStore.email,
-                    password: authStore.password,
-                }),
+                body: JSON.stringify(formData),
             });
 
             if (!response.ok) {
-                throw new Error('Login failed');
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Registration failed');
             }
 
             const data = await response.json();
-            console.log('Login successful:', data);
 
-            const token = data.token;
-            const type = data.type;
-            
-            authStore.set("token", token);
-            authStore.set("isLogin", true);
-            authStore.set("type", type);
+            if (authStore.isLogin) {
+            alert('Registration successful!');
+                alert('Profile updated successfully!');
+                // Update user store with new data
+                userStore.set('name', formData.name);
+                userStore.set('dob', formData.dateOfBirth);
+                userStore.set('phone', formData.phoneNo);
+                userStore.set('email', formData.email);
+                userStore.set('address', formData.address);
+                userStore.set('housing', formData.housingType);
+                userStore.set('occupation', formData.occupation);
+                userStore.set('experience', formData.pettingExperience);
+                userStore.set('pets', formData.currentPets);
+            } else {
+                // Store relevant data into auth store
+                userStore.set('name', formData.name);
+                userStore.set('dateOfBirth', formData.dateOfBirth);
+                userStore.set('phone', formData.phoneNo);
+                userStore.set('email', formData.email);
+                userStore.set('address', formData.address);
+                userStore.set('housing', formData.housingType);
+                userStore.set('occupation', formData.occupation);
+                userStore.set('pettingExperience', formData.pettingExperience);
+                userStore.set('currentPets', formData.currentPets);
+                userStore.set('type', 'USERS');
 
-            // Redirect or update UI
-            alert('Login successful!');
-            // navigate('/dashboard'); // if using react-router
-        } catch (error) {
-            console.error('Error logging in:', error);
-            alert('Invalid email or password.');
-            authStore.logout();
-        }
-    };
-
-    const fetchData = async () => {
-        const token = authStore.token;
-        if (!token) return alert('No token found');
-    
-        try {
-            const res = await fetch(`http://localhost:8080/Token/authenticate`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer '+ token,
-                },
-                body: JSON.stringify({
-                    email: authStore.email
-                }),
-            });
-            if (!res.ok) throw new Error(`Status ${res.status}`);
-            const data = await res.json();
-            console.log('Success:', data);
-        } catch (e: any) {
-            console.error('Fetch error:', e.message);
-            alert(e.message);
+                authStore.set('isLogin', true);
+                authStore.set('token', data.token);
+                authStore.set('user', 'USER');
+            }
+            // navigate('/login');
+        } catch (error: any) {
+            console.error('Registration error:', error);
+            alert(error.message || 'Something went wrong during registration.');
         }
     };
 
     return (
         <div className="common_theme">
             <div className="green_container">
-                <a className="back-link" href="#">&#x3C; Already have an account?</a>
-                <div className="center">
-                <h2>SIGN UP</h2>
+                {!authStore.isLogin && (<a className="back-link" href="#">&#x3C; Already have an account?</a>) }
+                <form className="center" onSubmit={handleSubmit}>
+                    <h2>{authStore.isLogin ? 'UPDATE PROFILE' : 'SIGN UP'}</h2>
+
                     <label>Name</label>
-                    <input type="text" id="name" placeholder="John Smith"  />
+                    <input type="text" id="name" value={formData.name} onChange={handleChange} placeholder="John Smith" />
 
                     <label>Date of Birth</label>
-                    <select id="dob" >
-                    <option>01 Jan 2025</option>
-                    {/* Add more options if needed */}
-                    </select>
+                    <input type="date" id="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange}/>
 
                     <label>Phone Number</label>
-                    <input type="tel" id="phone" placeholder="+60123456789"  />
+                    <input type="tel" id="phoneNo" value={formData.phoneNo} onChange={handleChange} placeholder="+60123456789" />
 
                     <label>Residential Address</label>
-                    <textarea id="address"  placeholder="1, Jalan Satu, 42000 Selangor, Malaysia." ></textarea>
+                    <textarea id="address" value={formData.address} onChange={handleChange} placeholder="1, Jalan Satu, 42000 Selangor, Malaysia." />
 
                     <label>Housing Type</label>
-                    <input type="text" id="housing" placeholder="Condominium"  />
+                    <select id="housingType" value={formData.housingType} onChange={handleChange} required>
+                        <option value="">Select Housing Type</option>
+                        <option value="LANDED">LANDED</option>
+                        <option value="CONDO">CONDO</option>
+                        {/* Add more */}
+                    </select>
 
                     <label>Occupation</label>
-                    <input type="text" id="occupation" placeholder="Student"  />
+                    <input type="text" id="occupation" value={formData.occupation} onChange={handleChange} placeholder="Student" />
 
                     <label>Petting Experience</label>
-                    <select id="experience" >
-                        <option>I have never had any pet before.</option>
-                        {/* Add more options here if needed */}
+                    <select id="pettingExperience" value={formData.pettingExperience} onChange={handleChange}>
+                        <option value="">Select experience</option>
+                        <option value="NONE">NONE</option>
+                        <option value="LITTLE">LITTLE</option>
+                        <option value="SOME">SOME</option>
+                        <option value="LOT">LOT</option>
+                        {/* Add more */}
                     </select>
 
                     <label>Current Number of Pets at Home</label>
-                    <input type="number" id="pets" placeholder="1" min="0"  />
+                    <input type="number" id="currentPets" value={formData.currentPets} onChange={handleChange} min="0" />
 
                     <label>Email</label>
-                    <input type="email" id="email" placeholder="john@gmail.com" />
+                    <input type="email" id="email" value={formData.email} onChange={handleChange} placeholder="john@gmail.com" />
 
                     <label>Password</label>
-                    <input type="password" id="password" placeholder="Enter your password here..." />
+                    <input type="password" id="password" value={formData.password} onChange={handleChange} placeholder="Enter your password here..." />
 
                     <label>Confirm Password</label>
-                    <input type="password" id="confirmPassword" placeholder="Confirm your password here..." />
-                    <br/>
-                    <button type="submit">Register</button>
-                </div>
+                    <input type="password" id="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm your password here..." />
+
+                    <br />
+                    <button type="submit">{authStore.isLogin ? 'Update' : 'Register'}</button>
+                </form>
             </div>
         </div>
-  );
+    );
 };
 
-export default Login;
+export default Register;

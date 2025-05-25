@@ -2,7 +2,6 @@ package com.adopme.adopme.controller;
 
 import com.adopme.adopme.dto.token.TokenValidationResponse;
 import com.adopme.adopme.dto.user.LoginRequest;
-import com.adopme.adopme.security.JwtUtil;
 import com.adopme.adopme.service.TokenService;
 
 import org.springframework.http.HttpStatus;

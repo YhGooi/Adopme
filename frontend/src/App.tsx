@@ -2,7 +2,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Layout from "./Layout";
-import NavBar from "./component/NavBar";
 
 //setup url mapping
 import Home from "./page/Home";

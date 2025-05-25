@@ -1,19 +1,14 @@
 import React, { useState } from 'react';
 
 import { useAuthStore } from '../store/auth.store';
+import { user_details } from '../store/auth.store';
 
 import '../css/common.css';
 import '../css/login.css';
 
-// type LoginForm = {
-//     email: string;
-//     password: string;
-// };
-
 const Login: React.FC = () => {
-    // const [form, setForm] = useState<LoginForm>({ email: '', password: '' });
-
     const authStore = useAuthStore((state) => state) as any
+    const userStore = user_details((state) => state) as any
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         authStore.set(e.target.name, e.target.value)
@@ -50,8 +45,14 @@ const Login: React.FC = () => {
             const type = data.type;
             
             authStore.set("token", token);
-            authStore.set("isLogin", true);
             authStore.set("type", type);
+            authStore.set("isLogin", true);
+
+            for (const key in data) {
+                if (Object.prototype.hasOwnProperty.call(data, key)) {
+                    userStore.set(key, data[key]);
+                }
+            }
 
             // Redirect or update UI
             alert('Login successful!');
@@ -63,6 +64,7 @@ const Login: React.FC = () => {
         }
     };
 
+    //remain here first
     const fetchData = async () => {
         const token = authStore.token;
         if (!token) return alert('No token found');
@@ -122,7 +124,6 @@ const Login: React.FC = () => {
                 <div className="login-side-panel">
                     <h2>NEW TO US?</h2>
                     <button>Sign Up</button>
-                    <button onClick={fetchData}>Test Token</button>
                 </div>
             </div>
         </div>

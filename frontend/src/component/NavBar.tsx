@@ -3,13 +3,12 @@ import logo from '../assets/png/Logo.png';
 import login_icon from '../assets/png/User_icon.png';
 import '/src/css/navbar.css'; // Importing the CSS file
 import { useAuthStore } from '../store/auth.store';
+import { user_details } from '../store/auth.store';
 
 const NavBar = () => {
     const authStore = useAuthStore((state) => state) as any
+    const userStore = user_details((state) => state) as any
     const navigate = useNavigate()
-    const token = authStore.isLogin;
-    
-    console.log("token:" + token);
 
     return (
         <div>
@@ -28,7 +27,12 @@ const NavBar = () => {
 
                         <div className="dropdown">
                             <button className="dropdown-toggle">
-                            <img src={login_icon} alt="User Icon" className="navbar-user-icon" />
+                            <img src={login_icon} alt="User Icon" className={`navbar-user-icon ${!authStore.isLogin ? 'glow-effect' : ''}`} />
+                            {authStore.isLogin && (
+                                <div className="navbar-username">
+                                {userStore.name || 'User'}
+                                </div>
+                            )}
                             </button>
                             <div className="dropdown-menu">
                                 {!authStore.isLogin ? (
@@ -39,7 +43,13 @@ const NavBar = () => {
                                 ) : (
                                     <>
                                     <button onClick={() => navigate("/profile")}>Profile</button>
-                                    <button onClick={() => navigate("/logout")}>logout</button>
+                                    <button onClick={() => navigate("/signup")}>Update Profile</button>
+                                    <button onClick={() => {
+                                        authStore.logout();
+                                        navigate("/login");
+                                        }}>
+                                        Logout
+                                    </button>
                                     </>
                                 )}
                             </div>
