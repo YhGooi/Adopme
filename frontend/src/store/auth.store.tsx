@@ -13,3 +13,17 @@ export const useAuthStore = create((set) => ({
             isLogin: false,
         }),
 }))
+
+export const user_details = create((set) => ({
+    name: '',
+    dateOfBirth: '',
+    phoneNo: '',
+    email: '',
+    address: '',
+    housingType: '',
+    occupation: '',
+    pettingExperience: '',
+    currentPets: 0,
+    type: '',
+    set: (key: string, value: any) => set({ [key]: value }),
+}))

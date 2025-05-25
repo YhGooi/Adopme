@@ -1,5 +1,6 @@
 package com.adopme.adopme.service;
 
+import com.adopme.adopme.model.User;
 import com.adopme.adopme.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -7,6 +8,11 @@ import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class AuthService {
@@ -29,8 +35,32 @@ public class AuthService {
                 : passwordHashed.equals(hashSHA256(password));
     }
 
-    public String getUserType(String email){
-        return userRepository.findTypeByEmail(email);
+    public Map<String, String> getUserDetails(String email){
+        Optional<User> optionalUser  = userRepository.findByEmail(email);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            LocalDate date = user.getDateOfBirth();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String formattedDate = date.format(formatter);
+
+            Map<String, String> response = new HashMap<>();
+            response.put("name",user.getName());
+            response.put("dateOfBirth",formattedDate);
+            response.put("phoneNo",user.getPhoneNo());
+            response.put("email",user.getEmail());
+            response.put("address",user.getAddress());
+            response.put("housingType", user.getHousingType().name());
+            response.put("occupation",user.getOccupation());
+            response.put("pettingExperience",user.getPettingExperience().name());
+            response.put("currentPets", Integer.toString(user.getCurrentPets()));
+            response.put("type", user.getType().name());
+
+            return response;
+        } else {
+            System.out.println("User not found with email: " + email);
+            return null;
+        }
     }
 
     public static String hashSHA256(String input) {

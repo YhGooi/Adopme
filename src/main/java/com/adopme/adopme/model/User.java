@@ -45,10 +45,6 @@ public class User {
     @Getter
     private String address;
 
-    @Column(nullable = false, length = 5)
-    @Getter
-    private String postCode;
-
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     @Getter
@@ -91,7 +87,6 @@ public class User {
             String name,
             LocalDate dateOfBirth,
             String address,
-            String postCode,
             HousingType housingType,
             String occupation,
             PettingExperience pettingExperience,
@@ -103,7 +98,6 @@ public class User {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
-        this.postCode = postCode;
         this.housingType = housingType;
         this.occupation = occupation;
         this.pettingExperience = pettingExperience;
