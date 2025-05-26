@@ -21,17 +21,14 @@ public class DonationSpecifications {
         return (Root<Donation> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            // Add status filter if not null
             if (status != null) {
                 predicates.add(criteriaBuilder.equal(root.get("status"), status));
             }
 
-            // Add date range filter (startDate and endDate are now mandatory)
             predicates.add(
                     isBetweenDateRange(startDate, endDate)
                             .toPredicate(root, query, criteriaBuilder));
 
-            // Combine all predicates with AND
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }

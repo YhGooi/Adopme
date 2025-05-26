@@ -34,7 +34,7 @@ public class DonationController {
             @RequestParam String startDate,
             @RequestParam String endDate) {
         List<DonationResponse> donations =
-                donationService.getAllDonationsWithFilters(status, startDate, endDate);
+                donationService.getAllDonations(status, startDate, endDate);
         return ResponseEntity.ok(donations);
     }
 

@@ -31,16 +31,13 @@ public class DonationService {
         return donations.stream().map(DonationResponseMapper.INSTANCE::toDonationResponse).toList();
     }
 
-    public List<DonationResponse> getAllDonationsWithFilters(
+    public List<DonationResponse> getAllDonations(
             DonationStatus status, String startDate, String endDate) {
-        // Convert String to LocalDateTime
-        LocalDateTime start = startDate != null ? LocalDateTime.parse(startDate) : null;
-        LocalDateTime end = endDate != null ? LocalDateTime.parse(endDate) : null;
+        LocalDateTime start = LocalDateTime.parse(startDate);
+        LocalDateTime end = LocalDateTime.parse(endDate);
 
-        // Create specification using the utility class
         Specification<Donation> spec = DonationSpecifications.withFilters(status, start, end);
 
-        // Use specification with sorting
         Sort sort = Sort.by(Sort.Direction.DESC, "donationDate");
         List<Donation> donations = donationRepository.findAll(spec, sort);
 
