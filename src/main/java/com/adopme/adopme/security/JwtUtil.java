@@ -1,22 +1,28 @@
 package com.adopme.adopme.security;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.stereotype.Component;
+
+import com.adopme.adopme.service.AppConfigService;
 
 import java.util.Date;
 
 @Component
 public class JwtUtil {
+    private final long expiration = 1800000; // 30mins
 
-    @Value("${jwt.secret}")
+    private final AppConfigService appConfigService;
     private String secret;
 
-    private final long expiration = 1800000; // 30mins
+    public JwtUtil(AppConfigService appConfigService){
+        this.appConfigService = appConfigService;
+        this.secret = appConfigService.getAppConfig().getJwtSecret();
+    }
 
     public String generateToken(String email) {
         return Jwts.builder()
@@ -29,11 +35,7 @@ public class JwtUtil {
 
     public String validateTokenAndRetrieveSubject(String token) {
         try {
-            return Jwts.parser()
-                    .setSigningKey(secret)
-                    .parseClaimsJws(token)
-                    .getBody()
-                    .getSubject();
+            return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
         } catch (ExpiredJwtException e) {
             throw new IllegalArgumentException("Expired JWT token");
         } catch (UnsupportedJwtException e) {

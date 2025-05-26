@@ -1,7 +1,66 @@
 .common_theme {
+    font-family: 'Segoe UI', sans-serif;
     display: flex;
     justify-content: center;
     width: 100%;
     min-height: calc(100vh - 272px);
     align-items: center;
+}
+
+.green_container {
+    background-color: #e7f0e8;
+    padding: 2rem 3rem;
+    border-radius: 10px;
+    width: 65%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 5rem auto; /* Center the container horizontally */
+}
+
+.green_container .center{
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center children horizontally */
+    justify-content: center; /* Center children vertically if height allows */
+    text-align: center; /* Optional: centers text */
+}
+
+.back-link {
+    font-size: 0.9rem;
+    color: #000;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.green_container h2 {
+    color: #000;
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+}
+
+.green_container label {
+    color: #000;
+    display: block;
+    margin: 12px 0 6px;
+    font-weight: 600;
+}
+
+.green_container input, select, textarea{
+    width:70%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+    box-sizing: border-box;
+    background-color: #FFF;
+    color:#000
+}
+
+.green_container textarea {
+    resize: vertical;
+    padding-left: 10rem;
+    padding-right: 10rem;
 }
