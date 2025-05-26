@@ -1,8 +1,7 @@
 package com.adopme.adopme.service;
 
 import com.adopme.adopme.dto.donation.DonationResponse;
-import com.adopme.adopme.dto.donation.DonationUpdateRequest;
-import com.adopme.adopme.dto.mapper.DonationResponseMapper;
+import com.adopme.adopme.dto.donation.DonationResponseMapper;
 import com.adopme.adopme.model.Donation;
 import com.adopme.adopme.model.DonationStatus;
 import com.adopme.adopme.repository.DonationRepository;
@@ -49,24 +48,22 @@ public class DonationService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public DonationResponse updateDonationStatus(DonationUpdateRequest updateRequest) {
+    public DonationResponse updateDonationStatus(Long userId, DonationStatus status) {
         Donation donation =
                 donationRepository
-                        .findById(updateRequest.id())
+                        .findById(userId)
                         .orElseThrow(
                                 () ->
                                         new EntityNotFoundException(
-                                                "Donation not found with id: "
-                                                        + updateRequest.id()));
+                                                "Donation not found with id: " + userId));
 
         // Validate the new status (only SUCCESS or UNSUCCESS are allowed)
-        if (updateRequest.status() != DonationStatus.SUCCESS
-                && updateRequest.status() != DonationStatus.UNSUCCESS) {
+        if (status != DonationStatus.SUCCESS && status != DonationStatus.UNSUCCESS) {
             throw new IllegalArgumentException(
                     "Status can only be updated to SUCCESS or UNSUCCESS");
         }
 
-        donation.setStatus(updateRequest.status());
+        donation.setStatus(status);
         Donation updatedDonation = donationRepository.save(donation);
 
         return DonationResponseMapper.INSTANCE.toDonationResponse(updatedDonation);

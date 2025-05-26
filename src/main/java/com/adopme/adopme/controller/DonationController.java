@@ -1,7 +1,6 @@
 package com.adopme.adopme.controller;
 
 import com.adopme.adopme.dto.donation.DonationResponse;
-import com.adopme.adopme.dto.donation.DonationUpdateRequest;
 import com.adopme.adopme.model.DonationStatus;
 import com.adopme.adopme.service.DonationService;
 
@@ -41,8 +40,9 @@ public class DonationController {
 
     @PostMapping("/update")
     public ResponseEntity<DonationResponse> updateDonation(
-            @RequestBody DonationUpdateRequest updateRequest) {
-        DonationResponse updatedDonation = donationService.updateDonationStatus(updateRequest);
+            @RequestParam Long userId, @RequestParam DonationStatus donationStatus) {
+        DonationResponse updatedDonation =
+                donationService.updateDonationStatus(userId, donationStatus);
         return ResponseEntity.ok(updatedDonation);
     }
 }

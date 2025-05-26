@@ -1,6 +1,5 @@
-package com.adopme.adopme.dto.mapper;
+package com.adopme.adopme.dto.donation;
 
-import com.adopme.adopme.dto.donation.DonationResponse;
 import com.adopme.adopme.model.Donation;
 
 import org.mapstruct.Mapper;
