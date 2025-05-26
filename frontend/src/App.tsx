@@ -8,6 +8,7 @@ import NavBar from "./component/NavBar";
 import Home from "./page/Home";
 import Login from "./page/Login";
 import Donation from "./page/donation/Donation";
+import PetListing from "./page/PetListing";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/pet_listing" element={<PetListing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/donation/Donation" element={<Donation />} />
         </Route>
