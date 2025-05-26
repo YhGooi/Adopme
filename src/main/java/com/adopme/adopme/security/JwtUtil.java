@@ -1,5 +1,7 @@
 package com.adopme.adopme.security;
 
+import com.adopme.adopme.service.AppConfigService;
+
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -7,8 +9,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 
 import org.springframework.stereotype.Component;
-
-import com.adopme.adopme.service.AppConfigService;
 
 import java.util.Date;
 
@@ -19,7 +19,7 @@ public class JwtUtil {
     private final AppConfigService appConfigService;
     private String secret;
 
-    public JwtUtil(AppConfigService appConfigService){
+    public JwtUtil(AppConfigService appConfigService) {
         this.appConfigService = appConfigService;
         this.secret = appConfigService.getAppConfig().getJwtSecret();
     }

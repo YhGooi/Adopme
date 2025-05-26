@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 @Service
 public class AuthService {
@@ -35,8 +35,8 @@ public class AuthService {
                 : passwordHashed.equals(hashSHA256(password));
     }
 
-    public Map<String, String> getUserDetails(String email){
-        Optional<User> optionalUser  = userRepository.findByEmail(email);
+    public Map<String, String> getUserDetails(String email) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
 
@@ -45,14 +45,14 @@ public class AuthService {
             String formattedDate = date.format(formatter);
 
             Map<String, String> response = new HashMap<>();
-            response.put("name",user.getName());
-            response.put("dateOfBirth",formattedDate);
-            response.put("phoneNo",user.getPhoneNo());
-            response.put("email",user.getEmail());
-            response.put("address",user.getAddress());
+            response.put("name", user.getName());
+            response.put("dateOfBirth", formattedDate);
+            response.put("phoneNo", user.getPhoneNo());
+            response.put("email", user.getEmail());
+            response.put("address", user.getAddress());
             response.put("housingType", user.getHousingType().name());
-            response.put("occupation",user.getOccupation());
-            response.put("pettingExperience",user.getPettingExperience().name());
+            response.put("occupation", user.getOccupation());
+            response.put("pettingExperience", user.getPettingExperience().name());
             response.put("currentPets", Integer.toString(user.getCurrentPets()));
             response.put("type", user.getType().name());
 

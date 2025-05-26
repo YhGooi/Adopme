@@ -1,8 +1,8 @@
 package com.adopme.adopme.service;
 
-import org.springframework.stereotype.Service;
-
 import com.adopme.adopme.security.JwtUtil;
+
+import org.springframework.stereotype.Service;
 
 @Service
 public class TokenService {
@@ -12,6 +12,7 @@ public class TokenService {
     public TokenService(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
     }
+
     // Helper method to validate login token
     public Boolean validateToken(String email, String authorization) {
         if (authorization == null || !authorization.startsWith("Bearer ")) {

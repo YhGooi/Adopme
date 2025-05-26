@@ -1,8 +1,8 @@
 package com.adopme.adopme.service;
 
-import org.springframework.stereotype.Service;
-
 import com.adopme.adopme.config.AppConfig;
+
+import org.springframework.stereotype.Service;
 
 @Service
 public class AppConfigService {
@@ -13,7 +13,7 @@ public class AppConfigService {
         this.appConfig = appConfig;
     }
 
-    public AppConfig getAppConfig(){
+    public AppConfig getAppConfig() {
         return this.appConfig;
     }
 }

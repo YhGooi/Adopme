@@ -32,16 +32,18 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        boolean isAuthenticated = loginService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
+        boolean isAuthenticated =
+                loginService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
         System.out.println("isAuthenticated: " + isAuthenticated);
-        try{
+        try {
             if (isAuthenticated) {
                 String token = jwtUtil.generateToken(loginRequest.getEmail());
                 Map<String, String> response = loginService.getUserDetails(loginRequest.getEmail());
                 response.put("token", token);
                 return ResponseEntity.ok(response);
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body("Invalid email or password");
             }
         } catch (IllegalArgumentException e) {
             Map<String, String> errorResponse = new HashMap<>();
@@ -79,11 +81,13 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<?> updateProfile(@RequestBody SignUpRequest signUpRequest,
-                                        @RequestHeader("Authorization") String authHeader) {
+    public ResponseEntity<?> updateProfile(
+            @RequestBody SignUpRequest signUpRequest,
+            @RequestHeader("Authorization") String authHeader) {
         try {
             String token = authHeader.replace("Bearer ", "");
-            String email = jwtUtil.validateTokenAndRetrieveSubject(token); // Extract email from token
+            String email =
+                    jwtUtil.validateTokenAndRetrieveSubject(token); // Extract email from token
 
             userService.updateUserProfile(email, signUpRequest); // Delegate to service
 

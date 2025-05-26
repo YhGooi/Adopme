@@ -32,23 +32,27 @@ public class FabricateData implements CommandLineRunner {
     public void run(String... args) {
         Faker faker = new Faker();
 
-        if(userRepository.count() == 0 && fabricateUser){
-            PettingExperience pettingExperience =  PettingExperience.valueOf("NONE");
-            LocalDate dateOfBirth = LocalDate.ofInstant(
-                                    faker.date().birthday(20, 30).toInstant(),
-                                    ZoneId.of("Asia/Kuala_Lumpur"));
-            User user = new User("ADMIN",
-                                    UserType.ADMIN,
-                                    "ADMIN",
-                                    dateOfBirth,
-                                    "TEST, ADDRESS",
-                                    HousingType.LANDED,
-                                    "ADMIN",pettingExperience,
-                                    1,
-                                    "admin@admin.com",
-                                    "1234567890");
+        if (userRepository.count() == 0 && fabricateUser) {
+            PettingExperience pettingExperience = PettingExperience.valueOf("NONE");
+            LocalDate dateOfBirth =
+                    LocalDate.ofInstant(
+                            faker.date().birthday(20, 30).toInstant(),
+                            ZoneId.of("Asia/Kuala_Lumpur"));
+            User user =
+                    new User(
+                            "ADMIN",
+                            UserType.ADMIN,
+                            "ADMIN",
+                            dateOfBirth,
+                            "TEST, ADDRESS",
+                            HousingType.LANDED,
+                            "ADMIN",
+                            pettingExperience,
+                            1,
+                            "admin@admin.com",
+                            "1234567890");
 
-                    userRepository.save(user);
+            userRepository.save(user);
         }
 
         if (userRepository.count() == 0 && fabricateUser) {
@@ -56,13 +60,17 @@ public class FabricateData implements CommandLineRunner {
                 String passwordHash = faker.internet().password();
                 UserType type = UserType.USER;
                 String name = faker.name().fullName();
-                LocalDate dateOfBirth = LocalDate.ofInstant(
+                LocalDate dateOfBirth =
+                        LocalDate.ofInstant(
                                 faker.date().birthday(20, 30).toInstant(),
                                 ZoneId.of("Asia/Kuala_Lumpur"));
                 String address = faker.address().streetAddress();
-                HousingType housingType = random.nextBoolean() ? HousingType.LANDED : HousingType.CONDO;
+                HousingType housingType =
+                        random.nextBoolean() ? HousingType.LANDED : HousingType.CONDO;
                 String occupation = faker.job().title();
-                PettingExperience pettingExperience = PettingExperience.values()[random.nextInt(PettingExperience.values().length)];
+                PettingExperience pettingExperience =
+                        PettingExperience.values()[
+                                random.nextInt(PettingExperience.values().length)];
                 int currentPets = random.nextInt(5);
                 String email = faker.internet().emailAddress();
                 String phoneNo = "+60" + faker.number().digits(9);

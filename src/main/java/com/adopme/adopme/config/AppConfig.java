@@ -1,9 +1,9 @@
 package com.adopme.adopme.config;
 
+import jakarta.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-
-import jakarta.annotation.PostConstruct;
 
 @Configuration
 public class AppConfig {
@@ -31,13 +31,17 @@ public class AppConfig {
 
     @Override
     public String toString() {
-        return "AppConfig [fabricateAccount=" + fabricateAccount + ", skipLoginEncryption=" + skipLoginEncryption
-                + ", jwtSecret=" + jwtSecret + "]";
+        return "AppConfig [fabricateAccount="
+                + fabricateAccount
+                + ", skipLoginEncryption="
+                + skipLoginEncryption
+                + ", jwtSecret="
+                + jwtSecret
+                + "]";
     }
 
     @PostConstruct
     public void printConfig() {
         System.out.println("AppConfig: " + this);
     }
-    
 }
