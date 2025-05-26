@@ -1,0 +1,151 @@
+/* home.css */
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+
+.font-handwriting {
+  font-family: 'Patrick Hand', cursive;
+}
+
+.hero-section {
+    position: relative;
+    width: 100%;
+    /* margin-top: 72px; */
+  }
+  
+  .hero-image {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+  }
+  
+  .hero-button-container {
+    position: absolute;
+    top: 32%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    z-index: 10;
+  }
+  
+  .hero-button {
+    background-color: #E9F3E9;
+    color: black;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s ease;
+    border: none;
+  }  
+  
+  .hero-button:hover {
+    background-color: #f3f3f3;
+  }
+  
+  .polaroid-section {
+    background-color: #FDF1E5;
+    padding: 4rem 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 4rem;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .polaroid-text {
+    flex: 0 0 200px;
+    color: black;
+    font-weight: bold;
+    text-align: left;
+    margin-top: 1rem;
+  }
+  
+  .polaroid-text h3 {
+    font-size: 1.5rem;
+    line-height: 1.3;
+    margin-bottom: 0.75rem;
+    color: black;
+  }
+  
+  .polaroid-text a {
+    font-weight: 700;
+    text-decoration: underline;
+    color: black;
+    font-size: 0.9rem;
+  }
+  
+  .polaroid-cards {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    gap: 0;
+    margin-top: 2rem;
+  }
+  
+  
+  .polaroid-card {
+    background-color: white;
+    width: 180px;
+    padding: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    position: absolute;
+    transition: transform 0.3s ease;
+  }
+  
+  .polaroid-card:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Overlapping position and z-index */
+  .polaroid-card:nth-child(1) {
+    transform: rotate(-5deg);
+    left: 0px;
+    z-index: 4;
+  }
+  
+  .polaroid-card:nth-child(2) {
+    transform: rotate(2deg);
+    left: 160px;
+    z-index: 3;
+  }
+  
+  .polaroid-card:nth-child(3) {
+    transform: rotate(-3deg);
+    left: 320px;
+    z-index: 2;
+  }
+  
+  .polaroid-card:nth-child(4) {
+    transform: rotate(3deg);
+    left: 480px;
+    z-index: 1;
+  }
+  
+  
+  .polaroid-wrapper {
+    position: relative;
+    width: 640px; /* was 700px, now adjusted for 4 cards with more spacing */
+    margin: 0 auto;
+    min-height: 300px;
+  }  
+  
+  .image-container {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    background-color: #eee;
+  }
+  
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .polaroid-card p {
+    margin-top: 12px;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+  
