@@ -1,0 +1,41 @@
+package com.adopme.adopme.controller;
+
+import com.adopme.adopme.dto.adoption.AdoptionRequestResponse;
+import com.adopme.adopme.model.AdoptionRequestStatus;
+import com.adopme.adopme.service.AdoptionRequestService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/adoption-requests")
+public class AdoptionRequestController {
+
+    private final AdoptionRequestService adoptionRequestService;
+
+    @Autowired
+    public AdoptionRequestController(AdoptionRequestService adoptionRequestService) {
+        this.adoptionRequestService = adoptionRequestService;
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<List<AdoptionRequestResponse>> getAdoptionRequestsByUserId(
+            @RequestHeader("userId") Long userId) {
+        List<AdoptionRequestResponse> requests =
+                adoptionRequestService.getAdoptionRequestsByUserId(userId);
+        return ResponseEntity.ok(requests);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AdoptionRequestResponse>> getAllAdoptionRequests(
+            @RequestParam(required = false) AdoptionRequestStatus status,
+            @RequestParam String startDate,
+            @RequestParam String endDate) {
+        List<AdoptionRequestResponse> requests =
+                adoptionRequestService.getAllAdoptionRequests(status, startDate, endDate);
+        return ResponseEntity.ok(requests);
+    }
+}
