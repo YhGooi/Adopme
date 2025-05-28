@@ -1,7 +1,9 @@
 package com.adopme.adopme.model;
 
 import jakarta.persistence.*;
+
 import lombok.Data;
+
 import java.time.LocalDateTime;
 
 @Data

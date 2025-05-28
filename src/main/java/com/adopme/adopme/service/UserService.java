@@ -23,9 +23,7 @@ public class UserService {
 
     public List<String> getAllUsersExceptCurrent(String currentUserEmail) {
         List<User> users = userRepository.findContactsByEmail(currentUserEmail);
-        return users.stream()
-                .map(User::getEmail)
-                .collect(Collectors.toList());
+        return users.stream().map(User::getEmail).collect(Collectors.toList());
     }
 
     public User registerUser(SignUpRequest signUpRequest) {
@@ -38,19 +36,20 @@ public class UserService {
         String hashedPassword = authService.hashSHA256(signUpRequest.getPassword());
 
         // Build user
-        User user = User.builder()
-                .email(signUpRequest.getEmail())
-                .passwordHash(hashedPassword)
-                .type(UserType.USER) // Or UserType.USER if you want to force it
-                .name(signUpRequest.getName())
-                .dateOfBirth(signUpRequest.getDateOfBirth())
-                .address(signUpRequest.getAddress())
-                .housingType(signUpRequest.getHousingType())
-                .occupation(signUpRequest.getOccupation())
-                .pettingExperience(signUpRequest.getPettingExperience())
-                .currentPets(signUpRequest.getCurrentPets())
-                .phoneNo(signUpRequest.getPhoneNo())
-                .build();
+        User user =
+                User.builder()
+                        .email(signUpRequest.getEmail())
+                        .passwordHash(hashedPassword)
+                        .type(UserType.USER) // Or UserType.USER if you want to force it
+                        .name(signUpRequest.getName())
+                        .dateOfBirth(signUpRequest.getDateOfBirth())
+                        .address(signUpRequest.getAddress())
+                        .housingType(signUpRequest.getHousingType())
+                        .occupation(signUpRequest.getOccupation())
+                        .pettingExperience(signUpRequest.getPettingExperience())
+                        .currentPets(signUpRequest.getCurrentPets())
+                        .phoneNo(signUpRequest.getPhoneNo())
+                        .build();
 
         User savedUser = userRepository.save(user);
         System.out.println("Saved user: " + savedUser);

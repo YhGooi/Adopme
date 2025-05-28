@@ -2,25 +2,25 @@ package com.adopme.adopme.controller;
 
 import com.adopme.adopme.model.ChatMessage;
 import com.adopme.adopme.service.ChatMessageService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @Controller
 @CrossOrigin(origins = "*") // Configure according to your frontend URL
 public class MessagingController {
 
-    @Autowired
-    private SimpMessagingTemplate messagingTemplate;
+    @Autowired private SimpMessagingTemplate messagingTemplate;
 
-    @Autowired
-    private ChatMessageService chatMessageService;
+    @Autowired private ChatMessageService chatMessageService;
 
     @MessageMapping("/chat.private")
     public void sendPrivateMessage(@Payload ChatMessage chatMessage) {
@@ -30,15 +30,11 @@ public class MessagingController {
 
             // Send to recipient
             messagingTemplate.convertAndSendToUser(
-                    savedMessage.getRecipient(),
-                    "/queue/private",
-                    savedMessage);
+                    savedMessage.getRecipient(), "/queue/private", savedMessage);
 
             // Send back to sender
             messagingTemplate.convertAndSendToUser(
-                    savedMessage.getSender(),
-                    "/queue/private",
-                    savedMessage);
+                    savedMessage.getSender(), "/queue/private", savedMessage);
 
             System.out.println("Message sent: " + savedMessage); // Debug log
         } catch (Exception e) {
@@ -49,8 +45,7 @@ public class MessagingController {
     @GetMapping("/messages/{sender}/{recipient}")
     @ResponseBody
     public ResponseEntity<List<ChatMessage>> getChatHistory(
-            @PathVariable String sender,
-            @PathVariable String recipient) {
+            @PathVariable String sender, @PathVariable String recipient) {
         try {
             List<ChatMessage> messages = chatMessageService.getChatHistory(sender, recipient);
             return ResponseEntity.ok(messages);
