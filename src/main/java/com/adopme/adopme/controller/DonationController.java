@@ -4,7 +4,6 @@ import com.adopme.adopme.dto.donation.DonationResponse;
 import com.adopme.adopme.model.DonationStatus;
 import com.adopme.adopme.service.DonationService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +15,6 @@ public class DonationController {
 
     private final DonationService donationService;
 
-    @Autowired
     public DonationController(DonationService donationService) {
         this.donationService = donationService;
     }

@@ -4,7 +4,6 @@ import com.adopme.adopme.dto.adoption.AdoptionRequestResponse;
 import com.adopme.adopme.model.AdoptionRequestStatus;
 import com.adopme.adopme.service.AdoptionRequestService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +15,6 @@ public class AdoptionRequestController {
 
     private final AdoptionRequestService adoptionRequestService;
 
-    @Autowired
     public AdoptionRequestController(AdoptionRequestService adoptionRequestService) {
         this.adoptionRequestService = adoptionRequestService;
     }
