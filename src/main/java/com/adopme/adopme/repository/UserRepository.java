@@ -22,4 +22,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByPhoneNo(String phoneNo);
 
     boolean existsByEmail(String email); // Useful for validation
+
+    @Query("SELECT u FROM User u WHERE " +
+            "(EXISTS (SELECT cu FROM User cu WHERE cu.email = :email AND cu.type = 'ADMIN' AND u.email != :email)) OR "
+            +
+            "(EXISTS (SELECT cu FROM User cu WHERE cu.email = :email AND cu.type = 'USER') AND u.type = 'ADMIN')")
+    List<User> findContactsByEmail(@Param("email") String email);
 }

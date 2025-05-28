@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -32,8 +33,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        boolean isAuthenticated =
-                loginService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
+        boolean isAuthenticated = loginService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
         System.out.println("isAuthenticated: " + isAuthenticated);
         try {
             if (isAuthenticated) {
@@ -86,10 +86,9 @@ public class UserController {
             @RequestHeader("Authorization") String authHeader) {
         try {
             String token = authHeader.replace("Bearer ", "");
-            String email =
-                    jwtUtil.validateTokenAndRetrieveSubject(token); // Extract email from token
+            String email = jwtUtil.validateTokenAndRetrieveSubject(token);
 
-            userService.updateUserProfile(email, signUpRequest); // Delegate to service
+            userService.updateUserProfile(email, signUpRequest);
 
             Map<String, String> response = new HashMap<>();
             response.put("status", "SUCCESS");
@@ -105,6 +104,23 @@ public class UserController {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("status", "FAILURE");
             errorResponse.put("error", "Internal server error");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
+    }
+
+    @PostMapping("/contacts")
+    public ResponseEntity<?> getContacts(@RequestHeader("Authorization") String authHeader) {
+        try {
+            String token = authHeader.replace("Bearer ", "");
+            String email = jwtUtil.validateTokenAndRetrieveSubject(token);
+
+            List<String> contacts = userService.getAllUsersExceptCurrent(email);
+            return ResponseEntity.ok(contacts);
+
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("status", "FAILURE");
+            errorResponse.put("error", "Error fetching contacts");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }

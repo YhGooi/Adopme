@@ -13,7 +13,7 @@
 
 /* Each column */
 .footer-column {
-    min-width: 50px;
+    min-width: 10px;
 }
 
 .footer-column h4 {
