@@ -42,6 +42,7 @@ const NavBar = () => {
                                     </>
                                 ) : (
                                     <>
+                                    <button onClick={() => navigate("/messaging")}>Messages</button>
                                     <button onClick={() => navigate("/profile")}>Profile</button>
                                     <button onClick={() => navigate("/signup")}>Update Profile</button>
                                     <button onClick={() => {
