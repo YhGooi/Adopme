@@ -1,14 +1,18 @@
 .layout-container {
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    background-color: #faf1e2;
 }
 
 .layout-content {
     width: 100%;
+    max-width: 100%;
     flex: 1;
-    overflow-y: auto;
     padding-top: 72px;
-    background-color: #faf1e2;
-    overflow-x: hidden;
     box-sizing: border-box;
+    min-height: calc(100vh - 72px - 300px);
 }
