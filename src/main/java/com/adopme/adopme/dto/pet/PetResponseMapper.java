@@ -4,7 +4,11 @@ import com.adopme.adopme.model.Pet;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Mapper
 public interface PetResponseMapper {
@@ -12,12 +16,14 @@ public interface PetResponseMapper {
 
     @Mapping(
             target = "age",
-            expression =
-                    "java(pet.getDob() != null ?"
-                        + " Math.round((java.time.temporal.ChronoUnit.DAYS.between(pet.getDob(),"
-                        + " java.time.LocalDate.now()) / 365.25) * 10.0) / 10.0 : null)")
-    @Mapping(target = "species", source = "species.name")
-    @Mapping(target = "breed", source = "breed.name")
-    @Mapping(target = "status", source = "status.name")
+            source = "dob", qualifiedByName = "calculateAge")
     PetResponse toPetResponse(Pet pet);
+
+    @Named("calculateAge")
+    default Double calculateAge(LocalDate dob) {
+        if (dob == null) {
+            return null;
+        }
+        return Math.round((ChronoUnit.DAYS.between(dob, LocalDate.now()) / 365.25) * 10.0) / 10.0;
+    }
 }
