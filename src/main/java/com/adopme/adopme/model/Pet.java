@@ -1,19 +1,22 @@
 package com.adopme.adopme.model;
 
 import jakarta.persistence.*;
+
 import lombok.*;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "pet_listing")
+@Table(name = "pet")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PetListing {
+public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,12 +30,12 @@ public class PetListing {
     @Column(nullable = false)
     private String gender;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "species_id", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Species species;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "breed_id", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Breed breed;
 
     @Column(nullable = false)
@@ -49,11 +52,32 @@ public class PetListing {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private PetListingStatus status;
+    private PetStatus status;
 
-    @CreationTimestamp
-    private LocalDateTime createdAt;
+    @CreationTimestamp private LocalDateTime createdAt;
 
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    @UpdateTimestamp private LocalDateTime updatedAt;
+
+    public Pet(
+            String name,
+            LocalDate dob,
+            String gender,
+            Species species,
+            Breed breed,
+            Double weight,
+            Boolean vaccinated,
+            String description,
+            String petImageUrl,
+            PetStatus status) {
+        this.name = name;
+        this.dob = dob;
+        this.gender = gender;
+        this.species = species;
+        this.breed = breed;
+        this.weight = weight;
+        this.vaccinated = vaccinated;
+        this.description = description;
+        this.petImageUrl = petImageUrl;
+        this.status = status;
+    }
 }
