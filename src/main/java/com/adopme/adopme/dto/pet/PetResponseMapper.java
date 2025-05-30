@@ -14,9 +14,7 @@ import java.time.temporal.ChronoUnit;
 public interface PetResponseMapper {
     PetResponseMapper INSTANCE = Mappers.getMapper(PetResponseMapper.class);
 
-    @Mapping(
-            target = "age",
-            source = "dob", qualifiedByName = "calculateAge")
+    @Mapping(target = "age", source = "dob", qualifiedByName = "calculateAge")
     PetResponse toPetResponse(Pet pet);
 
     @Named("calculateAge")
