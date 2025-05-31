@@ -2,12 +2,14 @@ package com.adopme.adopme.controller;
 
 import com.adopme.adopme.dto.user.LoginRequest;
 import com.adopme.adopme.dto.user.SignUpRequest;
+import com.adopme.adopme.dto.user.UserResponse;
 import com.adopme.adopme.security.JwtUtil;
 import com.adopme.adopme.service.AuthService;
 import com.adopme.adopme.service.UserService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -122,6 +124,24 @@ public class UserController {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("status", "FAILURE");
             errorResponse.put("error", "Error fetching contacts");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getUserProfile(@RequestHeader("userId") Long userId) {
+        try {
+            UserResponse userResponse = userService.getUserById(userId);
+            return ResponseEntity.ok(userResponse);
+        } catch (IllegalArgumentException e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("status", "FAILURE");
+            errorResponse.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("status", "FAILURE");
+            errorResponse.put("error", "Internal server error");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
