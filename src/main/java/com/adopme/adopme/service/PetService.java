@@ -3,6 +3,7 @@ package com.adopme.adopme.service;
 import com.adopme.adopme.dto.pet.PetResponse;
 import com.adopme.adopme.dto.pet.PetResponseMapper;
 import com.adopme.adopme.model.Pet;
+import com.adopme.adopme.model.PetStatus;
 import com.adopme.adopme.repository.PetRepository;
 import com.adopme.adopme.repository.spec.PetSpecifications;
 
@@ -26,7 +27,7 @@ public class PetService {
     }
 
     public List<PetResponse> getActivePets() {
-        Specification<Pet> spec = PetSpecifications.hasStatus("AVAILABLE");
+        Specification<Pet> spec = PetSpecifications.hasStatus(PetStatus.ACTIVE.name());
         List<Pet> pets = petRepository.findAll(spec, Sort.by(Sort.Direction.DESC, "createdAt"));
         return pets.stream().map(PetResponseMapper.INSTANCE::toPetResponse).toList();
     }
