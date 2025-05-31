@@ -1,6 +1,8 @@
 package com.adopme.adopme.service;
 
 import com.adopme.adopme.dto.user.SignUpRequest;
+import com.adopme.adopme.dto.user.UserResponse;
+import com.adopme.adopme.dto.user.UserResponseMapper;
 import com.adopme.adopme.model.User;
 import com.adopme.adopme.model.UserType;
 import com.adopme.adopme.repository.UserRepository;
@@ -74,5 +76,15 @@ public class UserService {
         user.setCurrentPets(request.getCurrentPets());
 
         userRepository.save(user);
+    }
+
+    public UserResponse getUserById(Long userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isEmpty()) {
+            throw new IllegalArgumentException("User not found with ID: " + userId);
+        }
+
+        User user = optionalUser.get();
+        return UserResponseMapper.INSTANCE.toUserResponse(user);
     }
 }
