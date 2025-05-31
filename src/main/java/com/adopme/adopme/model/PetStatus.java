@@ -1,6 +1,6 @@
 package com.adopme.adopme.model;
 
-public enum PetListingStatus {
+public enum PetStatus {
     ACTIVE,
     INACTIVE,
     ADOPTED
