@@ -149,3 +149,92 @@
     text-align: center;
   }
   
+  .ready-adopt-section {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+  }
+  
+  .bg-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* or object-fit: contain if you want full image visible */
+    z-index: 1;
+  }
+  
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 2;
+  }
+  
+  .content {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 64px;
+    color: white;
+    font-weight: bold;
+    font-size: 48px;
+  }
+  
+  .content a {
+    color: white;
+    text-decoration: underline;
+    font-size: 14px;
+  }
+
+  .support-us-section {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+  }
+  
+  .support-us-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
+  
+  /* Text content block */
+  .support-us-content {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 64px;
+  }
+  
+  .support-us-content .text-block {
+    text-align: right;
+    color: white;
+  }
+  
+  .support-us-content h3 {
+    font-size: 48px;
+    font-weight: 900;
+    margin: 0 0 12px;
+    line-height: 1.1;
+  }
+  
+  .support-us-content a {
+    color: white;
+    font-weight: bold;
+    text-decoration: underline;
+    font-size: 14px;
+    text-underline-offset: 4px;
+  }
+  
