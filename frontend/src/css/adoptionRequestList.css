@@ -2,7 +2,7 @@
 .adoption-request-list {
     display: flex;
     flex-direction: column;
-    min-height: calc(100vh - 72px);
+    min-height: 800px;
     margin-top: 0px;
 }
 
@@ -83,7 +83,6 @@
 
 /* Table container */
 .table-container {
-    padding-top: 16px; /* Small space below the filters */
     width: 90%;
     max-width: 1200px;
     margin-left: auto;
