@@ -25,6 +25,21 @@ const NavBar = () => {
                         <button onClick={() => navigate("/donation/Donation")}>Donation</button>
                         <button onClick={() => navigate("/contact")}>Contact Us</button>
 
+                        {/* Admin Dropdown - Only show if user is admin */}
+                        {userStore.type === 'ADMIN' && (
+                            <div className="dropdown admin-dropdown">
+                                <button className="dropdown-toggle">
+                                    Admin
+                                </button>
+                                <div className="dropdown-menu">
+                                    <button onClick={() => navigate("/admin/adoption-request-list")}>
+                                        Adoption Requests
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* User Dropdown */}
                         <div className="dropdown">
                             <button className="dropdown-toggle">
                             <img src={login_icon} alt="User Icon" className={`navbar-user-icon ${!authStore.isLogin ? 'glow-effect' : ''}`} />

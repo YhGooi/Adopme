@@ -25,7 +25,7 @@ public class FabricateData implements CommandLineRunner {
 
     public FabricateData(AppConfigService appConfigService) {
         this.appConfigService = appConfigService;
-        this.fabricateUser = appConfigService.getAppConfig().isFabricateAccount();
+        this.fabricateUser = this.appConfigService.getAppConfig().isFabricateAccount();
     }
 
     @Override
