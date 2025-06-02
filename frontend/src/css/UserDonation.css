@@ -1,4 +1,4 @@
-/* 整体页面样式 */
+
 .donation-page {
     max-width: 1200px;
     margin: 0 auto;
@@ -27,22 +27,22 @@
     margin: 0 auto;
 }
 
-/* 主要内容区 */
+/* 主要内容 */
 .donation-main {
     display: flex;
     gap: 30px;
     margin-bottom: 40px;
 }
 
-/* 左侧表单样式 - 修改部分 */
+/* 左侧表单样式  */
 .donation-form {
     flex: 1;
     padding: 25px;
     background: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    position: relative; /* 新增 */
-    min-height: 500px; /* 新增，确保表单有足够高度 */
+    position: relative; 
+    min-height: 500px; 
 }
 
 .donation-form h2 {
@@ -96,9 +96,9 @@
     color: #666;
 }
 
-/* DONATE按钮样式 - 修改部分 */
+/* DONATE按钮样式  */
 .donate-btn {
-    width: calc(100% - 50px); /* 调整宽度以匹配padding */
+    width: calc(100% - 50px); 
     padding: 15px;
     background: #27ae60;
     color: white;
@@ -107,9 +107,9 @@
     font-size: 1.1rem;
     font-weight: bold;
     cursor: pointer;
-    position: absolute; /* 改为绝对定位 */
-    bottom: 25px; /* 距离底部与padding一致 */
-    left: 25px; /* 距离左侧与padding一致 */
+    position: absolute; 
+    bottom: 25px; 
+    left: 25px; 
     transition: background 0.3s;
 }
 
@@ -207,10 +207,10 @@
         font-size: 2rem;
     }
     
-    /* 移动端调整表单高度 */
+  
     .donation-form {
         min-height: auto;
-        padding-bottom: 80px; /* 为按钮留出空间 */
+        padding-bottom: 80px; 
     }
     
     .donate-btn {
