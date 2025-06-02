@@ -1,6 +1,7 @@
 package com.adopme.adopme.controller;
 
-import com.adopme.adopme.dto.adoption.AdoptionRequestResponse;
+import com.adopme.adopme.dto.adoption.AdoptionRequestAdminResponse;
+import com.adopme.adopme.dto.adoption.AdoptionRequestUserResponse;
 import com.adopme.adopme.model.AdoptionRequestStatus;
 import com.adopme.adopme.service.AdoptionRequestService;
 
@@ -21,7 +22,7 @@ public class AdoptionRequestController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<List<AdoptionRequestResponse>> getAdoptionRequestsByUserId(
+    public ResponseEntity<List<AdoptionRequestUserResponse>> getAdoptionRequestsByUserId(
             @RequestHeader(value = "userId") String userIdStr) {
         try {
             if (userIdStr == null || userIdStr.isEmpty()) {
@@ -35,7 +36,7 @@ public class AdoptionRequestController {
                 throw new IllegalArgumentException("Invalid user ID format: " + userIdStr);
             }
 
-            List<AdoptionRequestResponse> requests =
+            List<AdoptionRequestUserResponse> requests =
                     adoptionRequestService.getAdoptionRequestsByUserId(userId);
             return ResponseEntity.ok(requests);
         } catch (Exception e) {
@@ -44,11 +45,11 @@ public class AdoptionRequestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AdoptionRequestResponse>> getAllAdoptionRequests(
+    public ResponseEntity<List<AdoptionRequestAdminResponse>> getAllAdoptionRequests(
             @RequestParam(required = false) AdoptionRequestStatus status,
             @RequestParam String startDate,
             @RequestParam String endDate) {
-        List<AdoptionRequestResponse> requests =
+        List<AdoptionRequestAdminResponse> requests =
                 adoptionRequestService.getAllAdoptionRequests(status, startDate, endDate);
         return ResponseEntity.ok(requests);
     }
