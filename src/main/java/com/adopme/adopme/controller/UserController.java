@@ -129,14 +129,12 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getUserProfile(@RequestHeader(value = "userId") String userIdStr) {
+    public ResponseEntity<UserResponse> getUserProfile(
+            @RequestHeader(value = "userId") String userIdStr) {
         try {
             if (userIdStr == null || userIdStr.isEmpty()) {
                 throw new IllegalArgumentException("User ID is required");
             }
-
-            // Log the received userId for debugging
-            System.out.println("Received userId header: " + userIdStr);
 
             Long userId;
             try {
@@ -147,16 +145,8 @@ public class UserController {
 
             UserResponse userResponse = userService.getUserById(userId);
             return ResponseEntity.ok(userResponse);
-        } catch (IllegalArgumentException e) {
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("status", "FAILURE");
-            errorResponse.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         } catch (Exception e) {
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("status", "FAILURE");
-            errorResponse.put("error", "Internal server error");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

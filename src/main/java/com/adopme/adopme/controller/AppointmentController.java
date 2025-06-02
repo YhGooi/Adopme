@@ -4,6 +4,7 @@ import com.adopme.adopme.dto.appointment.AppointmentResponse;
 import com.adopme.adopme.model.AppointmentStatus;
 import com.adopme.adopme.service.AppointmentService;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,9 +22,25 @@ public class AppointmentController {
 
     @GetMapping("/user")
     public ResponseEntity<List<AppointmentResponse>> getAppointmentsByUserId(
-            @RequestHeader("userId") Long userId) {
-        List<AppointmentResponse> appointments = appointmentService.getAppointmentsByUserId(userId);
-        return ResponseEntity.ok(appointments);
+            @RequestHeader(value = "userId") String userIdStr) {
+        try {
+            if (userIdStr == null || userIdStr.isEmpty()) {
+                throw new IllegalArgumentException("User ID is required");
+            }
+
+            Long userId;
+            try {
+                userId = Long.parseLong(userIdStr);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Invalid user ID format: " + userIdStr);
+            }
+
+            List<AppointmentResponse> appointments =
+                    appointmentService.getAppointmentsByUserId(userId);
+            return ResponseEntity.ok(appointments);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @GetMapping

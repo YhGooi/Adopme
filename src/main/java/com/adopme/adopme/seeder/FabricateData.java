@@ -1,10 +1,14 @@
 package com.adopme.adopme.seeder;
 
+import com.adopme.adopme.model.Breed;
 import com.adopme.adopme.model.HousingType;
+import com.adopme.adopme.model.Pet;
+import com.adopme.adopme.model.PetStatus;
 import com.adopme.adopme.model.PettingExperience;
 import com.adopme.adopme.model.Species;
 import com.adopme.adopme.model.User;
 import com.adopme.adopme.model.UserType;
+import com.adopme.adopme.repository.PetRepository;
 import com.adopme.adopme.repository.UserRepository;
 import com.adopme.adopme.service.AppConfigService;
 import com.github.javafaker.Faker;
@@ -15,15 +19,9 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Random;
-import java.util.List;
 import java.util.Arrays;
-
-import com.adopme.adopme.model.Pet;
-import com.adopme.adopme.model.PetStatus;
-import com.adopme.adopme.model.Breed;
-import com.adopme.adopme.model.Species;
-import com.adopme.adopme.repository.PetRepository;
+import java.util.List;
+import java.util.Random;
 
 @Component
 public class FabricateData implements CommandLineRunner {
@@ -107,25 +105,27 @@ public class FabricateData implements CommandLineRunner {
             for (int i = 0; i < 10; i++) {
                 Species species = faker.options().option(Species.DOG, Species.CAT, Species.RABBIT);
                 Breed breed = getRandomBreedForSpecies(species);
-                LocalDate dob = LocalDate.ofInstant(
-                    faker.date().birthday(1, 10).toInstant(), ZoneId.of("Asia/Kuala_Lumpur"));
+                LocalDate dob =
+                        LocalDate.ofInstant(
+                                faker.date().birthday(1, 10).toInstant(),
+                                ZoneId.of("Asia/Kuala_Lumpur"));
 
-                Pet pet = new Pet(
-                    faker.animal().name(),
-                    dob,
-                    faker.options().option("Male", "Female"),
-                    species,
-                    breed,
-                    faker.number().randomDouble(1, 2, 15),
-                    faker.bool().bool(),
-                    faker.lorem().sentence(),
-                    species == Species.CAT
-                        ? "https://placekitten.com/200/200"
-                        : species == Species.DOG
-                            ? "https://placedog.net/400?id=" + i
-                            : "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Rabbit_in_montana.jpg/320px-Rabbit_in_montana.jpg",
-                    PetStatus.ACTIVE
-                );
+                Pet pet =
+                        new Pet(
+                                faker.animal().name(),
+                                dob,
+                                faker.options().option("Male", "Female"),
+                                species,
+                                breed,
+                                faker.number().randomDouble(1, 2, 15),
+                                faker.bool().bool(),
+                                faker.lorem().sentence(),
+                                species == Species.CAT
+                                        ? "https://placekitten.com/200/200"
+                                        : species == Species.DOG
+                                                ? "https://placedog.net/400?id=" + i
+                                                : "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Rabbit_in_montana.jpg/320px-Rabbit_in_montana.jpg",
+                                PetStatus.ACTIVE);
 
                 petRepository.save(pet);
             }
@@ -136,9 +136,10 @@ public class FabricateData implements CommandLineRunner {
     }
 
     private Breed getRandomBreedForSpecies(Species species) {
-        List<Breed> matchingBreeds = Arrays.stream(Breed.values())
-            .filter(breed -> breed.getSpecies() == species)
-            .toList();
+        List<Breed> matchingBreeds =
+                Arrays.stream(Breed.values())
+                        .filter(breed -> breed.getSpecies() == species)
+                        .toList();
         return matchingBreeds.get(random.nextInt(matchingBreeds.size()));
     }
 }
