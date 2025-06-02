@@ -13,13 +13,13 @@ const Profile = () => {
     const [userData, setUserData] = useState({
         name: '',
         dateOfBirth: '',
-        phoneNo: '', // Changed to match store property name
+        phoneNo: '',
         email: '',
         address: '',
         housingType: '',
         occupation: '',
         pettingExperience: '',
-        currentPets: 0 // Changed to match store property name
+        currentPets: 0
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
