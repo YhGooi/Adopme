@@ -1,0 +1,82 @@
+/* 成功页面整体样式 - 添加黄色背景 */
+.success-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    font-family: Arial, sans-serif;
+    color: #333;
+    text-align: center;
+    background-color: #fff9e6; /* 浅黄色背景 */
+    min-height: 53vh; /* 填充整个视口高度 */
+}
+
+/* 头部样式 */
+.success-header {
+    margin-bottom: 2rem;
+}
+
+.success-header h1 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.success-header p {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+
+/* 其余样式保持不变... */
+
+/* 快速链接部分 */
+.success-links {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+    text-align: left;
+}
+
+.link-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.link-column h4 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+}
+
+.link-column a, .link-column span {
+    color: #555;
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.link-column a:hover {
+    color: #3498db;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .success-links {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .success-links {
+        grid-template-columns: 1fr;
+    }
+    
+    .success-header h1 {
+        font-size: 2rem;
+    }
+}

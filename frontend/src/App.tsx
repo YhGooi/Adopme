@@ -8,6 +8,8 @@ import NavBar from "./component/NavBar";
 import Home from "./page/Home";
 import Login from "./page/Login";
 import Donation from "./page/donation/Donation";
+import UserDonation from "./page/UserDonation";
+import SuccessDonation from "./page/SuccessDonation";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/donation/Donation" element={<Donation />} />
+          <Route path="/userdonation" element={<UserDonation />} />
+          <Route path="/SuccessDonation" element={<SuccessDonation />} />
         </Route>
       </Routes>
     </Router >
