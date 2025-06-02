@@ -1,0 +1,173 @@
+/* Root container */
+.adoption-request-list {
+    display: flex;
+    flex-direction: column;
+    min-height: 800px;
+    margin-top: 0px;
+}
+
+/* Sticky title bar */
+.title-bar {
+    position: fixed;
+    top: 72px;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background-color: #d1e7dd;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.title-bar h2 {
+    margin: 0 0 1.5rem 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-align: center;
+}
+
+/* Filters section */
+.filters {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.date-filters {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.filter-group,
+.status-filter {
+    background-color: white;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 250px; /* Set fixed width for all filter boxes */
+}
+
+.filter-group input[type="date"],
+.status-filter select {
+    padding: 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.375rem;
+    width: 150px; /* Set fixed width for inputs */
+    font-size: 0.9rem;
+}
+
+.filter-group label,
+.status-filter label {
+    white-space: nowrap;
+    font-weight: 500;
+    color: #4a5568;
+    width: 50px; /* Fixed width for labels */
+}
+
+.clear-button {
+    background: none;
+    border: none;
+    color: #4a5568;
+    cursor: pointer;
+    padding: 0.5rem;
+    font-weight: 500;
+}
+
+.clear-button:hover {
+    color: #1D4ED8;
+}
+
+/* Table container */
+.table-container {
+    width: 90%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Table styles */
+.request-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.request-table thead th {
+    background-color: #f2f2f2;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.request-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Status badges */
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.status-submitted {
+    color: orange;
+}
+
+.status-approved {
+    color: green;
+}
+
+.status-rejected {
+    color: red;
+}
+
+/* Loading state */
+.loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #1976d2;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Messages */
+.error-message,
+.no-data-message {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+}
