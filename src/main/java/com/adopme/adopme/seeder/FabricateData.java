@@ -1,6 +1,10 @@
 package com.adopme.adopme.seeder;
 
+import com.adopme.adopme.model.Appointment;
+import com.adopme.adopme.model.AppointmentStatus;
 import com.adopme.adopme.model.Breed;
+import com.adopme.adopme.model.Donation;
+import com.adopme.adopme.model.DonationStatus;
 import com.adopme.adopme.model.HousingType;
 import com.adopme.adopme.model.Pet;
 import com.adopme.adopme.model.PetStatus;
@@ -8,6 +12,8 @@ import com.adopme.adopme.model.PettingExperience;
 import com.adopme.adopme.model.Species;
 import com.adopme.adopme.model.User;
 import com.adopme.adopme.model.UserType;
+import com.adopme.adopme.repository.AppointmentRepository;
+import com.adopme.adopme.repository.DonationRepository;
 import com.adopme.adopme.repository.PetRepository;
 import com.adopme.adopme.repository.UserRepository;
 import com.adopme.adopme.service.AppConfigService;
@@ -17,7 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +35,8 @@ import java.util.Random;
 public class FabricateData implements CommandLineRunner {
     @Autowired private UserRepository userRepository;
     @Autowired private PetRepository petRepository;
+    @Autowired private AppointmentRepository appointmentRepository;
+    @Autowired private DonationRepository donationRepository;
 
     private final Random random = new Random();
     private final Boolean fabricateEnabled;
@@ -45,6 +55,8 @@ public class FabricateData implements CommandLineRunner {
 
         fabricateUser(faker);
         fabricatePet(faker);
+        fabricateAppointments(faker);
+        fabricateDonations(faker);
     }
 
     private void fabricateUser(Faker faker) {
@@ -142,6 +154,84 @@ public class FabricateData implements CommandLineRunner {
             System.out.println("[PET]: Fabricated 10 fake pets.");
         } else {
             System.out.println("[PET]: Already exist - skipped fabricating.");
+        }
+    }
+
+    private void fabricateAppointments(Faker faker) {
+        if (appointmentRepository.count() == 0) {
+            // Get all non-admin users
+            List<User> users =
+                    userRepository.findAll().stream()
+                            .filter(user -> user.getType() != UserType.ADMIN)
+                            .toList();
+
+            List<Pet> pets = petRepository.findAll();
+
+            if (users.isEmpty() || pets.isEmpty()) {
+                System.out.println(
+                        "[APPOINTMENT]: Skipped fabricating - no users or pets available.");
+                return;
+            }
+
+            for (int i = 0; i < 20; i++) {
+                User user = users.get(random.nextInt(users.size()));
+                Pet pet = pets.get(random.nextInt(pets.size()));
+
+                // Create an appointment between now and 30 days in the future
+                LocalDateTime appointmentDateTime =
+                        LocalDateTime.now()
+                                .plusDays(random.nextInt(30))
+                                .plusHours(random.nextInt(8) + 9); // 9 AM to 5 PM
+
+                AppointmentStatus status =
+                        AppointmentStatus.values()[
+                                random.nextInt(AppointmentStatus.values().length)];
+
+                Appointment appointment =
+                        new Appointment(user.getId(), appointmentDateTime, pet.getId(), status);
+
+                appointmentRepository.save(appointment);
+            }
+            System.out.println("[APPOINTMENT]: Fabricated 20 fake appointments.");
+        } else {
+            System.out.println("[APPOINTMENT]: Already exist - skipped fabricating.");
+        }
+    }
+
+    private void fabricateDonations(Faker faker) {
+        if (donationRepository.count() == 0) {
+            // Get all non-admin users
+            List<User> users =
+                    userRepository.findAll().stream()
+                            .filter(user -> user.getType() != UserType.ADMIN)
+                            .toList();
+
+            if (users.isEmpty()) {
+                System.out.println("[DONATION]: Skipped fabricating - no users available.");
+                return;
+            }
+
+            for (int i = 0; i < 15; i++) {
+                User user = users.get(random.nextInt(users.size()));
+                BigDecimal amount = BigDecimal.valueOf(faker.number().randomDouble(2, 10, 1000));
+
+                // Create a donation date within the past year
+                LocalDateTime donationDate = LocalDateTime.now().minusDays(random.nextInt(365));
+
+                DonationStatus status =
+                        DonationStatus.values()[random.nextInt(DonationStatus.values().length)];
+
+                // Create empty receipt byte array for now
+                byte[] receipt = new byte[0];
+
+                Donation donation =
+                        new Donation(user.getId(), amount, donationDate, status, receipt);
+
+                donationRepository.save(donation);
+            }
+            System.out.println("[DONATION]: Fabricated 15 fake donations.");
+        } else {
+            System.out.println("[DONATION]: Already exist - skipped fabricating.");
         }
     }
 
