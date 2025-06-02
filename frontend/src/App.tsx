@@ -10,6 +10,7 @@ import Signup from "./page/SignUp";
 import Donation from "./page/donation/Donation";
 import PetListing from "./page/PetListing";
 import Messaging from './page/Messaging';
+import AdoptionRequestList from "./page/admin/adoption-request/AdoptionRequestList";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/donation/Donation" element={<Donation />} />
           <Route path="/messaging" element={<Messaging />} />
+          <Route path="/admin/adoption-request-list" element={<AdoptionRequestList />} />
         </Route>
       </Routes>
     </Router >

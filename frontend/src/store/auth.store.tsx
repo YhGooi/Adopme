@@ -1,6 +1,16 @@
-import { create } from 'zustand'
+import { create } from 'zustand';
 
-export const useAuthStore = create((set) => ({
+type AuthStore = {
+    email: string;
+    password: string;
+    token: string;
+    isLogin: boolean;
+    user: string;
+    set: (key: string, value: any) => void;
+    logout: () => void;
+}
+
+export const useAuthStore = create<AuthStore>((set) => ({
     email: "",
     password: "",
     token: "",
@@ -12,9 +22,23 @@ export const useAuthStore = create((set) => ({
             token: "",
             isLogin: false,
         }),
-}))
+}));
 
-export const user_details = create((set) => ({
+type UserDetails = {
+    name: string;
+    dateOfBirth: string;
+    phoneNo: string;
+    email: string;
+    address: string;
+    housingType: string;
+    occupation: string;
+    pettingExperience: string;
+    currentPets: number;
+    type: string;
+    set: (key: string, value: any) => void;
+}
+
+export const user_details = create<UserDetails>((set) => ({
     name: '',
     dateOfBirth: '',
     phoneNo: '',
@@ -26,4 +50,4 @@ export const user_details = create((set) => ({
     currentPets: 0,
     type: '',
     set: (key: string, value: any) => set({ [key]: value }),
-}))
+}));
