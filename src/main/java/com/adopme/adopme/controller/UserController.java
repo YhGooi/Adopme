@@ -129,8 +129,22 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getUserProfile(@RequestHeader("userId") Long userId) {
+    public ResponseEntity<?> getUserProfile(@RequestHeader(value = "userId") String userIdStr) {
         try {
+            if (userIdStr == null || userIdStr.isEmpty()) {
+                throw new IllegalArgumentException("User ID is required");
+            }
+
+            // Log the received userId for debugging
+            System.out.println("Received userId header: " + userIdStr);
+
+            Long userId;
+            try {
+                userId = Long.parseLong(userIdStr);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Invalid user ID format: " + userIdStr);
+            }
+
             UserResponse userResponse = userService.getUserById(userId);
             return ResponseEntity.ok(userResponse);
         } catch (IllegalArgumentException e) {

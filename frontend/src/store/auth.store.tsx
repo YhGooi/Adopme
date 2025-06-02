@@ -25,6 +25,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
 }));
 
 type UserDetails = {
+    id: string | number;
     name: string;
     dateOfBirth: string;
     phoneNo: string;
@@ -39,6 +40,7 @@ type UserDetails = {
 }
 
 export const user_details = create<UserDetails>((set) => ({
+    id: '',
     name: '',
     dateOfBirth: '',
     phoneNo: '',
