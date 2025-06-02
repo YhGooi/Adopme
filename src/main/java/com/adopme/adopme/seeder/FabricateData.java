@@ -29,18 +29,26 @@ public class FabricateData implements CommandLineRunner {
     @Autowired private PetRepository petRepository;
 
     private final Random random = new Random();
-    private final AppConfigService appConfigService;
-    private final Boolean fabricateUser;
+    private final Boolean fabricateEnabled;
 
     public FabricateData(AppConfigService appConfigService) {
-        this.appConfigService = appConfigService;
-        this.fabricateUser = this.appConfigService.getAppConfig().isFabricateAccount();
+        this.fabricateEnabled = appConfigService.getAppConfig().isFabricateEnabled();
     }
 
     @Override
     public void run(String... args) {
         Faker faker = new Faker();
-        if (userRepository.count() == 0 && fabricateUser) {
+        if (!fabricateEnabled) {
+            System.out.println("[FabricateData]: Fabrication of user accounts is disabled.");
+            return;
+        }
+
+        fabricateUser(faker);
+        fabricatePet(faker);
+    }
+
+    private void fabricateUser(Faker faker) {
+        if (userRepository.count() == 0) {
             PettingExperience pettingExperience = PettingExperience.valueOf("NONE");
             LocalDate dateOfBirth =
                     LocalDate.ofInstant(
@@ -100,7 +108,9 @@ public class FabricateData implements CommandLineRunner {
         } else {
             System.out.println("[USER]: Already exist - skipped fabricating.");
         }
+    }
 
+    private void fabricatePet(Faker faker) {
         if (petRepository.count() == 0) {
             for (int i = 0; i < 10; i++) {
                 Species species = faker.options().option(Species.DOG, Species.CAT, Species.RABBIT);
