@@ -269,16 +269,6 @@ const Profile = () => {
                         </button>
                     </div>
                 </div>
-                
-                <div style={{ textAlign: 'center', marginTop: '30px' }}>
-                    <button 
-                        className="profile-action-button" 
-                        onClick={() => navigate('/home')} 
-                        style={{ background: '#888' }}
-                    >
-                        Back to Home
-                    </button>
-                </div>
             </div>
         </div>
     );
