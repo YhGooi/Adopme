@@ -45,6 +45,7 @@ public class AuthService {
             String formattedDate = date.format(formatter);
 
             Map<String, String> response = new HashMap<>();
+            response.put("id", String.valueOf(user.getId())); // Add user ID to the response
             response.put("name", user.getName());
             response.put("dateOfBirth", formattedDate);
             response.put("phoneNo", user.getPhoneNo());

@@ -1,0 +1,117 @@
+/* Profile page styles */
+.profile-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #FBF1E2;
+    min-height: auto;
+    font-family: 'Arial', sans-serif;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 0;
+    background-color: #e7f0e8;
+    padding: 30px;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.profile-name {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: #000;
+}
+
+.profile-tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.profile-tab {
+    padding: 12px 24px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #555;
+    transition: 0.3s;
+    border-bottom: 3px solid transparent;
+    margin: 0 5px;
+    font-size: 15px;
+}
+
+.profile-tab:hover {
+    background-color: rgba(118, 192, 174, 0.1);
+}
+
+.profile-tab.active {
+    border-bottom: 3px solid #76C0AE;
+    color: #333;
+    background-color: rgba(118, 192, 174, 0.1);
+}
+
+.profile-content {
+    padding: 20px;
+    background-color: #e7f0e8;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.profile-info-list {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.profile-info-item {
+    display: flex;
+    margin-bottom: 15px;
+    padding: 10px 0;
+}
+
+.profile-info-label {
+    font-weight: 500;
+    width: 250px;
+    flex-shrink: 0;
+    color: #333;
+}
+
+.profile-info-value {
+    color: #444;
+    flex-grow: 1;
+}
+
+.profile-action-button {
+    display: block;
+    width: 150px;
+    margin: 30px auto 20px;
+    padding: 12px 20px;
+    background-color: #76C0AE;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: center;
+    font-weight: 600;
+    font-size: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-action-button:hover {
+    background-color: #5AA996;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Tab content styles */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
