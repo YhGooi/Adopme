@@ -65,30 +65,6 @@
     overflow-x: hidden;
 }
 
-.profile-info-list {
-    width: 100%;
-    max-width: 700px;
-    margin: 0 auto;
-}
-
-.profile-info-item {
-    display: flex;
-    margin-bottom: 15px;
-    padding: 10px 0;
-}
-
-.profile-info-label {
-    font-weight: 500;
-    width: 250px;
-    flex-shrink: 0;
-    color: #333;
-}
-
-.profile-info-value {
-    color: #444;
-    flex-grow: 1;
-}
-
 .profile-action-button {
     display: block;
     width: 150px;

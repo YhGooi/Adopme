@@ -1,8 +1,10 @@
+import { useEffect, useState } from 'react';
+import { useAuthStore, user_details } from '../../store/auth.store';
 import '../../css/profile.css';
 import '../../css/appointments.css';
 import '../../css/profileComponents.css';
 
-interface AppointmentResponse {
+export interface AppointmentResponse {
     id: number;
     userId: number;
     petId: number;
@@ -12,13 +14,51 @@ interface AppointmentResponse {
     updatedAt: string;
 }
 
-interface AppointmentsProps {
-    appointments: AppointmentResponse[];
-    loading: boolean;
-    error: string;
-}
+const Appointments = () => {
+    const [appointments, setAppointments] = useState<AppointmentResponse[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+    
+    const authStore = useAuthStore();
+    const userStore = user_details(state => state);
 
-const Appointments = ({ appointments, loading, error }: AppointmentsProps) => {
+    useEffect(() => {
+        fetchUserAppointments();
+    }, [authStore.token, userStore.id]);
+
+    // Fetch user appointments
+    const fetchUserAppointments = async () => {
+        try {
+            setLoading(true);
+            if (!userStore.id) {
+                throw new Error('User ID is missing. Please log in again.');
+            }
+            
+            const response = await fetch(`http://localhost:8080/appointment/user`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'userId': String(userStore.id),
+                    'Authorization': `Bearer ${authStore.token}`
+                }
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(errorText || `HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Appointments fetched:', data);
+            setAppointments(data);
+        } catch (err: any) {
+            console.error('Error fetching appointments:', err);
+            setError(err.message || 'Failed to load appointments');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     if (loading) {
         return (
             <div style={{ textAlign: 'center', padding: '40px 0' }}>

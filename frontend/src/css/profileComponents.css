@@ -1,8 +1,4 @@
 /* Profile Components Specific Styling */
-.profile-content {
-    width: 100%;
-}
-
 .tab-content {
     width: 100%;
     max-width: 100%;
@@ -14,7 +10,26 @@
 
 /* Personal Info Tab Styling */
 .profile-info-list {
-    margin-bottom: 30px;
+    width: 50%;
+    margin: 0px auto 30px;
+}
+
+.profile-info-item {
+    display: flex;
+    margin-bottom: 15px;
+    padding: 10px 0;
+}
+
+.profile-info-label {
+    font-weight: 500;
+    width: 50%;
+    flex-shrink: 0;
+    color: #333;
+}
+
+.profile-info-value {
+    color: #444;
+    flex-grow: 1;
 }
 
 /* Appointment Tab Styling */
