@@ -1,28 +1,32 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore, user_details } from '../store/auth.store';
-import '../css/common.css';
 import '../css/profile.css';
+import '../css/appointments.css';
+
+// Define interface for AppointmentResponse
+interface AppointmentResponse {
+    id: number;
+    userId: number;
+    petId: number;
+    appointmentDateTime: string;
+    status: 'REQUESTED' | 'CONFIRMED' | 'DECLINED' ;
+    createdAt: string;
+    updatedAt: string;
+}
 
 const Profile = () => {
-    const navigate = useNavigate();
-    const authStore = useAuthStore((state) => state) as any;
-    const userStore = user_details((state) => state) as any;
-    
     const [activeTab, setActiveTab] = useState('personal');
-    const [userData, setUserData] = useState({
-        name: '',
-        dateOfBirth: '',
-        phoneNo: '',
-        email: '',
-        address: '',
-        housingType: '',
-        occupation: '',
-        pettingExperience: '',
-        currentPets: 0
-    });
+    const [userData, setUserData] = useState({} as any);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [appointments, setAppointments] = useState<AppointmentResponse[]>([]);
+    const [appointmentsLoading, setAppointmentsLoading] = useState(false);
+    const [appointmentsError, setAppointmentsError] = useState('');
+    
+    const authStore = useAuthStore();
+    const userStore = user_details(state => state);
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Check if user is logged in
@@ -30,9 +34,6 @@ const Profile = () => {
             navigate('/login');
             return;
         }
-        
-        // Debug - log the current state of the user store
-        console.log('Current user ID in store:', userStore.id);
         
         // Fetch user profile data
         const fetchUserData = async () => {
@@ -58,7 +59,6 @@ const Profile = () => {
                 }
 
                 const data = await response.json();
-                console.log('User data fetched successfully:', data);
                 setUserData(data);
                 
                 // Update store with latest data if needed
@@ -67,7 +67,6 @@ const Profile = () => {
                         userStore.set(key, data[key]);
                     }
                 }
-                console.log('User store updated:', userStore);
             } catch (err: any) {
                 console.error('Error fetching user data:', err);
                 setError(err.message || 'Failed to load profile data');
@@ -76,7 +75,41 @@ const Profile = () => {
             }
         };
 
+        // Fetch user appointments
+        const fetchUserAppointments = async () => {
+            try {
+                setAppointmentsLoading(true);
+                if (!userStore.id) {
+                    throw new Error('User ID is missing. Please log in again.');
+                }
+                
+                const response = await fetch(`http://localhost:8080/appointment/user`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'userId': String(userStore.id),
+                        'Authorization': `Bearer ${authStore.token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText || `HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Appointments fetched:', data);
+                setAppointments(data);
+            } catch (err: any) {
+                console.error('Error fetching appointments:', err);
+                setAppointmentsError(err.message || 'Failed to load appointments');
+            } finally {
+                setAppointmentsLoading(false);
+            }
+        };
+
         fetchUserData();
+        fetchUserAppointments();
     }, [authStore.token, authStore.isLogin, navigate, userStore.id]);
 
     const handleTabClick = (tab: string) => {
@@ -227,17 +260,110 @@ const Profile = () => {
 
                 {/* Appointments Tab */}
                 <div className={`tab-content ${activeTab === 'appointments' ? 'active' : ''}`}>
-                    <div style={{ textAlign: 'center', padding: '40px 0' }}>
-                        <div style={{ fontSize: '18px', color: '#666', marginBottom: '20px' }}>
-                            No appointments scheduled yet
+                    {appointmentsLoading ? (
+                        <div style={{ textAlign: 'center', padding: '40px 0' }}>
+                            <div style={{ fontSize: '18px', color: '#666' }}>
+                                Loading appointments...
+                            </div>
                         </div>
-                        <p style={{ color: '#888', marginBottom: '30px' }}>
-                            Schedule a visit to meet your future pet today!
-                        </p>
-                        <button className="profile-action-button">
-                            Schedule Visit
-                        </button>
-                    </div>
+                    ) : appointmentsError ? (
+                        <div style={{ textAlign: 'center', padding: '40px 0' }}>
+                            <div style={{ fontSize: '18px', color: '#e74c3c', marginBottom: '20px' }}>
+                                Error loading appointments
+                            </div>
+                            <div style={{ fontSize: '14px', color: '#666' }}>
+                                {appointmentsError}
+                            </div>
+                            <button 
+                                className="profile-action-button" 
+                                style={{ marginTop: '20px' }}
+                                onClick={() => window.location.reload()}
+                            >
+                                Try Again
+                            </button>
+                        </div>
+                    ) : appointments.length === 0 ? (
+                        <div style={{ textAlign: 'center', padding: '40px 0' }}>
+                            <div style={{ fontSize: '18px', color: '#666', marginBottom: '20px' }}>
+                                No appointments scheduled yet
+                            </div>
+                            <p style={{ color: '#888', marginBottom: '30px' }}>
+                                Schedule a visit to meet your future pet today!
+                            </p>
+                            <button className="profile-action-button">
+                                Schedule Visit
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="appointments-list">
+                            {appointments.map((appointment) => {
+                                const date = new Date(appointment.appointmentDateTime);
+                                const day = date.getDate();
+                                const month = date.toLocaleString('default', { month: 'short' });
+                                const time = date.toLocaleString('en-US', { 
+                                    hour: '2-digit', 
+                                    minute: '2-digit', 
+                                    hour12: true 
+                                });
+                                
+                                // Calculate end time (1 hour later)
+                                const endDate = new Date(date);
+                                endDate.setHours(endDate.getHours() + 1);
+                                const endTime = endDate.toLocaleString('en-US', { 
+                                    hour: '2-digit', 
+                                    minute: '2-digit', 
+                                    hour12: true 
+                                });
+                                
+                                // Map status to appropriate class
+                                let statusClass = '';
+                                switch(appointment.status) {
+                                    case 'CONFIRMED':
+                                        statusClass = 'confirmed';
+                                        break;
+                                    case 'REQUESTED':
+                                        statusClass = 'pending';
+                                        break;
+                                    case 'DECLINED':
+                                        statusClass = 'declined';
+                                        break;
+                                    default:
+                                        statusClass = '';
+                                }
+                                
+                                // Format full date
+                                const fullDate = date.toLocaleDateString('en-US', {
+                                    weekday: 'long',
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                });
+                                
+                                return (
+                                    <div 
+                                        key={appointment.id} 
+                                        className={`appointment-item ${statusClass}`}
+                                    >
+                                        <div className="appointment-date-container">
+                                            <div className="appointment-date-day">{day}</div>
+                                            <div className="appointment-date-month">{month}</div>
+                                        </div>
+                                        
+                                        <div className="appointment-details">
+                                            <div className="appointment-full-date"><strong>{fullDate}</strong></div>
+                                            <div className="appointment-time">{time} - {endTime}</div>
+                                        </div>
+                                        
+                                        <div className={`appointment-status ${statusClass}`}>
+                                            {appointment.status === 'CONFIRMED' ? 'Confirmed' :
+                                              appointment.status === 'REQUESTED' ? 'Pending' :
+                                              appointment.status === 'DECLINED' ? 'Declined' : 'Cancelled'}
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
                 </div>
 
                 {/* Adoption Requests Tab */}
