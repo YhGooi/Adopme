@@ -117,16 +117,6 @@ const Donations = () => {
         return `${day} ${month} ${year}`;
     };
     
-    // Get status class for styling
-    const getStatusClass = (status: string) => {
-        switch (status) {
-            case 'PROCESSING': return 'processing';
-            case 'SUCCESS': return 'success';
-            case 'UNSUCCESS': return 'unsuccess';
-            default: return '';
-        }
-    };
-    
     return (
         <div className="tab-content">
             <table className="donation-table">
