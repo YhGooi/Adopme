@@ -7,6 +7,8 @@
     font-family: 'Arial', sans-serif;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .profile-header {
@@ -27,10 +29,13 @@
     display: flex;
     border-bottom: 1px solid #ddd;
     justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    overflow-x: auto;
 }
 
 .profile-tab {
-    padding: 12px 24px;
+    padding: 12px 16px;
     cursor: pointer;
     font-weight: 500;
     color: #555;
@@ -38,6 +43,7 @@
     border-bottom: 3px solid transparent;
     margin: 0 5px;
     font-size: 15px;
+    white-space: nowrap;
 }
 
 .profile-tab:hover {
@@ -54,6 +60,9 @@
     padding: 20px;
     background-color: #e7f0e8;
     border-radius: 0 0 10px 10px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 .profile-info-list {
@@ -102,5 +111,3 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
-
-/* Tab content styles - removed in favor of dynamic render */
