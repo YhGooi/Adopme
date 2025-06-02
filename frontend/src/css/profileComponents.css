@@ -1,0 +1,103 @@
+/* Profile Components Specific Styling */
+.profile-content {
+    width: 100%;
+}
+
+.tab-content {
+    width: 100%;
+    animation: fadeIn 0.3s ease;
+    display: block;
+}
+
+/* Personal Info Tab Styling */
+.profile-info-list {
+    margin-bottom: 30px;
+}
+
+/* Appointment Tab Styling */
+.appointment-item {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: all 0.2s ease;
+}
+
+.appointment-item:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.appointment-date-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 60px;
+    margin-right: 20px;
+    text-align: center;
+}
+
+.appointment-date-day {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.appointment-date-month {
+    font-size: 14px;
+    color: #666;
+    text-transform: uppercase;
+}
+
+.appointment-details {
+    flex: 1;
+}
+
+.appointment-full-date {
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.appointment-time {
+    color: #666;
+    font-size: 14px;
+}
+
+.appointment-status {
+    margin-left: 20px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.appointment-status.confirmed {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.appointment-status.pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.appointment-status.declined {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Adoption Requests Tab Styling */
+/* Add specific styling for adoption requests here */
+
+/* Donations Tab Styling */
+/* Add specific styling for donations here */
+
+/* Tab Animation */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
