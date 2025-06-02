@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/adoption-requests")
+@RequestMapping("/adoption-request")
 public class AdoptionRequestController {
 
     private final AdoptionRequestService adoptionRequestService;
