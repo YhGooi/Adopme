@@ -8,6 +8,7 @@ import Home from "./page/Home";
 import Login from "./page/Login";
 import Signup from "./page/SignUp";
 import Donation from "./page/donation/Donation";
+import PetListing from "./page/PetListing";
 import Messaging from './page/Messaging';
 import Profile from './page/Profile';
 import AdoptionRequestList from "./page/admin/adoption-request/AdoptionRequestList";
@@ -19,6 +20,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/pet_listing" element={<PetListing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/donation/Donation" element={<Donation />} />
