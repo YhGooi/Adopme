@@ -24,7 +24,7 @@ export const useHomeStore = create<HomeState>((set) => ({
   pets: [],
   fetchPets: async () => {
     try {
-      const res = await fetch('http://localhost:8080/pets/active');
+      const res = await fetch('http://localhost:8080/pet/active');
       if (!res.ok) throw new Error(`Status ${res.status}`);
       const data = await res.json();
 
