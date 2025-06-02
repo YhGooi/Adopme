@@ -14,7 +14,9 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     fetchPets();
-  }, [fetchPets]);
+  }, []);
+
+  console.log("Pets fetched:", pets);
 
   return (
     <div className="page-content">
@@ -32,36 +34,36 @@ const Home: React.FC = () => {
     </section>
 
 
-      {/* Featured Pets */}
-      <section className="polaroid-section">
-        {/* Left Text Block */}
-        <div className="polaroid-text">
-            <h3>LOOKING FOR<br />MORE?</h3>
-            <a href="/pet_listing">VIEW LISTING</a>
-        </div>
+    {/* Featured Pets */}
+    <section className="polaroid-section">
+      {/* Left Text Block */}
+      <div className="polaroid-text">
+        <h3>LOOKING FOR<br />MORE?</h3>
+        <a href="/pet_listing">VIEW LISTING</a>
+      </div>
 
-        {/* Right Overlapping Cards */}
-        <div className="polaroid-wrapper">
-            <div className="polaroid-cards">
-            {pets.slice(0, 4).map((pet, index) => (
-                <div
-                key={index}
-                className="polaroid-card"
-                style={{
-                    left: `${index * 140}px`,
-                    zIndex: 10 - index,
-                    transform: `rotate(${(index % 2 === 0 ? -1 : 1) * (2 + index)}deg)`
-                }}
-                >
-                <div className="image-container">
-                    <img src={pet.image || ''} alt={pet.name} />
-                </div>
-                <p>{pet.name}, {pet.age}</p>
-                </div>
-            ))}
+      {/* Right Overlapping Cards */}
+      <div className="polaroid-wrapper">
+        <div className="polaroid-cards">
+          {pets.slice(0, 4).map((pet, index) => (
+            <div
+              key={pet.id}
+              className="polaroid-card"
+              style={{
+                left: `${index * 140}px`,
+                zIndex: 10 - index,
+                transform: `rotate(${(index % 2 === 0 ? -1 : 1) * (2 + index)}deg)`
+              }}
+            >
+              <div className="image-container">
+                <img src={pet.petImageUrl || ''} alt={pet.name} />
+              </div>
+              <p>{pet.name}, {pet.age}</p>
             </div>
+          ))}
         </div>
-        </section>
+      </div>
+    </section>
 
       {/* Ready to Adopt */}
       <section className="ready-adopt-section">

@@ -90,6 +90,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     position: absolute;
     transition: transform 0.3s ease;
+    color: #000;
   }
   
   .polaroid-card:hover {
