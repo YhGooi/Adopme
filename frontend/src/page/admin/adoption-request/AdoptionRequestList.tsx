@@ -60,7 +60,7 @@ const AdoptionRequestList: React.FC = () => {
             setIsLoading(true);
             setError(null);
 
-            const url = new URL('http://localhost:8080/adoption-requests');
+            const url = new URL('http://localhost:8080/adoption-request');
 
             // Set start date to beginning of the day
             const formattedStartDate = startDate
