@@ -30,7 +30,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -54,7 +53,7 @@ public class FabricateData implements CommandLineRunner {
     public void run(String... args) {
         Faker faker = new Faker();
         if (!fabricateEnabled) {
-            System.out.println("[FabricateData]: Fabrication of user accounts is disabled.");
+            System.out.println("[FabricateData]: Fabrication of data is disabled.");
             return;
         }
 
@@ -243,51 +242,49 @@ public class FabricateData implements CommandLineRunner {
 
     private void fabricateAdoptionRequests(Faker faker) {
         if (adoptionRequestRepository.count() == 0) {
-            // Fixed data as provided
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy HH:mm");
+            // Get all non-admin users
+            List<User> users =
+                    userRepository.findAll().stream()
+                            .filter(user -> user.getType() != UserType.ADMIN)
+                            .toList();
 
-            // Request 1
-            AdoptionRequest request1 =
-                    new AdoptionRequest(
-                            1L, // petId
-                            27L, // userId
-                            AdoptionRequestStatus.SUBMITTED,
-                            "I would love to adopt Max. I have a spacious apartment and work from"
-                                    + " home.",
-                            null,
-                            LocalDateTime.parse("5/15/2025 10:00", formatter));
-            request1.setCreatedAt(LocalDateTime.parse("6/1/2025 10:00", formatter));
-            request1.setUpdatedAt(LocalDateTime.parse("6/1/2025 10:00", formatter));
+            List<Pet> pets = petRepository.findAll();
 
-            // Request 2
-            AdoptionRequest request2 =
-                    new AdoptionRequest(
-                            2L, // petId
-                            28L, // userId
-                            AdoptionRequestStatus.APPROVED,
-                            "Luna would be perfect for my family. We have experience with Persian"
-                                    + " cats.",
-                            "Good candidate with pet experience",
-                            LocalDateTime.parse("5/14/2025 14:30", formatter));
-            request2.setCreatedAt(LocalDateTime.parse("6/1/2025 10:00", formatter));
-            request2.setUpdatedAt(LocalDateTime.parse("6/1/2025 10:00", formatter));
+            if (users.isEmpty() || pets.isEmpty()) {
+                System.out.println(
+                        "[ADOPTION REQUEST]: Skipped fabricating - no users or pets available.");
+                return;
+            }
 
-            // Request 3
-            AdoptionRequest request3 =
-                    new AdoptionRequest(
-                            3L, // petId
-                            29L, // userId
-                            AdoptionRequestStatus.REJECTED,
-                            "Rocky would be a great companion for my daily runs.",
-                            "Apartment too small for large dog",
-                            LocalDateTime.parse("5/13/2025 09:15", formatter));
-            request3.setCreatedAt(LocalDateTime.parse("6/1/2025 10:00", formatter));
-            request3.setUpdatedAt(LocalDateTime.parse("6/1/2025 10:00", formatter));
+            for (int i = 0; i < 25; i++) {
+                User user = users.get(random.nextInt(users.size()));
+                Pet pet = pets.get(random.nextInt(pets.size()));
 
-            // Save all requests
-            adoptionRequestRepository.saveAll(Arrays.asList(request1, request2, request3));
+                // Create a submission date between 30 days ago and now
+                LocalDateTime submissionDate = LocalDateTime.now().minusDays(random.nextInt(30));
 
-            System.out.println("[ADOPTION REQUEST]: Fabricated 3 adoption requests.");
+                // Random status
+                AdoptionRequestStatus status =
+                        AdoptionRequestStatus.values()[
+                                random.nextInt(AdoptionRequestStatus.values().length)];
+
+                // Create a message and remarks
+                String message = faker.lorem().paragraph(1 + random.nextInt(3));
+                String remarks =
+                        status != AdoptionRequestStatus.SUBMITTED ? faker.lorem().paragraph(1) : "";
+
+                AdoptionRequest adoptionRequest =
+                        new AdoptionRequest(
+                                pet.getId(),
+                                user.getId(),
+                                status,
+                                message,
+                                remarks,
+                                submissionDate);
+
+                adoptionRequestRepository.save(adoptionRequest);
+            }
+            System.out.println("[ADOPTION REQUEST]: Fabricated 25 fake adoption requests.");
         } else {
             System.out.println("[ADOPTION REQUEST]: Already exist - skipped fabricating.");
         }
