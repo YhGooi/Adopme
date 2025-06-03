@@ -155,7 +155,7 @@ const PersonalInfo = () => {
             
             <button 
                 className="profile-action-button" 
-                onClick={() => navigate('/update-profile')}
+                onClick={() => navigate('/signup')}
             >
                 Update Info
             </button>
