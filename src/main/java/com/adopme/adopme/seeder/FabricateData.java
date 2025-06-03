@@ -1,5 +1,7 @@
 package com.adopme.adopme.seeder;
 
+import com.adopme.adopme.model.AdoptionRequest;
+import com.adopme.adopme.model.AdoptionRequestStatus;
 import com.adopme.adopme.model.Appointment;
 import com.adopme.adopme.model.AppointmentStatus;
 import com.adopme.adopme.model.Breed;
@@ -12,13 +14,11 @@ import com.adopme.adopme.model.PettingExperience;
 import com.adopme.adopme.model.Species;
 import com.adopme.adopme.model.User;
 import com.adopme.adopme.model.UserType;
-import com.adopme.adopme.model.AdoptionRequest;
-import com.adopme.adopme.model.AdoptionRequestStatus;
+import com.adopme.adopme.repository.AdoptionRequestRepository;
 import com.adopme.adopme.repository.AppointmentRepository;
 import com.adopme.adopme.repository.DonationRepository;
 import com.adopme.adopme.repository.PetRepository;
 import com.adopme.adopme.repository.UserRepository;
-import com.adopme.adopme.repository.AdoptionRequestRepository;
 import com.adopme.adopme.service.AppConfigService;
 import com.github.javafaker.Faker;
 
@@ -247,38 +247,40 @@ public class FabricateData implements CommandLineRunner {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy HH:mm");
 
             // Request 1
-            AdoptionRequest request1 = new AdoptionRequest(
-                    1L, // petId
-                    27L, // userId
-                    AdoptionRequestStatus.SUBMITTED,
-                    "I would love to adopt Max. I have a spacious apartment and work from home.",
-                    null,
-                    LocalDateTime.parse("5/15/2025 10:00", formatter)
-            );
+            AdoptionRequest request1 =
+                    new AdoptionRequest(
+                            1L, // petId
+                            27L, // userId
+                            AdoptionRequestStatus.SUBMITTED,
+                            "I would love to adopt Max. I have a spacious apartment and work from"
+                                    + " home.",
+                            null,
+                            LocalDateTime.parse("5/15/2025 10:00", formatter));
             request1.setCreatedAt(LocalDateTime.parse("6/1/2025 10:00", formatter));
             request1.setUpdatedAt(LocalDateTime.parse("6/1/2025 10:00", formatter));
 
             // Request 2
-            AdoptionRequest request2 = new AdoptionRequest(
-                    2L, // petId
-                    28L, // userId
-                    AdoptionRequestStatus.APPROVED,
-                    "Luna would be perfect for my family. We have experience with Persian cats.",
-                    "Good candidate with pet experience",
-                    LocalDateTime.parse("5/14/2025 14:30", formatter)
-            );
+            AdoptionRequest request2 =
+                    new AdoptionRequest(
+                            2L, // petId
+                            28L, // userId
+                            AdoptionRequestStatus.APPROVED,
+                            "Luna would be perfect for my family. We have experience with Persian"
+                                    + " cats.",
+                            "Good candidate with pet experience",
+                            LocalDateTime.parse("5/14/2025 14:30", formatter));
             request2.setCreatedAt(LocalDateTime.parse("6/1/2025 10:00", formatter));
             request2.setUpdatedAt(LocalDateTime.parse("6/1/2025 10:00", formatter));
 
             // Request 3
-            AdoptionRequest request3 = new AdoptionRequest(
-                    3L, // petId
-                    29L, // userId
-                    AdoptionRequestStatus.REJECTED,
-                    "Rocky would be a great companion for my daily runs.",
-                    "Apartment too small for large dog",
-                    LocalDateTime.parse("5/13/2025 09:15", formatter)
-            );
+            AdoptionRequest request3 =
+                    new AdoptionRequest(
+                            3L, // petId
+                            29L, // userId
+                            AdoptionRequestStatus.REJECTED,
+                            "Rocky would be a great companion for my daily runs.",
+                            "Apartment too small for large dog",
+                            LocalDateTime.parse("5/13/2025 09:15", formatter));
             request3.setCreatedAt(LocalDateTime.parse("6/1/2025 10:00", formatter));
             request3.setUpdatedAt(LocalDateTime.parse("6/1/2025 10:00", formatter));
 
