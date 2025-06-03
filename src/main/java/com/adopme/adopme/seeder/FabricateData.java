@@ -12,10 +12,13 @@ import com.adopme.adopme.model.PettingExperience;
 import com.adopme.adopme.model.Species;
 import com.adopme.adopme.model.User;
 import com.adopme.adopme.model.UserType;
+import com.adopme.adopme.model.AdoptionRequest;
+import com.adopme.adopme.model.AdoptionRequestStatus;
 import com.adopme.adopme.repository.AppointmentRepository;
 import com.adopme.adopme.repository.DonationRepository;
 import com.adopme.adopme.repository.PetRepository;
 import com.adopme.adopme.repository.UserRepository;
+import com.adopme.adopme.repository.AdoptionRequestRepository;
 import com.adopme.adopme.service.AppConfigService;
 import com.github.javafaker.Faker;
 
@@ -27,6 +30,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -37,6 +41,7 @@ public class FabricateData implements CommandLineRunner {
     @Autowired private PetRepository petRepository;
     @Autowired private AppointmentRepository appointmentRepository;
     @Autowired private DonationRepository donationRepository;
+    @Autowired private AdoptionRequestRepository adoptionRequestRepository;
 
     private final Random random = new Random();
     private final Boolean fabricateEnabled;
@@ -57,6 +62,7 @@ public class FabricateData implements CommandLineRunner {
         fabricatePet(faker);
         fabricateAppointments(faker);
         fabricateDonations(faker);
+        fabricateAdoptionRequests(faker);
     }
 
     private void fabricateUser(Faker faker) {
@@ -232,6 +238,56 @@ public class FabricateData implements CommandLineRunner {
             System.out.println("[DONATION]: Fabricated 15 fake donations.");
         } else {
             System.out.println("[DONATION]: Already exist - skipped fabricating.");
+        }
+    }
+
+    private void fabricateAdoptionRequests(Faker faker) {
+        if (adoptionRequestRepository.count() == 0) {
+            // Fixed data as provided
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy HH:mm");
+
+            // Request 1
+            AdoptionRequest request1 = new AdoptionRequest(
+                    1L, // petId
+                    27L, // userId
+                    AdoptionRequestStatus.SUBMITTED,
+                    "I would love to adopt Max. I have a spacious apartment and work from home.",
+                    null,
+                    LocalDateTime.parse("5/15/2025 10:00", formatter)
+            );
+            request1.setCreatedAt(LocalDateTime.parse("6/1/2025 10:00", formatter));
+            request1.setUpdatedAt(LocalDateTime.parse("6/1/2025 10:00", formatter));
+
+            // Request 2
+            AdoptionRequest request2 = new AdoptionRequest(
+                    2L, // petId
+                    28L, // userId
+                    AdoptionRequestStatus.APPROVED,
+                    "Luna would be perfect for my family. We have experience with Persian cats.",
+                    "Good candidate with pet experience",
+                    LocalDateTime.parse("5/14/2025 14:30", formatter)
+            );
+            request2.setCreatedAt(LocalDateTime.parse("6/1/2025 10:00", formatter));
+            request2.setUpdatedAt(LocalDateTime.parse("6/1/2025 10:00", formatter));
+
+            // Request 3
+            AdoptionRequest request3 = new AdoptionRequest(
+                    3L, // petId
+                    29L, // userId
+                    AdoptionRequestStatus.REJECTED,
+                    "Rocky would be a great companion for my daily runs.",
+                    "Apartment too small for large dog",
+                    LocalDateTime.parse("5/13/2025 09:15", formatter)
+            );
+            request3.setCreatedAt(LocalDateTime.parse("6/1/2025 10:00", formatter));
+            request3.setUpdatedAt(LocalDateTime.parse("6/1/2025 10:00", formatter));
+
+            // Save all requests
+            adoptionRequestRepository.saveAll(Arrays.asList(request1, request2, request3));
+
+            System.out.println("[ADOPTION REQUEST]: Fabricated 3 adoption requests.");
+        } else {
+            System.out.println("[ADOPTION REQUEST]: Already exist - skipped fabricating.");
         }
     }
 
