@@ -62,6 +62,7 @@ public class FabricateData implements CommandLineRunner {
         fabricateAppointments(faker);
         fabricateDonations(faker);
         fabricateAdoptionRequests(faker);
+        fabricateDemoUser(faker);
     }
 
     private void fabricateUser(Faker faker) {
@@ -288,6 +289,119 @@ public class FabricateData implements CommandLineRunner {
         } else {
             System.out.println("[ADOPTION REQUEST]: Already exist - skipped fabricating.");
         }
+    }
+
+    private void fabricateDemoUser(Faker faker) {
+        // Get all non-admin users
+        List<User> nonAdminUsers =
+                userRepository.findAll().stream()
+                        .filter(user -> user.getType() != UserType.ADMIN)
+                        .toList();
+
+        // Get the first non-admin user to use as demo
+        User demoUser = nonAdminUsers.get(0);
+        System.out.println("[DEMO USER]: Selected user " + demoUser.getName() + " as demo user.");
+
+        // Get all pets
+        List<Pet> pets = petRepository.findAll();
+        if (pets.isEmpty()) {
+            System.out.println("[DEMO USER]: Skipped fabricating - no pets available.");
+            return;
+        }
+
+        // Generate 2-3 appointments for demo user
+        int appointmentCount = random.nextInt(2) + 2; // Random number between 2-3
+        for (int i = 0; i < appointmentCount; i++) {
+            Pet pet = pets.get(random.nextInt(pets.size()));
+
+            // Create an appointment between now and 14 days in the future
+            LocalDateTime appointmentDateTime =
+                    LocalDateTime.now()
+                            .plusDays(random.nextInt(14) + 1)
+                            .plusHours(random.nextInt(8) + 9); // 9 AM to 5 PM
+
+            // Set status - make at least one CONFIRMED for better demo experience
+            AppointmentStatus status =
+                    (i == 0)
+                            ? AppointmentStatus.CONFIRMED
+                            : AppointmentStatus.values()[
+                                    random.nextInt(AppointmentStatus.values().length)];
+
+            Appointment appointment =
+                    new Appointment(demoUser.getId(), appointmentDateTime, pet.getId(), status);
+
+            appointmentRepository.save(appointment);
+        }
+        System.out.println(
+                "[DEMO USER]: Fabricated " + appointmentCount + " appointments for demo user.");
+
+        // Generate 2-3 donations for demo user
+        int donationCount = random.nextInt(2) + 2; // Random number between 2-3
+        for (int i = 0; i < donationCount; i++) {
+            BigDecimal amount = BigDecimal.valueOf(faker.number().randomDouble(2, 50, 500));
+
+            // Create donation dates with good distribution (recent, medium, older)
+            LocalDateTime donationDate = LocalDateTime.now().minusDays(i * 30 + random.nextInt(10));
+
+            // Set status - make at least one SUCCESS for better demo experience
+            DonationStatus status =
+                    (i == 0)
+                            ? DonationStatus.SUCCESS
+                            : DonationStatus.values()[
+                                    random.nextInt(DonationStatus.values().length)];
+
+            // Create empty receipt byte array for now
+            byte[] receipt = new byte[0];
+
+            Donation donation =
+                    new Donation(demoUser.getId(), amount, donationDate, status, receipt);
+
+            donationRepository.save(donation);
+        }
+        System.out.println(
+                "[DEMO USER]: Fabricated " + donationCount + " donations for demo user.");
+
+        // Generate 2-3 adoption requests for demo user
+        int adoptionRequestCount = random.nextInt(2) + 2; // Random number between 2-3
+        for (int i = 0; i < adoptionRequestCount; i++) {
+            Pet pet = pets.get(random.nextInt(pets.size()));
+
+            // Create submissions with good distribution (recent, medium, older)
+            LocalDateTime submissionDate =
+                    LocalDateTime.now().minusDays(i * 15 + random.nextInt(5));
+
+            // Set varied statuses for a good demo experience
+            AdoptionRequestStatus status;
+            if (i == 0) {
+                status = AdoptionRequestStatus.APPROVED;
+            } else if (i == 1) {
+                status = AdoptionRequestStatus.SUBMITTED;
+            } else {
+                status =
+                        AdoptionRequestStatus.values()[
+                                random.nextInt(AdoptionRequestStatus.values().length)];
+            }
+
+            // Create a message and remarks
+            String message = faker.lorem().paragraph(1 + random.nextInt(2));
+            String remarks =
+                    status != AdoptionRequestStatus.SUBMITTED ? faker.lorem().paragraph(1) : "";
+
+            AdoptionRequest adoptionRequest =
+                    new AdoptionRequest(
+                            pet.getId(),
+                            demoUser.getId(),
+                            status,
+                            message,
+                            remarks,
+                            submissionDate);
+
+            adoptionRequestRepository.save(adoptionRequest);
+        }
+        System.out.println(
+                "[DEMO USER]: Fabricated "
+                        + adoptionRequestCount
+                        + " adoption requests for demo user.");
     }
 
     private Breed getRandomBreedForSpecies(Species species) {
