@@ -1,6 +1,6 @@
-package com.adopme.adopme.dto.account;
+package com.adopme.adopme.dto.user;
 
-//dto data transfer object
+// dto data transfer object
 public class LoginRequest {
     private String email;
     private String password;
@@ -17,7 +17,7 @@ public class LoginRequest {
         return email;
     }
 
-    public void setEmail(String email)  {
+    public void setEmail(String email) {
         this.email = email;
     }
 

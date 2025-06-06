@@ -10,9 +10,7 @@ const Layout = () => {
         <div className="layout-container">
             <NavBar />
             <div className="layout-content">
-                <main className="p-4">
                     <Outlet />
-                </main>
             </div>
             <Footer />
         </div>

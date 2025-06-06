@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import '../css/successdonation.css'; // 我们将创建这个CSS文件
+import '../css/successdonation.css'; 
 
 const SuccessDonation = () => {
     return (

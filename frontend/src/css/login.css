@@ -31,6 +31,10 @@
     padding: 0.5rem;
     margin: 0.5rem auto 1rem;
     display: block;
+    background-color: #FFF;
+    color:#000;
+    border: 1px solid #ccc;
+    border-radius: 6px;
 }
 
 .login-panel button {

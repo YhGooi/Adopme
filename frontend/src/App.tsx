@@ -2,12 +2,15 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Layout from "./Layout";
-import NavBar from "./component/NavBar";
 
 //setup url mapping
 import Home from "./page/Home";
 import Login from "./page/Login";
+import Signup from "./page/SignUp";
 import Donation from "./page/donation/Donation";
+import Messaging from './page/Messaging';
+import Profile from './page/Profile';
+import AdoptionRequestList from "./page/admin/adoption-request/AdoptionRequestList";
 import UserDonation from "./page/UserDonation";
 import SuccessDonation from "./page/SuccessDonation";
 
@@ -19,7 +22,11 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/donation/Donation" element={<Donation />} />
+          <Route path="/messaging" element={<Messaging />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/admin/adoption-request-list" element={<AdoptionRequestList />} />
           <Route path="/userdonation" element={<UserDonation />} />
           <Route path="/SuccessDonation" element={<SuccessDonation />} />
         </Route>

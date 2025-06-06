@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import donationHero from '../assets/png/donation-hero.png'; // 请替换为实际图片路径
+import donationHero from '../assets/png/donation-hero.png'; 
 import '../css/UserDonation.css';
 
 const UserDonation = () => {
@@ -11,7 +11,7 @@ const UserDonation = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         console.log({ amount, note, receipt });
-        // 这里添加实际捐赠逻辑
+        // 实际捐赠逻辑
     };
 
     return (
