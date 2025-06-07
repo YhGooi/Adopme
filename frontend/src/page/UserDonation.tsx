@@ -1,22 +1,57 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios';
 import donationHero from '../assets/png/donation-hero.png'; 
 import '../css/UserDonation.css';
 
 const UserDonation = () => {
     const [amount, setAmount] = useState("50");
-    const [note, setNote] = useState("");
+    
     const [receipt, setReceipt] = useState<File | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const navigate = useNavigate();
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log({ amount, note, receipt });
-        // 实际捐赠逻辑
+        setIsSubmitting(true);
+        const userId = localStorage.getItem('userId');
+        console.log('Current userId:', userId);
+        console.log("888888",localStorage)
+
+        try {
+            // 从本地存储获取用户ID
+            const userId = localStorage.getItem('userId');
+            if (!userId) {
+                alert("Please log in first!");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('userId', userId);
+            formData.append('amount', amount);
+            
+            if (receipt) formData.append('receipt', receipt);
+
+            // 发送到后端API
+            await axios.post('/donation', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            // 提交成功后跳转
+            navigate('/SuccessDonation');
+        } catch (error) {
+            console.error('Donation failed:', error);
+            alert("Donation submission failed. Please try again.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
         <div className="donation-page">
-            {/* 标题和感谢语 */}
+            
             <div className="donation-header">
                 <h1>Donation</h1>
                 <p>
@@ -25,7 +60,7 @@ const UserDonation = () => {
                 </p>
             </div>
 
-            {/* 主要内容区 */}
+            
             <div className="donation-main">
                 {/* 左侧表单 */}
                 <form className="donation-form" onSubmit={handleSubmit}>
@@ -37,13 +72,6 @@ const UserDonation = () => {
                         className="amount-input"
                     />
 
-                    <h2>Leave a Small Note</h2>
-                    <textarea
-                        value={note}
-                        onChange={(e) => setNote(e.target.value)}
-                        placeholder="Write something here..."
-                        className="note-input"
-                    />
 
                     <h2>Transfer Receipt</h2>
                     <label className="file-upload">
@@ -56,10 +84,17 @@ const UserDonation = () => {
                     </label>
                     {receipt && <span className="file-name">{receipt.name}</span>}
 
-                    <button type="submit" className="donate-btn">DONATE</button>
+                    
+                    <button 
+                        type="submit" 
+                        className="donate-btn"
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting ? 'Processing...' : 'DONATE'}
+                    </button>
                 </form>
 
-                {/* 右侧内容 */}
+                
                 <div className="donation-sidebar">
                     <div className="bank-details">
                         <h2>Bank Details</h2>
@@ -69,7 +104,6 @@ const UserDonation = () => {
                     <img src={donationHero} alt="Happy pets" className="donation-image" />
                 </div>
             </div>
-
         </div>
     );
 };

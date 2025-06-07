@@ -22,7 +22,7 @@ const NavBar = () => {
                         <button onClick={() => navigate("/home")}>Home</button>
                         <button onClick={() => navigate("/pet_listing")}>Find a Pet</button>
                         <button onClick={() => navigate("/request_adopt")}>Request for Adoption</button>
-                        <button onClick={() => navigate("/donation/Donation")}>Donation</button>
+                        <button onClick={() => navigate("/UserDonation")}>Donation</button>
                         <button onClick={() => navigate("/contact")}>Contact Us</button>
 
                         {/* Admin Dropdown - Only show if user is admin */}
