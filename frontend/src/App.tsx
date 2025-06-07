@@ -12,6 +12,7 @@ import PetListing from "./page/PetListing";
 import Messaging from './page/Messaging';
 import Profile from './page/Profile';
 import AdoptionRequestList from "./page/admin/adoption-request/AdoptionRequestList";
+import AdoptionRequestDetails from "./page/admin/adoption-request/AdoptionRequestDetails";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/messaging" element={<Messaging />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/admin/adoption-request-list" element={<AdoptionRequestList />} />
+          <Route path="/admin/adoption-request-details/:requestId" element={<AdoptionRequestDetails />} />
         </Route>
       </Routes>
     </Router >

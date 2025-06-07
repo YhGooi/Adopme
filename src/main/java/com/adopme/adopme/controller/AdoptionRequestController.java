@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/adoption-request")
@@ -52,5 +53,34 @@ public class AdoptionRequestController {
         List<AdoptionRequestAdminResponse> requests =
                 adoptionRequestService.getAllAdoptionRequests(status, startDate, endDate);
         return ResponseEntity.ok(requests);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AdoptionRequestAdminResponse> getAdoptionRequestById(@PathVariable Long id) {
+        try {
+            AdoptionRequestAdminResponse response = adoptionRequestService.getAdoptionRequestById(id);
+            if (response == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<?> updateAdoptionRequestStatus(
+            @PathVariable Long id,
+            @RequestBody Map<String, String> body) {
+        String status = body.get("status");
+        if (status == null) {
+            return ResponseEntity.badRequest().body("Missing status");
+        }
+        boolean updated = adoptionRequestService.updateAdoptionRequestStatus(id, status);
+        if (updated) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request not found or invalid status");
+        }
     }
 }

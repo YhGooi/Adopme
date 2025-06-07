@@ -87,16 +87,24 @@
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
+    background: transparent;
+    /* Set a max height for the table area */
+    max-height: 600px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    margin-top: 120px; /* To avoid overlap with sticky filter bar */
 }
 
 /* Table styles */
 .request-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     background: white;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     overflow: hidden;
+    table-layout: fixed;
 }
 
 .request-table thead th {
@@ -106,12 +114,31 @@
     font-weight: 600;
     color: #333;
     border-bottom: 2px solid #dee2e6;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.request-table tbody {
+    display: block;
+    max-height: 350px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.request-table thead, .request-table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
 }
 
 .request-table td {
     padding: 12px 15px;
     text-align: left;
     border-bottom: 1px solid #dee2e6;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* Status badges */
@@ -170,4 +197,24 @@
     text-align: center;
     padding: 2rem;
     color: #666;
+}
+
+/* Responsive: fallback to horizontal scroll on small screens */
+@media (max-width: 900px) {
+    .table-container {
+        max-width: 98vw;
+        padding: 0;
+    }
+    .request-table {
+        font-size: 0.95rem;
+    }
+}
+
+.request-table tbody tr {
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.request-table tbody tr:hover {
+    background: #e7f0e8;
 }
