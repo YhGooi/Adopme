@@ -202,7 +202,7 @@
     border-radius: 12px;
     border: 2px solid #b7d2c2;
     background: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .section-divider {
@@ -363,7 +363,6 @@
     padding-left: 15px;
 }
 
-/* Update styles for the back-link to be black with no underline */
 .back-link-row {
     display: flex;
     align-items: center;
@@ -379,6 +378,7 @@
     margin-left: 8px;
     transition: color 0.2s;
 }
+
 .back-link:hover {
     color: #000;
     text-decoration: none;

@@ -205,7 +205,8 @@ const AdoptionRequestDetailsPage: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <hr className="section-divider" />                <div className="status-row">
+                <hr className="section-divider" />
+                <div className="status-row">
                     <div className="status-label">Status</div>
                     <div className="status-field">
                         {isEditing ? (
