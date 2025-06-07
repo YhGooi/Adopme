@@ -162,10 +162,14 @@ const AdoptionRequestDetailsPage: React.FC = () => {
 
     if (error || !details) {
         return <div className="error-message">{error || 'No data available'}</div>;
-    }    return (
+    } return (
         <div className="common_theme">
             <div className="green_container">
-                <h3 className="details-title">Pet Details</h3>                <div className="pet-details-block">
+                <div className="back-link-row">
+                    <span className="back-link" onClick={handleGoBack}>&lt; Back to List</span>
+                </div>
+                <h3 className="details-title">Pet Details</h3>
+                <div className="pet-details-block">
                     <div className="pet-info-col">
                         <div className="pet-image-col">
                             <img src={details.pet.petImageUrl} alt={details.pet.name} className="pet-image" />
