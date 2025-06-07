@@ -56,9 +56,11 @@ public class AdoptionRequestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AdoptionRequestAdminResponse> getAdoptionRequestById(@PathVariable Long id) {
+    public ResponseEntity<AdoptionRequestAdminResponse> getAdoptionRequestById(
+            @PathVariable Long id) {
         try {
-            AdoptionRequestAdminResponse response = adoptionRequestService.getAdoptionRequestById(id);
+            AdoptionRequestAdminResponse response =
+                    adoptionRequestService.getAdoptionRequestById(id);
             if (response == null) {
                 return ResponseEntity.notFound().build();
             }
@@ -70,8 +72,7 @@ public class AdoptionRequestController {
 
     @PutMapping("/{id}/status")
     public ResponseEntity<?> updateAdoptionRequestStatus(
-            @PathVariable Long id,
-            @RequestBody Map<String, String> body) {
+            @PathVariable Long id, @RequestBody Map<String, String> body) {
         String status = body.get("status");
         if (status == null) {
             return ResponseEntity.badRequest().body("Missing status");
@@ -80,7 +81,8 @@ public class AdoptionRequestController {
         if (updated) {
             return ResponseEntity.ok().build();
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Request not found or invalid status");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Request not found or invalid status");
         }
     }
 }

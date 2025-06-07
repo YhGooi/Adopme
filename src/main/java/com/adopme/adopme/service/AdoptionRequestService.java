@@ -77,26 +77,34 @@ public class AdoptionRequestService {
     }
 
     public AdoptionRequestAdminResponse getAdoptionRequestById(Long id) {
-        return adoptionRequestRepository.findById(id)
-            .map(req -> {
-                Pet pet = petRepository.findById(req.getPetId()).orElse(null);
-                User user = userRepository.findById(req.getUserId()).orElse(null);
-                if (pet == null || user == null) return null;
-                return AdoptionRequestResponseMapper.INSTANCE.toAdoptionRequestAdminResponse(req, pet, user);
-            })
-            .orElse(null);
+        return adoptionRequestRepository
+                .findById(id)
+                .map(
+                        req -> {
+                            Pet pet = petRepository.findById(req.getPetId()).orElse(null);
+                            User user = userRepository.findById(req.getUserId()).orElse(null);
+                            if (pet == null || user == null) return null;
+                            return AdoptionRequestResponseMapper.INSTANCE
+                                    .toAdoptionRequestAdminResponse(req, pet, user);
+                        })
+                .orElse(null);
     }
 
     public boolean updateAdoptionRequestStatus(Long id, String statusStr) {
-        return adoptionRequestRepository.findById(id).map(request -> {
-            try {
-                AdoptionRequestStatus status = AdoptionRequestStatus.valueOf(statusStr);
-                request.setStatus(status);
-                adoptionRequestRepository.save(request);
-                return true;
-            } catch (IllegalArgumentException e) {
-                return false;
-            }
-        }).orElse(false);
+        return adoptionRequestRepository
+                .findById(id)
+                .map(
+                        request -> {
+                            try {
+                                AdoptionRequestStatus status =
+                                        AdoptionRequestStatus.valueOf(statusStr);
+                                request.setStatus(status);
+                                adoptionRequestRepository.save(request);
+                                return true;
+                            } catch (IllegalArgumentException e) {
+                                return false;
+                            }
+                        })
+                .orElse(false);
     }
 }
