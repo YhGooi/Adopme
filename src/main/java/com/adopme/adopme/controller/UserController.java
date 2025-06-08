@@ -129,20 +129,24 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getUserProfile(@RequestHeader("userId") Long userId) {
+    public ResponseEntity<UserResponse> getUserProfile(
+            @RequestHeader(value = "userId") String userIdStr) {
         try {
+            if (userIdStr == null || userIdStr.isEmpty()) {
+                throw new IllegalArgumentException("User ID is required");
+            }
+
+            Long userId;
+            try {
+                userId = Long.parseLong(userIdStr);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Invalid user ID format: " + userIdStr);
+            }
+
             UserResponse userResponse = userService.getUserById(userId);
             return ResponseEntity.ok(userResponse);
-        } catch (IllegalArgumentException e) {
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("status", "FAILURE");
-            errorResponse.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
         } catch (Exception e) {
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("status", "FAILURE");
-            errorResponse.put("error", "Internal server error");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/auth.store';
 import { user_details } from '../store/auth.store';
 
@@ -7,6 +7,7 @@ import '../css/common.css';
 import '../css/login.css';
 
 const Login: React.FC = () => {
+    const navigate = useNavigate();
     const authStore = useAuthStore((state) => state) as any
     const userStore = user_details((state) => state) as any
 
@@ -52,11 +53,9 @@ const Login: React.FC = () => {
                 if (Object.prototype.hasOwnProperty.call(data, key)) {
                     userStore.set(key, data[key]);
                 }
-            }
-
-            // Redirect or update UI
+            }            // Redirect to home page after successful login
             alert('Login successful!');
-            // navigate('/dashboard'); // if using react-router
+            navigate('/');
         } catch (error) {
             console.error('Error logging in:', error);
             alert('Invalid email or password.');

@@ -8,7 +8,9 @@
 
 /* Sticky title bar */
 .title-bar {
-    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     top: 72px;
     left: 0;
     right: 0;

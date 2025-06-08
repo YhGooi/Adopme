@@ -7,31 +7,52 @@ import '../../../css/adoptionRequestList.css';
 interface User {
     id: number;
     name: string;
+    email: string;
+    type: string;
+    dateOfBirth: string;
+    address: string;
+    housingType: string;
+    occupation: string;
+    pettingExperience: string;
+    currentPets: number;
+    phoneNo: string;
 }
 
 interface Pet {
     id: number;
     name: string;
+    age: number;
+    dob: string;
+    gender: string;
+    species: string;
     breed: string;
+    weight: number;
+    vaccinated: boolean;
+    description: string;
+    petImageUrl: string;
+    status: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
-interface AdoptionRequest {
+interface AdoptionRequestBasic {
     id: number;
-    submissionDate: string;
-    petId: number;
-    userId: number;
-    petName: string;
-    petBreed: string;
-    userName: string;
     status: 'SUBMITTED' | 'APPROVED' | 'REJECTED';
     message: string;
-    remarks: string;
-    createdAt?: string;
-    updatedAt?: string;
+    remarks: string | null;
+    submissionDate: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+interface AdoptionRequestAdminResponse {
+    adoptionRequest: AdoptionRequestBasic;
+    pet: Pet;
+    user: User;
 }
 
 const AdoptionRequestList: React.FC = () => {
-    const [requests, setRequests] = useState<AdoptionRequest[]>([]);
+    const [requests, setRequests] = useState<AdoptionRequestAdminResponse[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [startDate, setStartDate] = useState<string>('');
@@ -60,7 +81,7 @@ const AdoptionRequestList: React.FC = () => {
             setIsLoading(true);
             setError(null);
 
-            const url = new URL('http://localhost:8080/adoption-requests');
+            const url = new URL('http://localhost:8080/adoption-request');
 
             // Set start date to beginning of the day
             const formattedStartDate = startDate
@@ -141,7 +162,7 @@ const AdoptionRequestList: React.FC = () => {
         navigate(`/admin/adoption-request-details/${requestId}`);
     };
 
-    const getStatusClass = (status: string) => {
+    const getStatusClass = (status: AdoptionRequestBasic['status']) => {
         switch (status) {
             case 'SUBMITTED': return 'status-submitted';
             case 'APPROVED': return 'status-approved';
@@ -222,15 +243,15 @@ const AdoptionRequestList: React.FC = () => {
                         </thead>
                         <tbody>
                             {requests.map((req) => (
-                                <tr key={req.id} onClick={() => handleRowClick(req.id)}>
-                                    <td>{req.id}</td>
-                                    <td>{formatDisplayDate(req.submissionDate)}</td>
-                                    <td>{req.petName || ''}</td>
-                                    <td>{req.petBreed || ''}</td>
-                                    <td>{req.userName || ''}</td>
+                                <tr key={req.adoptionRequest.id} onClick={() => handleRowClick(req.adoptionRequest.id)}>
+                                    <td>{req.adoptionRequest.id}</td>
+                                    <td>{formatDisplayDate(req.adoptionRequest.submissionDate)}</td>
+                                    <td>{req.pet.name}</td>
+                                    <td>{req.pet.breed}</td>
+                                    <td>{req.user.name}</td>
                                     <td>
-                                        <span className={`status-badge ${getStatusClass(req.status)}`}>
-                                            {req.status}
+                                        <span className={`status-badge ${getStatusClass(req.adoptionRequest.status)}`}>
+                                            {req.adoptionRequest.status}
                                         </span>
                                     </td>
                                     <td>&gt;</td>
