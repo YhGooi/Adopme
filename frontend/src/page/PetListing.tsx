@@ -224,7 +224,6 @@ const PetListing = () => {
                   >
                     {submittedPetIds.includes(pet.id) ? "REQUESTED" : "ADOPT"}
                   </button>
-
                   {isLogin && (
                     <div className="chat-icon-wrapper">
                       <img
@@ -235,8 +234,6 @@ const PetListing = () => {
                       />
                     </div>
                   )}
-
-
                 </div>
               </div>
             </div>
