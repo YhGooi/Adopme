@@ -5,6 +5,7 @@
     width: 100%;
     min-height: calc(100vh - 272px);
     align-items: center;
+    color:#000;
 }
 
 .green_container {

@@ -169,3 +169,79 @@ input[type="datetime-local"].form-input {
 .back-home-link:hover {
   color: #14532d;
 }
+
+/* Admin appointment list styles */
+.filter-controls {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.filter-controls input[type="date"],
+.filter-controls select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-left: 8px;
+}
+
+.status-pending {
+    background-color: #ffd700;
+    color: #000;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.9em;
+}
+
+.status-requested {
+    background-color: #87ceeb;
+    color: #000;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.9em;
+}
+
+.status-confirmed {
+    background-color: #90ee90;
+    color: #000;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.9em;
+}
+
+.status-declined {
+    background-color: #ff6b6b;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.9em;
+}
+
+.action-button {
+    padding: 6px 12px;
+    margin: 0 4px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.action-button.confirm {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.action-button.confirm:hover {
+    background-color: #45a049;
+}
+
+.action-button.decline {
+    background-color: #f44336;
+    color: white;
+}
+
+.action-button.decline:hover {
+    background-color: #da190b;
+}
