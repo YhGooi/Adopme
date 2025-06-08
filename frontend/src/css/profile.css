@@ -1,0 +1,89 @@
+/* Profile page styles */
+.profile-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 35px auto;
+    min-height: auto;
+    font-family: 'Arial', sans-serif;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 0;
+    background-color: #e7f0e8;
+    padding: 30px;
+}
+
+.profile-name {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: #000;
+}
+
+.profile-tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.profile-tab {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #555;
+    transition: 0.3s;
+    border-bottom: 3px solid transparent;
+    margin: 0 5px;
+    font-size: 15px;
+    white-space: nowrap;
+}
+
+.profile-tab:hover {
+    background-color: rgba(118, 192, 174, 0.1);
+}
+
+.profile-tab.active {
+    border-bottom: 3px solid #76C0AE;
+    color: #333;
+    background-color: rgba(118, 192, 174, 0.1);
+}
+
+.profile-content {
+    padding: 20px;
+    background-color: #e7f0e8;
+    border-radius: 0 0 10px 10px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.profile-action-button {
+    display: block;
+    width: 150px;
+    margin: 30px auto 20px;
+    padding: 12px 20px;
+    background-color: #76C0AE;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: center;
+    font-weight: 600;
+    font-size: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-action-button:hover {
+    background-color: #5AA996;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}

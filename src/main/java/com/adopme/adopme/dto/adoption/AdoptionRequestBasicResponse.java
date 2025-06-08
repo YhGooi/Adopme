@@ -4,13 +4,8 @@ import com.adopme.adopme.model.AdoptionRequestStatus;
 
 import java.time.LocalDateTime;
 
-public record AdoptionRequestResponse(
+public record AdoptionRequestBasicResponse(
         Long id,
-        Long petId,
-        Long userId,
-        String petName,
-        String petBreed,
-        String userName,
         AdoptionRequestStatus status,
         String message,
         String remarks,
