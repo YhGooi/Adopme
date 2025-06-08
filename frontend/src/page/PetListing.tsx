@@ -5,6 +5,7 @@ import '../css/PetListing.css';
 import { Pet } from '../store/petListing.store';
 import { useNavigate } from 'react-router-dom';
 import { user_details } from '../store/auth.store';
+import ChatIcon from '../assets/png/Chat.png'; 
 
 const PetListing = () => {
   const { pets, fetchPets } = usePetListingStore();
@@ -223,6 +224,16 @@ const PetListing = () => {
                   >
                     {submittedPetIds.includes(pet.id) ? "REQUESTED" : "ADOPT"}
                   </button>
+                  {isLogin && (
+                    <div className="chat-icon-wrapper">
+                      <img
+                        src={ChatIcon}
+                        alt="Chat"
+                        className="chat-icon"
+                        onClick={() => navigate('/messaging')}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
