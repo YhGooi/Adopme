@@ -14,6 +14,7 @@ import Profile from './page/Profile';
 import AdoptionRequestList from "./page/admin/adoption-request/AdoptionRequestList";
 import MakeAppointment from "./page/Appointment/MakeAppointment";
 import AppointmentSuccess from "./page/Appointment/AppointmentSuccess";
+import AppointmentRequestList from "./page/admin/appoint-request/AppointmentRequestList";
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
           <Route path="/messaging" element={<Messaging />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/admin/adoption-request-list" element={<AdoptionRequestList />} />
+          <Route path="/admin/appointment-request-list" element={<AppointmentRequestList />} />
           <Route path="/appointment" element={<MakeAppointment />} />
           <Route path="/appointment/success" element={<AppointmentSuccess />} />
         </Route>
