@@ -62,8 +62,8 @@
 
 .green_container textarea {
     resize: vertical;
-    padding-left: 10rem;
-    padding-right: 10rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .error-message {
