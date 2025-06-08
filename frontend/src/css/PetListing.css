@@ -111,6 +111,7 @@
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
+    color: black;
   }
 
   .pet-listing-banner {
@@ -380,3 +381,28 @@
     opacity: 1;
   }
   
+  .pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.page-button {
+  padding: 6px 12px;
+  background-color: #f0f0f0;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.page-button:hover {
+  background-color: #dcdcdc;
+}
+
+.page-button.active {
+  background-color: #f48b8b;
+  color: white;
+}
