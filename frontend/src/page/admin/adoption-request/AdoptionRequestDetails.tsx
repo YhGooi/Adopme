@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useAuthStore } from '../../../store/auth.store';
+import { useAuthStore, user_details } from '../../../store/auth.store';
 import '../../../css/common.css';
 import '../../../css/adoptionRequestDetails.css';
 
@@ -54,6 +54,7 @@ interface AdoptionRequestDetails {
 const AdoptionRequestDetailsPage: React.FC = () => {
     const navigate = useNavigate();
     const { token } = useAuthStore();
+    const { type } = user_details();
     const { requestId } = useParams<{ requestId: string }>();
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -62,8 +63,16 @@ const AdoptionRequestDetailsPage: React.FC = () => {
     const [editedStatus, setEditedStatus] = useState<'SUBMITTED' | 'APPROVED' | 'REJECTED'>('SUBMITTED');
 
     useEffect(() => {
+        // If no token, redirect to login
         if (!token) {
             navigate('/login');
+            return;
+        }
+
+        // If not admin, show error
+        if (type !== 'ADMIN') {
+            setError('You are not authorized to view this page');
+            setIsLoading(false);
             return;
         }
 
@@ -74,7 +83,7 @@ const AdoptionRequestDetailsPage: React.FC = () => {
         }
 
         fetchRequestDetails(id);
-    }, [token, requestId, navigate]);
+    }, [token, type, requestId, navigate]);
 
     const fetchRequestDetails = async (id: string) => {
         try {

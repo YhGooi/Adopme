@@ -224,8 +224,7 @@ const AdoptionRequestList: React.FC = () => {
                     <button className="clear-button" onClick={clearFilters}>Clear Filters</button>
                 </div>
             </div>
-
-            <div className="table-container">
+            <div className="adoption-request-table-container">
                 {isLoading ? (
                     <div className="loading-container">
                         <div className="loading-spinner"></div>
@@ -250,7 +249,7 @@ const AdoptionRequestList: React.FC = () => {
                         </thead>
                         <tbody>
                             {requests.map((req) => (
-                                <tr key={req.adoptionRequest.id} 
+                                <tr key={req.adoptionRequest.id}
                                     onClick={() => handleRowClick(req.adoptionRequest.id, req.pet.name)}
                                     title="See details"
                                     style={{ position: 'relative' }}
