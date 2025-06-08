@@ -12,6 +12,9 @@ import PetListing from "./page/PetListing";
 import Messaging from './page/Messaging';
 import Profile from './page/Profile';
 import AdoptionRequestList from "./page/admin/adoption-request/AdoptionRequestList";
+import MakeAppointment from "./page/Appointment/MakeAppointment";
+import AppointmentSuccess from "./page/Appointment/AppointmentSuccess";
+
 
 function App() {
   return (
@@ -27,6 +30,8 @@ function App() {
           <Route path="/messaging" element={<Messaging />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/admin/adoption-request-list" element={<AdoptionRequestList />} />
+          <Route path="/appointment" element={<MakeAppointment />} />
+          <Route path="/appointment/success" element={<AppointmentSuccess />} />
         </Route>
       </Routes>
     </Router >
