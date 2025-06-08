@@ -39,7 +39,10 @@ const Home: React.FC = () => {
       {/* Left Text Block */}
       <div className="polaroid-text">
         <h3>LOOKING FOR<br />MORE?</h3>
-        <a href="/pet_listing">VIEW LISTING</a>
+        <button className="link-button" onClick={() => navigate('/pet_listing')}>
+          VIEW LISTING
+        </button>
+
       </div>
 
       {/* Right Overlapping Cards */}
@@ -73,7 +76,9 @@ const Home: React.FC = () => {
 
         <div className="content">
           <h2>READY<br />TO<br />ADOPT?</h2>
-          <a href="/pet_listing">APPLY NOW</a>
+          <button className="white-link" onClick={() => navigate('/pet_listing')}>
+            APPLY NOW
+          </button>
         </div>
       </section>
 
@@ -85,7 +90,9 @@ const Home: React.FC = () => {
       <div className="support-us-content">
         <div className="text-block">
           <h3>SUPPORT<br />US</h3>
-          <a href="/donation/Donation">SEE HOW CAN YOU HELP</a>
+          <button className="white-link" onClick={() => navigate('/donation/Donation')}>
+            SEE HOW CAN YOU HELP
+          </button>
         </div>
       </div>
     </section>

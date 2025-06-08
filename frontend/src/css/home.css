@@ -239,3 +239,28 @@
     text-underline-offset: 4px;
   }
   
+  .link-button {
+  background: none;
+  border: none;
+  color: black;
+  text-decoration: underline;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0;
+}
+
+.white-link {
+  background: none;
+  border: none;
+  color: white;
+  text-decoration: underline;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+  font-weight: bold;
+}
+
+.white-link:hover {
+  opacity: 0.8;
+}
