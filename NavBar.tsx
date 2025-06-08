@@ -10,6 +10,7 @@ const NavBar = () => {
     const userStore = user_details((state) => state) as any;
     const navigate = useNavigate();
 
+    // ✅ 添加以下逻辑
     const location = useLocation();
     const isAppointmentPage =
       location.pathname === '/appointment' || location.pathname === '/appointment/success';
@@ -27,7 +28,12 @@ const NavBar = () => {
                         <button onClick={() => navigate("/pet_listing")}>Find a Pet</button>
                          <button onClick={() => navigate("/request_adopt")}>Request for Adoption</button>
                         <button onClick={() => navigate("/donation/Donation")}>Donation</button>
-                        <button onClick={() => navigate("/appointment")}>Appointment</button>
+                            {/* ✅ 动态渲染按钮 */}
+                        {isAppointmentPage ? (
+                                <button onClick={() => navigate("/appointment")}>Appointment</button>
+                            ) : (
+                                <button onClick={() => navigate("/contact")}>Contact Us</button>
+                            )}  
                         {/* Admin Dropdown - Only show if user is admin */}
                         {userStore.type === 'ADMIN' && (
                             <div className="dropdown admin-dropdown">
