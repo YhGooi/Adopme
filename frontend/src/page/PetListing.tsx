@@ -3,6 +3,8 @@ import { usePetListingStore } from '../store/petListing.store';
 import { useAuthStore } from '../store/auth.store'; 
 import '../css/PetListing.css';
 import { Pet } from '../store/petListing.store';
+import { useNavigate } from 'react-router-dom';
+import { user_details } from '../store/auth.store';
 
 const PetListing = () => {
   const { pets, fetchPets } = usePetListingStore();
@@ -13,12 +15,70 @@ const PetListing = () => {
   const [speciesFilter, setSpeciesFilter] = useState('');
   const [ageFilter, setAgeFilter] = useState('');
   const [genderFilter, setGenderFilter] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [submittedPetIds, setSubmittedPetIds] = useState<number[]>([]);
+
+  const userId = user_details.getState().id;
+
+  const petsPerPage = 5;
+
+  const indexOfLastPet = currentPage * petsPerPage;
+  const indexOfFirstPet = indexOfLastPet - petsPerPage;
+
+  const filteredPets = pets
+    .filter((pet) => {
+      const matchesSearch =
+        pet.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        pet.species.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        pet.breed.toLowerCase().includes(searchQuery.toLowerCase());
+
+      const matchesSpecies = speciesFilter === '' || pet.species === speciesFilter;
+      const matchesGender = genderFilter === '' || pet.gender === genderFilter;
+
+      const age = pet.age;
+      const matchesAge =
+        ageFilter === '' ||
+        (ageFilter === '0-1' && age >= 0 && age <= 1) ||
+        (ageFilter === '1-3' && age > 1 && age <= 3) ||
+        (ageFilter === '3+' && age > 3);
+
+      return matchesSearch && matchesSpecies && matchesGender && matchesAge;
+    });
+
+  const paginatedPets = filteredPets.slice(indexOfFirstPet, indexOfLastPet);
+  const totalPages = Math.ceil(filteredPets.length / petsPerPage);
 
   const isLogin = useAuthStore((state) => state.isLogin);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchPets();
   }, [fetchPets]);
+
+  useEffect(() => {
+    const fetchSubmittedPetIds = async () => {
+      const token = useAuthStore.getState().token;
+      const userId = user_details.getState().id; // or wherever you're storing user info
+
+      if (!token || !userId) return;
+
+      const response = await fetch("http://localhost:8080/adoption-request/submitted", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          userId: userId.toString(),
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setSubmittedPetIds(data); // e.g. [10, 12, 15]
+      }
+    };
+
+    fetchSubmittedPetIds();
+  }, []);
 
   // Generate filter options from pets data
   const speciesOptions = Array.from(new Set(pets.map(p => p.species))).sort();
@@ -27,7 +87,7 @@ const PetListing = () => {
   const handleAdoptClick = (pet: Pet) => {
     if (!isLogin) {
       alert('Please log in to adopt a pet.');
-      window.location.href = '/login';
+      navigate('/login');
       return;
     }
 
@@ -35,16 +95,50 @@ const PetListing = () => {
     setShowModal(true);
   };
 
+
   const handleCloseModal = () => {
     setShowModal(false);
     setSelectedPet(null);
     setMessage('');
   };
 
-  const handleSubmit = () => {
-    alert(`Message sent for ${selectedPet?.name}: ${message}`);
-    handleCloseModal();
+  const handleSubmit = async () => {
+    try {
+      const token = useAuthStore.getState().token;
+      const userId = user_details.getState().id;
+
+      console.log("Sending userId:", userId);
+
+      const response = await fetch('http://localhost:8080/adoption-request', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+          'user-id': userId.toString(), // Send userId in header
+        },
+        body: JSON.stringify({
+          petId: selectedPet?.id,
+          message: message,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit adoption request');
+      }
+
+      alert('Your adoption request has been submitted.');
+
+      if (selectedPet) {
+        setSubmittedPetIds((prev) => [...prev, selectedPet.id]);
+      }
+
+      handleCloseModal();
+    } catch (error) {
+      console.error(error);
+      alert('Something went wrong. Please try again.');
+    }
   };
+
 
   return (
     <div className="pet-listing-container">
@@ -85,7 +179,7 @@ const PetListing = () => {
       </div>
 
       <div className="pet-cards">
-        {pets
+        {paginatedPets
           .filter((pet) => {
             const matchesSearch =
               pet.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -122,23 +216,30 @@ const PetListing = () => {
                 </div>
                 <p className="pet-description">{pet.description}</p>
                 <div className="adopt-button-wrapper">
-                  {!isLogin ? (
-                    <div className="tooltip-wrapper">
-                      <button className="adopt-button" disabled>
-                        ADOPT
-                      </button>
-                      <span className="tooltip-text">Please log in or sign up to adopt</span>
-                    </div>
-                  ) : (
-                    <button className="adopt-button" onClick={() => handleAdoptClick(pet)}>
-                      ADOPT
-                    </button>
-                  )}
+                  <button
+                    className="adopt-button"
+                    onClick={() => handleAdoptClick(pet)}
+                    disabled={submittedPetIds.includes(pet.id)}
+                  >
+                    {submittedPetIds.includes(pet.id) ? "REQUESTED" : "ADOPT"}
+                  </button>
                 </div>
               </div>
             </div>
           ))}
       </div>
+      <div className="pagination">
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button
+            key={i}
+            className={`page-button ${currentPage === i + 1 ? 'active' : ''}`}
+            onClick={() => setCurrentPage(i + 1)}
+          >
+            {i + 1}
+          </button>
+        ))}
+      </div>
+
 
       {showModal && selectedPet && (
         <div className="modal-overlay">
@@ -153,7 +254,13 @@ const PetListing = () => {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                 />
-                <button className="submit-button" onClick={handleSubmit}>SUBMIT</button>
+                <button
+                  className="submit-button"
+                  onClick={handleSubmit}
+                  disabled={submittedPetIds.includes(selectedPet.id)}
+                >
+                  SUBMIT
+                </button>
               </div>
             </div>
           </div>
