@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { usePetListingStore } from '../store/petListing.store';
-import { useAuthStore } from '../store/auth.store'; 
+import { useAuthStore } from '../store/auth.store';
 import '../css/PetListing.css';
 import { Pet } from '../store/petListing.store';
 import { useNavigate } from 'react-router-dom';
 import { user_details } from '../store/auth.store';
-import ChatIcon from '../assets/png/Chat.png'; 
+import ChatIcon from '../assets/png/Chat.png';
 
 const PetListing = () => {
   const { pets, fetchPets } = usePetListingStore();
@@ -140,6 +140,13 @@ const PetListing = () => {
     }
   };
 
+  const getImageUrl = (url: string) => {
+    if (!url) return '';
+    if (url.startsWith('/uploads/')) {
+      return `http://localhost:8080${url}`;
+    }
+    return url;
+  };
 
   return (
     <div className="pet-listing-container">
@@ -202,7 +209,7 @@ const PetListing = () => {
           .map((pet, index) => (
             <div className="pet-card" key={pet.id}>
               <div className={`polaroid ${index % 2 === 0 ? 'rotate-left' : 'rotate-right'}`}>
-                <img src={pet.petImageUrl} alt={pet.name} />
+                <img src={getImageUrl(pet.petImageUrl)} alt={pet.name} />
                 <p className="caption">{pet.name}, {pet.age.toFixed(1)} years old</p>
               </div>
 
@@ -257,7 +264,7 @@ const PetListing = () => {
           <div className="modal">
             <button className="close-button" onClick={handleCloseModal}>✕</button>
             <div className="modal-content">
-              <img src={selectedPet.petImageUrl} alt={selectedPet.name} />
+              <img src={getImageUrl(selectedPet.petImageUrl)} alt={selectedPet.name} />
               <div className="modal-form">
                 <h3>Leave a message to the shelter</h3>
                 <textarea
