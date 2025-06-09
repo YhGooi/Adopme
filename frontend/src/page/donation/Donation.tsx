@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { user_details } from '../../store/auth.store';
 import axios from 'axios';
-import donationHero from '../../assets/png/donation-hero.png';
+import donationHero from '../../assets/png/DuitnowQR.png';
 import '../../css/donation/donation.css';
 
 
