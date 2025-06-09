@@ -1,7 +1,7 @@
 /* PetListing.css */
 
 .pet-listing-container {
-    padding: 0px;
+    padding: 0px 0px 2px 0px;
     background-color: #fef6f0;
     font-family: Arial, sans-serif;
   }
@@ -386,6 +386,7 @@
   justify-content: center;
   gap: 0.5rem;
   margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .page-button {
