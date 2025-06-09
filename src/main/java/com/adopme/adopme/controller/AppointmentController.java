@@ -1,4 +1,5 @@
 package com.adopme.adopme.controller;
+
 import com.adopme.adopme.dto.appointment.AppointmentDetailResponse;
 import com.adopme.adopme.dto.appointment.AppointmentRequest;
 import com.adopme.adopme.dto.appointment.AppointmentResponse;
@@ -19,24 +20,27 @@ public class AppointmentController {
 
     public AppointmentController(AppointmentService appointmentService) {
         this.appointmentService = appointmentService;
-    }    @PostMapping
-    public ResponseEntity<AppointmentResponse> createAppointment(@RequestBody AppointmentRequest request) {
+    }
+
+    @PostMapping
+    public ResponseEntity<AppointmentResponse> createAppointment(
+            @RequestBody AppointmentRequest request) {
         try {
             // Validate request
-            if (request == null || request.getUserId() == null || request.getPetId() == null || request.getAppointmentDateTime() == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(null);
+            if (request == null
+                    || request.getUserId() == null
+                    || request.getPetId() == null
+                    || request.getAppointmentDateTime() == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
             }
 
             // Create appointment
             AppointmentResponse response = appointmentService.createAppointment(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -71,8 +75,8 @@ public class AppointmentController {
         List<AppointmentResponse> appointments =
                 appointmentService.getAllAppointments(status, startDate, endDate);
         return ResponseEntity.ok(appointments);
-    }    
-    
+    }
+
     @GetMapping("/filter/details")
     public ResponseEntity<List<AppointmentDetailResponse>> getAllAppointmentsWithDetails(
             @RequestParam(required = false) AppointmentStatus status,

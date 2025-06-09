@@ -1,6 +1,7 @@
 package com.adopme.adopme.dto.appointment;
 
 import lombok.Data;
+
 import java.time.LocalDateTime;
 
 @Data
