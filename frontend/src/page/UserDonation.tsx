@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import donationHero from '../assets/png/donation-hero.png'; 
 import '../css/UserDonation.css';
+import { user_details } from '../store/auth.store';
 
 const UserDonation = () => {
     const [amount, setAmount] = useState("50");
@@ -10,36 +11,46 @@ const UserDonation = () => {
     const [receipt, setReceipt] = useState<File | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
+    
+    const userStore = user_details((state) => state) as any;
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
-        const userId = localStorage.getItem('userId');
-        console.log('Current userId:', userId);
-        console.log("888888",localStorage)
+        const userId = userStore.id;
 
         try {
-            // 从本地存储获取用户ID
-            const userId = localStorage.getItem('userId');
             if (!userId) {
                 alert("Please log in first!");
+                return;
+            }            
+            
+            if (!receipt) {
+                alert("Please upload a transfer receipt");
+                return;
+            }
+
+            const numericAmount = amount.replace(/[^0-9.]/g, '');
+            if (!numericAmount || parseFloat(numericAmount) <= 0) {
+                alert("Please enter a valid amount greater than 0");
                 return;
             }
 
             const formData = new FormData();
-            formData.append('userId', userId);
-            formData.append('amount', amount);
-            
-            if (receipt) formData.append('receipt', receipt);
+            formData.append('userId', String(userId));
+            formData.append('amount', numericAmount);
+            formData.append('receipt', receipt);
 
-            // 发送到后端API
-            await axios.post('/donation', formData, {
+            console.log('Uploading file:', receipt.name, 'Size:', receipt.size);
+
+            await axios.post('http://localhost:8080/donation', formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Accept': 'application/json',
                 },
+                maxContentLength: 20 * 1024 * 1024, // 20MB
+                maxBodyLength: 20 * 1024 * 1024 // 20MB
             });
 
-            // 提交成功后跳转
             navigate('/SuccessDonation');
         } catch (error) {
             console.error('Donation failed:', error);
@@ -62,7 +73,6 @@ const UserDonation = () => {
 
             
             <div className="donation-main">
-                {/* 左侧表单 */}
                 <form className="donation-form" onSubmit={handleSubmit}>
                     <h2>Donation Amount</h2>
                     <input 
@@ -70,18 +80,28 @@ const UserDonation = () => {
                         value={`RM${amount}`}
                         onChange={(e) => setAmount(e.target.value.replace(/\D/g, ''))}
                         className="amount-input"
-                    />
-
-
-                    <h2>Transfer Receipt</h2>
-                    <label className="file-upload">
+                    />                    <h2>Transfer Receipt</h2>                    <label className="file-upload">
                         Upload ▲
                         <input 
-                            type="file" 
-                            onChange={(e) => e.target.files && setReceipt(e.target.files[0])}
+                            type="file"
+                            accept="image/jpeg,image/png,image/gif,application/pdf"
+                            onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                    if (file.size > 20 * 1024 * 1024) {
+                                        alert("File size must be less than 20MB");
+                                        e.target.value = '';
+                                    } else {
+                                        setReceipt(file);
+                                    }
+                                }
+                            }}
                             className="file-input"
                         />
                     </label>
+                    <p className="file-requirements">
+                        Accepted formats: JPEG, PNG, GIF, PDF • Max size: 20MB • Clear, legible transfer receipt recommended
+                    </p>
                     {receipt && <span className="file-name">{receipt.name}</span>}
 
                     
@@ -93,7 +113,6 @@ const UserDonation = () => {
                         {isSubmitting ? 'Processing...' : 'DONATE'}
                     </button>
                 </form>
-
                 
                 <div className="donation-sidebar">
                     <div className="bank-details">

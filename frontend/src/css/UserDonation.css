@@ -1,4 +1,3 @@
-
 .donation-page {
     max-width: 1200px;
     margin: 0 auto;
@@ -94,6 +93,14 @@
     margin-top: 5px;
     font-size: 0.9rem;
     color: #666;
+}
+
+.file-requirements {
+    font-size: 0.8rem;
+    color: #e74c3c;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    line-height: 1.4;
 }
 
 /* DONATE按钮样式  */

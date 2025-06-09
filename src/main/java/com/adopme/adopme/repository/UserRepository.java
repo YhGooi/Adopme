@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query("SELECT u.passwordHash FROM User u WHERE u.id = :email")
+    @Query("SELECT u.passwordHash FROM User u WHERE u.email = :email")
     String findPasswordHashByEmail(@Param("email") String email);
 
     Optional<User> findByEmail(String email);

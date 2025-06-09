@@ -108,10 +108,6 @@ const Register: React.FC = () => {
                 authStore.set('isLogin', true);
                 authStore.set('token', data.token);
                 authStore.set('user', 'USER');
-                if (data.userId) {
-        authStore.set('userId', data.userId);
-        localStorage.setItem('userId', data.userId);
-    }
             }
             // navigate('/login');
         } catch (error: any) {
