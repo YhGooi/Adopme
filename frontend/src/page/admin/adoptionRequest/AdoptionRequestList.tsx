@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore, user_details } from '../../../store/auth.store';
 import '../../../css/shared/common.css';
-import '../../../css/adoptionRequestList.css';
+import '../../../css/admin/adoptionRequestList.css';
 
 interface User {
     id: number;
