@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import logo from '../assets/png/Logo.png';
 import login_icon from '../assets/png/User_icon.png';
-import '/src/css/navbar.css';
+import '/src/css/shared/navbar.css';
 import { useAuthStore } from '../store/auth.store';
 import { user_details } from '../store/auth.store';
 
