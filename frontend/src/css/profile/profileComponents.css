@@ -1,4 +1,13 @@
-/* Profile page styles */
+/* Profile Components Specific Styling */
+.tab-content {
+    width: 100%;
+    max-width: 100%;
+    animation: fadeIn 0.3s ease;
+    display: block;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
 .profile-container {
     width: 100%;
     max-width: 1200px;
@@ -86,4 +95,15 @@
     background-color: #5AA996;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Tab Animation */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }

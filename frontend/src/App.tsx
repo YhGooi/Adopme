@@ -10,7 +10,7 @@ import Signup from "./page/SignUp";
 import Donation from "./page/donation/Donation";
 import PetListing from "./page/PetListing";
 import Messaging from './page/Messaging';
-import Profile from './page/Profile';
+import Profile from './page/profile/Profile';
 import AdoptionRequestList from "./page/admin/adoption-request/AdoptionRequestList";
 import AdoptionRequestDetails from "./page/admin/adoption-request/AdoptionRequestDetails";
 import AdminPetListing from "./page/admin/pet/PetListing";

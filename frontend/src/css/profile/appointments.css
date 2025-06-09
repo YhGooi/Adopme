@@ -6,15 +6,21 @@
 }
 
 .appointment-item {
+    width: 70%;
     background-color: #ffffff;
     border-radius: 8px;
     padding: 15px;
-    margin-bottom: 15px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    border: none;
+    margin: 0px auto 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border: 1px solid #e0e0e0;
     position: relative;
     display: flex;
     align-items: center;
+    transition: all 0.2s ease;
+}
+
+.appointment-item:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .appointment-item.confirmed {
@@ -25,7 +31,6 @@
     border-left: 5px solid #FFC107;
 }
 
-.appointment-item.cancelled,
 .appointment-item.declined {
     border-left: 5px solid #F44336;
 }
@@ -79,8 +84,8 @@
 .appointment-status {
     display: inline-block;
     padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 12px;
+    border-radius: 4px;
+    font-size: 14px;
     font-weight: 600;
     margin-left: auto;
     margin-right: 5px;
@@ -88,19 +93,18 @@
 }
 
 .appointment-status.confirmed {
-    background-color: rgba(76, 175, 80, 0.1);
-    color: #4CAF50;
+    background-color: #d4edda;
+    color: #155724;
 }
 
 .appointment-status.pending {
-    background-color: rgba(255, 193, 7, 0.1);
-    color: #FFC107;
+    background-color: #fff3cd;
+    color: #856404;
 }
 
-.appointment-status.cancelled,
 .appointment-status.declined {
-    background-color: rgba(244, 67, 54, 0.1);
-    color: #F44336;
+    background-color: #f8d7da;
+    color: #721c24;
 }
 
 @media (max-width: 600px) {

@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
@@ -68,12 +67,11 @@ public class DonationController {
     public ResponseEntity<DonationResponse> createDonation(
             @RequestParam Long userId,
             @RequestParam BigDecimal amount,
-            @RequestPart MultipartFile receipt) throws IOException {
-        
-        DonationResponse response = donationService.createDonation(
-            userId, amount, receipt
-        );
-        
+            @RequestPart MultipartFile receipt)
+            throws IOException {
+
+        DonationResponse response = donationService.createDonation(userId, amount, receipt);
+
         return ResponseEntity.ok(response);
     }
 }
