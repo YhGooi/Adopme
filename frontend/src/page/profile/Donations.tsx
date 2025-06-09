@@ -99,7 +99,7 @@ const Donations = () => {
                 </p>
                 <button 
                     className="profile-action-button"
-                    onClick={() => navigate('/donation/Donation')}
+                    onClick={() => navigate('/donation')}
                 >
                     Make a Donation
                 </button>

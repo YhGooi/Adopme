@@ -1,0 +1,127 @@
+.appointment-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.appointment-card {
+  background-color: #eaf4eb;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  padding: 4rem;
+  width: 70%;
+  display: flex;
+  flex-direction: column; 
+  gap: 2.5rem;
+}
+
+.form-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color:#4b5563;
+  width: 100%;
+}
+
+.form-input {
+  width: 80%;
+  border: 1px solid #d1d5db;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  font-family: inherit;
+  font-size: 1rem;
+  color: #4b5563;
+  outline: none;
+}
+
+/* Style the datetime input specifically */
+input[type="datetime-local"].form-input {
+  height: 2.5rem;
+  padding: 0.375rem 0.75rem;
+  line-height: 1.5;
+  appearance: none;
+  background-color: #16a34a;
+  color: white
+  
+}
+
+.book-button {
+  background-color: #16a34a;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.375rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.book-button:hover {
+  background-color: #15803d;
+}
+
+.divider {
+  display: none;
+  width: 2px;
+  background-color: #d1d5db;
+  height: auto;
+  margin: 1rem 0;
+}
+
+@media (min-width: 768px) {
+  .divider {
+    display: block;
+    margin: 0 2rem;
+    min-height: 400px;
+  }
+}
+
+.address-container {
+    display: flex;
+    flex-direction: column;     
+    flex: 1;
+}
+
+.address-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color:#4b5563;
+}
+
+.address-text {
+    color: #4b5563;
+    margin-bottom: 1rem;
+    line-height: 1.625;
+}
+
+.map-frame {
+    width: 100%;
+    height: 100%;
+    border-radius: 0.375rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+@media (min-width: 768px) {
+  .appointment-card {
+    flex-direction: row;
+  }
+
+  .divider {
+    display: block;
+  }
+}

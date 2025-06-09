@@ -3,7 +3,7 @@ import { useAuthStore } from '../../../store/auth.store';
 import { useNavigate } from 'react-router-dom';
 import '../../../css/shared/common.css';
 import '../../../css/table.css';
-import '../../../css/appointment.css';
+import '../../../css/admin/appointmentList.css';
 
 interface AppointmentDetail {
     id: number;
