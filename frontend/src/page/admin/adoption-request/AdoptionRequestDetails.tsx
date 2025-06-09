@@ -183,16 +183,16 @@ const AdoptionRequestDetailsPage: React.FC = () => {
                         <div className="pet-image-col">
                             <img src={details.pet.petImageUrl} alt={details.pet.name} className="pet-image" />
                         </div>
-                        <div className="profile-info-list">
-                            <div className="profile-info-item"><div className="profile-info-label">Name:</div><div className="profile-info-value">{details.pet.name}</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Age:</div><div className="profile-info-value">{details.pet.age} years</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Date of Birth:</div><div className="profile-info-value">{new Date(details.pet.dob).toLocaleDateString('en-GB')}</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Gender:</div><div className="profile-info-value">{details.pet.gender}</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Species:</div><div className="profile-info-value">{details.pet.species}</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Breed:</div><div className="profile-info-value">{details.pet.breed}</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Weight:</div><div className="profile-info-value">{details.pet.weight} kg</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Vaccinated:</div><div className="profile-info-value">{details.pet.vaccinated ? 'Yes' : 'No'}</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Description:</div><div className="profile-info-value">{details.pet.description}</div></div>
+                        <div className="adoption-request-details-list">
+                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Name:</div><div className="adoption-request-details-value">{details.pet.name}</div></div>
+                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Age:</div><div className="adoption-request-details-value">{details.pet.age} years</div></div>
+                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Date of Birth:</div><div className="adoption-request-details-value">{new Date(details.pet.dob).toLocaleDateString('en-GB')}</div></div>
+                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Gender:</div><div className="adoption-request-details-value">{details.pet.gender}</div></div>
+                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Species:</div><div className="adoption-request-details-value">{details.pet.species}</div></div>
+                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Breed:</div><div className="adoption-request-details-value">{details.pet.breed}</div></div>
+                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Weight:</div><div className="adoption-request-details-value">{details.pet.weight} kg</div></div>
+                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Vaccinated:</div><div className="adoption-request-details-value">{details.pet.vaccinated ? 'Yes' : 'No'}</div></div>
+                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Description:</div><div className="adoption-request-details-value">{details.pet.description}</div></div>
                         </div>
                     </div>
                 </div>
@@ -200,17 +200,17 @@ const AdoptionRequestDetailsPage: React.FC = () => {
                 <h3 className="details-title">Applicant Details</h3>
                 <div className="applicant-details-block">
                     <div className="applicant-info-col">
-                        <div className="profile-info-list">
-                            <div className="profile-info-item"><div className="profile-info-label">Name:</div><div className="profile-info-value">{details.user.name}</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Date of Birth:</div><div className="profile-info-value">{new Date(details.user.dateOfBirth).toLocaleDateString('en-GB')}</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Phone Number:</div><div className="profile-info-value">{details.user.phoneNo}</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Email:</div><div className="profile-info-value">{details.user.email}</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Address:</div><div className="profile-info-value">{details.user.address}</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Housing Type:</div><div className="profile-info-value">{details.user.housingType}</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Occupation:</div><div className="profile-info-value">{details.user.occupation}</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Petting Experience:</div><div className="profile-info-value">{details.user.pettingExperience}</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Current Number of Pets at Home:</div><div className="profile-info-value">{details.user.currentPets}</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Message:</div><div className="profile-info-value">{details.adoptionRequest.message}</div></div>
+                        <div className="adoption-request-details-list">
+                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Name:</div><div className="adoption-request-details-value">{details.user.name}</div></div>
+                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Date of Birth:</div><div className="adoption-request-details-value">{new Date(details.user.dateOfBirth).toLocaleDateString('en-GB')}</div></div>
+                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Phone Number:</div><div className="adoption-request-details-value">{details.user.phoneNo}</div></div>
+                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Email:</div><div className="adoption-request-details-value">{details.user.email}</div></div>
+                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Address:</div><div className="adoption-request-details-value">{details.user.address}</div></div>
+                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Housing Type:</div><div className="adoption-request-details-value">{details.user.housingType}</div></div>
+                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Occupation:</div><div className="adoption-request-details-value">{details.user.occupation}</div></div>
+                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Petting Experience:</div><div className="adoption-request-details-value">{details.user.pettingExperience}</div></div>
+                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Current Number of Pets at Home:</div><div className="adoption-request-details-value">{details.user.currentPets}</div></div>
+                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Message:</div><div className="adoption-request-details-value">{details.adoptionRequest.message}</div></div>
                         </div>
                     </div>
                 </div>

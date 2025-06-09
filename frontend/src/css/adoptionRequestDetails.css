@@ -323,8 +323,8 @@
     background: #b52a37;
 }
 
-/* Profile info alignment (label-value) */
-.profile-info-list {
+/* Adoption request info alignment (label-value) */
+.adoption-request-details-list {
     width: 100%;
     margin: 0 auto;
     padding: 0 1rem;
@@ -333,7 +333,7 @@
     align-items: center;
 }
 
-.profile-info-item {
+.adoption-request-details-item {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -343,23 +343,26 @@
     width: 100%;
 }
 
-.profile-info-label {
+.adoption-request-details-label {
     flex: 0 0 600px;
-    color: #222;
     font-size: 1.15rem;
-    font-weight: 600;
     text-align: right;
     padding-right: 15px;
     white-space: nowrap;
+    font-weight: 500;
+    width: 50%;
+    flex-shrink: 0;
+    color: #333;
 }
 
-.profile-info-value {
+.adoption-request-details-value {
     flex: 0 0 300px;
-    color: #222;
     font-size: 1.15rem;
     text-align: left;
     word-break: break-word;
     padding-left: 15px;
+    color: #444;
+    flex-grow: 1;
 }
 
 .back-link-row {
@@ -403,25 +406,22 @@
         align-items: stretch;
     }
 
-    .profile-info-list {
+    .adoption-request-details-list {
         width: 100%;
         margin: 0;
     }
-
-    .profile-info-item {
+    .adoption-request-details-item {
         flex-direction: column;
         align-items: flex-start;
         margin-bottom: 2px;
     }
-
-    .profile-info-label,
-    .profile-info-value {
+    .adoption-request-details-label,
+    .adoption-request-details-value {
         width: 100%;
         text-align: left;
         padding: 0.25rem 0;
     }
-
-    .profile-info-label {
+    .adoption-request-details-label {
         max-width: 100%;
         min-width: 0;
         padding-right: 0.5rem;

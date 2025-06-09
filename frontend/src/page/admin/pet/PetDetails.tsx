@@ -107,17 +107,17 @@ const PetDetailsPage: React.FC = () => {
                         <div className="pet-image-col">
                             <img src={getImageUrl(pet.petImageUrl)} alt={pet.name} className="pet-image" />
                         </div>
-                        <div className="profile-info-list">
-                            <div className="profile-info-item"><div className="profile-info-label">Name:</div><div className="profile-info-value">{pet.name}</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Age:</div><div className="profile-info-value">{pet.age} years</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Date of Birth:</div><div className="profile-info-value">{new Date(pet.dob).toLocaleDateString('en-GB')}</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Gender:</div><div className="profile-info-value">{pet.gender}</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Species:</div><div className="profile-info-value">{pet.species}</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Breed:</div><div className="profile-info-value">{pet.breed}</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Weight:</div><div className="profile-info-value">{pet.weight} kg</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Vaccinated:</div><div className="profile-info-value">{pet.vaccinated ? 'Yes' : 'No'}</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Description:</div><div className="profile-info-value">{pet.description}</div></div>
-                            <div className="profile-info-item"><div className="profile-info-label">Status:</div><div className="profile-info-value">{pet.status}</div></div>
+                        <div className="pet-details-list">
+                            <div className="pet-details-item"><div className="pet-details-label">Name:</div><div className="pet-details-value">{pet.name}</div></div>
+                            <div className="pet-details-item"><div className="pet-details-label">Age:</div><div className="pet-details-value">{pet.age} years</div></div>
+                            <div className="pet-details-item"><div className="pet-details-label">Date of Birth:</div><div className="pet-details-value">{new Date(pet.dob).toLocaleDateString('en-GB')}</div></div>
+                            <div className="pet-details-item"><div className="pet-details-label">Gender:</div><div className="pet-details-value">{pet.gender}</div></div>
+                            <div className="pet-details-item"><div className="pet-details-label">Species:</div><div className="pet-details-value">{pet.species}</div></div>
+                            <div className="pet-details-item"><div className="pet-details-label">Breed:</div><div className="pet-details-value">{pet.breed}</div></div>
+                            <div className="pet-details-item"><div className="pet-details-label">Weight:</div><div className="pet-details-value">{pet.weight} kg</div></div>
+                            <div className="pet-details-item"><div className="pet-details-label">Vaccinated:</div><div className="pet-details-value">{pet.vaccinated ? 'Yes' : 'No'}</div></div>
+                            <div className="pet-details-item"><div className="pet-details-label">Description:</div><div className="pet-details-value">{pet.description}</div></div>
+                            <div className="pet-details-item"><div className="pet-details-label">Status:</div><div className="pet-details-value">{pet.status}</div></div>
                         </div>
                     </div>
                 </div>

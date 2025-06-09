@@ -58,7 +58,7 @@
     background: #fff;
 }
 
-.profile-info-list {
+.pet-details-list {
     display: flex;
     flex-direction: column;
     gap: 0.7rem;
@@ -66,21 +66,21 @@
     justify-content: flex-start;
 }
 
-.profile-info-item {
+.pet-details-item {
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
     align-items: flex-start;
 }
 
-.profile-info-label {
+.pet-details-label {
     font-weight: 600;
     color: #495057;
     min-width: 120px;
     font-size: 1rem;
 }
 
-.profile-info-value {
+.pet-details-value {
     color: #222;
     font-size: 1rem;
     word-break: break-word;
@@ -129,12 +129,12 @@
         height: 120px;
     }
 
-    .profile-info-label {
+    .pet-details-label {
         min-width: 90px;
         font-size: 0.95rem;
     }
 
-    .profile-info-value {
+    .pet-details-value {
         font-size: 0.95rem;
     }
 }
