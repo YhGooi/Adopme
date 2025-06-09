@@ -1,32 +1,30 @@
-import { Link, Outlet, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import logo from '../assets/png/Logo.png';
 import login_icon from '../assets/png/User_icon.png';
-import '/src/css/navbar.css'; // Importing the CSS file
+import '/src/css/navbar.css';
 import { useAuthStore } from '../store/auth.store';
 import { user_details } from '../store/auth.store';
 
 const NavBar = () => {
-    const authStore = useAuthStore((state) => state) as any
-    const userStore = user_details((state) => state) as any
-    const navigate = useNavigate()
+    const authStore = useAuthStore((state) => state) as any;
+    const userStore = user_details((state) => state) as any;
+    const navigate = useNavigate();
 
     return (
         <div>
             <div className="navbar-container">
                 <div className="navbar-content">
                     {/* Logo Section */}
-                    <img className="navbar-logo" src={logo}/>
+                    <img className="navbar-logo" src={logo} />
 
                     {/* Navigation Buttons */}
                     <div className="navbar-buttons">
                         <button onClick={() => navigate("/home")}>Home</button>
                         <button onClick={() => navigate("/pet_listing")}>Find a Pet</button>
-                        <button onClick={() => navigate("/request_adopt")}>Request for Adoption</button>
                         <button onClick={() => navigate("/donation/Donation")}>Donation</button>
-                        <button onClick={() => navigate("/contact")}>Contact Us</button>
-
+                        <button onClick={() => navigate("/appointment")}>Appointment</button>
                         {/* Admin Dropdown - Only show if user is admin */}
-                        {userStore.type === 'ADMIN' && (
+                        {userStore.type === 'ADMIN' && authStore.isLogin && (
                             <div className="dropdown admin-dropdown">
                                 <button className="dropdown-toggle">
                                     Admin
@@ -38,6 +36,9 @@ const NavBar = () => {
                                     <button onClick={() => navigate("/admin/pet-listing")}>
                                         Pet Listings
                                     </button>
+                                    <button onClick={() => navigate("/admin/appointment-request-list")}>
+                                        Appointment Requests
+                                    </button>
                                 </div>
                             </div>
                         )}
@@ -45,12 +46,12 @@ const NavBar = () => {
                         {/* User Dropdown */}
                         <div className="dropdown">
                             <button className="dropdown-toggle">
-                            <img src={login_icon} alt="User Icon" className={`navbar-user-icon ${!authStore.isLogin ? 'glow-effect' : ''}`} />
-                            {authStore.isLogin && (
-                                <div className="navbar-username">
-                                {userStore.name || 'User'}
-                                </div>
-                            )}
+                                <img src={login_icon} alt="User Icon" className={`navbar-user-icon ${!authStore.isLogin ? 'glow-effect' : ''}`} />
+                                {authStore.isLogin && (
+                                    <div className="navbar-username">
+                                        {userStore.name || 'User'}
+                                    </div>
+                                )}
                             </button>
                             <div className="dropdown-menu">
                                 {!authStore.isLogin ? (
@@ -60,15 +61,15 @@ const NavBar = () => {
                                     </>
                                 ) : (
                                     <>
-                                    <button onClick={() => navigate("/messaging")}>Messages</button>
-                                    <button onClick={() => navigate("/profile")}>My Profile</button>
-                                    <button onClick={() => navigate("/signup")}>Update Profile</button>
-                                    <button onClick={() => {
-                                        authStore.logout();
-                                        navigate("/login");
+                                        <button onClick={() => navigate("/messaging")}>Messages</button>
+                                        <button onClick={() => navigate("/profile")}>My Profile</button>
+                                        <button onClick={() => navigate("/signup")}>Update Profile</button>
+                                        <button onClick={() => {
+                                            authStore.logout();
+                                            navigate("/login");
                                         }}>
-                                        Logout
-                                    </button>
+                                            Logout
+                                        </button>
                                     </>
                                 )}
                             </div>
