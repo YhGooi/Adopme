@@ -7,6 +7,8 @@
     font-family: 'Arial', sans-serif;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .profile-header {
@@ -26,12 +28,14 @@
 .profile-tabs {
     display: flex;
     border-bottom: 1px solid #ddd;
-    margin-bottom: 20px;
     justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    overflow-x: auto;
 }
 
 .profile-tab {
-    padding: 12px 24px;
+    padding: 12px 16px;
     cursor: pointer;
     font-weight: 500;
     color: #555;
@@ -39,6 +43,7 @@
     border-bottom: 3px solid transparent;
     margin: 0 5px;
     font-size: 15px;
+    white-space: nowrap;
 }
 
 .profile-tab:hover {
@@ -55,30 +60,9 @@
     padding: 20px;
     background-color: #e7f0e8;
     border-radius: 0 0 10px 10px;
-}
-
-.profile-info-list {
     width: 100%;
-    max-width: 700px;
-    margin: 0 auto;
-}
-
-.profile-info-item {
-    display: flex;
-    margin-bottom: 15px;
-    padding: 10px 0;
-}
-
-.profile-info-label {
-    font-weight: 500;
-    width: 250px;
-    flex-shrink: 0;
-    color: #333;
-}
-
-.profile-info-value {
-    color: #444;
-    flex-grow: 1;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 .profile-action-button {
@@ -102,13 +86,4 @@
     background-color: #5AA996;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-/* Tab content styles */
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
 }

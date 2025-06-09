@@ -124,16 +124,16 @@ const Register: React.FC = () => {
                     <h2>{authStore.isLogin ? 'UPDATE PROFILE' : 'SIGN UP'}</h2>
 
                     <label>Name</label>
-                    <input type="text" id="name" value={formData.name} onChange={handleChange} placeholder="John Smith" />
+                    <input type="text" id="name" value={formData.name} onChange={handleChange} required placeholder="John Smith" />
 
                     <label>Date of Birth</label>
-                    <input type="date" id="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange}/>
+                    <input type="date" id="dateOfBirth" value={formData.dateOfBirth} required onChange={handleChange}/>
 
                     <label>Phone Number</label>
-                    <input type="tel" id="phoneNo" value={formData.phoneNo} onChange={handleChange} placeholder="+60123456789" />
+                    <input type="tel" id="phoneNo" value={formData.phoneNo} onChange={handleChange} required placeholder="+60123456789" />
 
                     <label>Residential Address</label>
-                    <textarea id="address" value={formData.address} onChange={handleChange} placeholder="1, Jalan Satu, 42000 Selangor, Malaysia." />
+                    <textarea id="address" value={formData.address} onChange={handleChange} required placeholder="1, Jalan Satu, 42000 Selangor, Malaysia." />
 
                     <label>Housing Type</label>
                     <select id="housingType" value={formData.housingType} onChange={handleChange} required>
@@ -147,7 +147,7 @@ const Register: React.FC = () => {
                     <input type="text" id="occupation" value={formData.occupation} onChange={handleChange} placeholder="Student" />
 
                     <label>Petting Experience</label>
-                    <select id="pettingExperience" value={formData.pettingExperience} onChange={handleChange}>
+                    <select id="pettingExperience" value={formData.pettingExperience} required onChange={handleChange}>
                         <option value="">Select experience</option>
                         <option value="NONE">NONE</option>
                         <option value="LITTLE">LITTLE</option>
@@ -157,16 +157,16 @@ const Register: React.FC = () => {
                     </select>
 
                     <label>Current Number of Pets at Home</label>
-                    <input type="number" id="currentPets" value={formData.currentPets} onChange={handleChange} min="0" />
+                    <input type="number" id="currentPets" value={formData.currentPets} required onChange={handleChange} min="0" />
 
                     <label>Email</label>
-                    <input type="email" id="email" value={formData.email} onChange={handleChange} placeholder="john@gmail.com" />
+                    <input type="email" id="email" value={formData.email} required onChange={handleChange} placeholder="john@gmail.com" />
 
                     <label>Password</label>
-                    <input type="password" id="password" value={formData.password} onChange={handleChange} placeholder="Enter your password here..." />
+                    <input type="password" id="password" value={formData.password} required onChange={handleChange} placeholder="Enter your password here..." />
 
                     <label>Confirm Password</label>
-                    <input type="password" id="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm your password here..." />
+                    <input type="password" id="confirmPassword" value={formData.confirmPassword} required onChange={handleChange} placeholder="Confirm your password here..." />
 
                     <br />
                     <button type="submit">{authStore.isLogin ? 'Update' : 'Register'}</button>

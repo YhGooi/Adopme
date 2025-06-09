@@ -1,14 +1,14 @@
-import { Link, Outlet, useNavigate } from "react-router-dom"
+import {useNavigate} from "react-router-dom";
 import logo from '../assets/png/Logo.png';
 import login_icon from '../assets/png/User_icon.png';
-import '/src/css/navbar.css'; // Importing the CSS file
+import '/src/css/navbar.css';
 import { useAuthStore } from '../store/auth.store';
 import { user_details } from '../store/auth.store';
 
 const NavBar = () => {
-    const authStore = useAuthStore((state) => state) as any
-    const userStore = user_details((state) => state) as any
-    const navigate = useNavigate()
+    const authStore = useAuthStore((state) => state) as any;
+    const userStore = user_details((state) => state) as any;
+    const navigate = useNavigate();
 
     return (
         <div>
@@ -21,12 +21,10 @@ const NavBar = () => {
                     <div className="navbar-buttons">
                         <button onClick={() => navigate("/home")}>Home</button>
                         <button onClick={() => navigate("/pet_listing")}>Find a Pet</button>
-                        <button onClick={() => navigate("/request_adopt")}>Request for Adoption</button>
                         <button onClick={() => navigate("/UserDonation")}>Donation</button>
-                        <button onClick={() => navigate("/contact")}>Contact Us</button>
-
+                        <button onClick={() => navigate("/appointment")}>Appointment</button>
                         {/* Admin Dropdown - Only show if user is admin */}
-                        {userStore.type === 'ADMIN' && (
+                        {userStore.type === 'ADMIN' && authStore.isLogin && (
                             <div className="dropdown admin-dropdown">
                                 <button className="dropdown-toggle">
                                     Admin
@@ -34,6 +32,9 @@ const NavBar = () => {
                                 <div className="dropdown-menu">
                                     <button onClick={() => navigate("/admin/adoption-request-list")}>
                                         Adoption Requests
+                                    </button>
+                                    <button onClick={() => navigate("/admin/appointment-request-list")}>
+                                        Appointment Requests
                                     </button>
                                 </div>
                             </div>

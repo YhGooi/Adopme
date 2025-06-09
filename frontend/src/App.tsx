@@ -8,11 +8,15 @@ import Home from "./page/Home";
 import Login from "./page/Login";
 import Signup from "./page/SignUp";
 import Donation from "./page/donation/Donation";
+import PetListing from "./page/PetListing";
 import Messaging from './page/Messaging';
 import Profile from './page/Profile';
 import AdoptionRequestList from "./page/admin/adoption-request/AdoptionRequestList";
 import UserDonation from "./page/UserDonation";
 import SuccessDonation from "./page/SuccessDonation";
+import MakeAppointment from "./page/Appointment/MakeAppointment";
+import AppointmentSuccess from "./page/Appointment/AppointmentSuccess";
+import AppointmentRequestList from "./page/admin/appoint-request/AppointmentRequestList";
 
 function App() {
   return (
@@ -21,6 +25,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/pet_listing" element={<PetListing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/donation/Donation" element={<Donation />} />
@@ -29,6 +34,9 @@ function App() {
           <Route path="/admin/adoption-request-list" element={<AdoptionRequestList />} />
           <Route path="/userdonation" element={<UserDonation />} />
           <Route path="/SuccessDonation" element={<SuccessDonation />} />
+          <Route path="/admin/appointment-request-list" element={<AppointmentRequestList />} />
+          <Route path="/appointment" element={<MakeAppointment />} />
+          <Route path="/appointment/success" element={<AppointmentSuccess />} />
         </Route>
       </Routes>
     </Router >

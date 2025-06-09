@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
 
-    @Value("${FABRICATE_ACCOUNT:false}")
-    private boolean fabricateAccount;
+    @Value("${FABRICATE_ENABLED:false}")
+    private boolean fabricateEnabled;
 
     @Value("${SKIP_LOGIN_ENCRYPTION:false}")
     private boolean skipLoginEncryption;
@@ -17,8 +17,8 @@ public class AppConfig {
     @Value("${jwt.secret:defaultSecret}")
     private String jwtSecret;
 
-    public boolean isFabricateAccount() {
-        return fabricateAccount;
+    public boolean isFabricateEnabled() {
+        return fabricateEnabled;
     }
 
     public boolean isSkipLoginEncryption() {
@@ -31,8 +31,8 @@ public class AppConfig {
 
     @Override
     public String toString() {
-        return "AppConfig [fabricateAccount="
-                + fabricateAccount
+        return "AppConfig [fabricateEnabled="
+                + fabricateEnabled
                 + ", skipLoginEncryption="
                 + skipLoginEncryption
                 + ", jwtSecret="

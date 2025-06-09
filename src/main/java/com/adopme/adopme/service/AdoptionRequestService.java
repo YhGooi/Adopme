@@ -1,7 +1,8 @@
 package com.adopme.adopme.service;
 
-import com.adopme.adopme.dto.adoption.AdoptionRequestResponse;
+import com.adopme.adopme.dto.adoption.AdoptionRequestAdminResponse;
 import com.adopme.adopme.dto.adoption.AdoptionRequestResponseMapper;
+import com.adopme.adopme.dto.adoption.AdoptionRequestUserResponse;
 import com.adopme.adopme.model.AdoptionRequest;
 import com.adopme.adopme.model.AdoptionRequestStatus;
 import com.adopme.adopme.model.Pet;
@@ -20,7 +21,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AdoptionRequestService {
@@ -39,15 +39,20 @@ public class AdoptionRequestService {
         this.userRepository = userRepository;
     }
 
-    public List<AdoptionRequestResponse> getAdoptionRequestsByUserId(Long userId) {
+    public List<AdoptionRequestUserResponse> getAdoptionRequestsByUserId(Long userId) {
         List<AdoptionRequest> adoptionRequests =
                 adoptionRequestRepository.findByUserIdOrderBySubmissionDateDesc(userId);
         return adoptionRequests.stream()
-                .map(AdoptionRequestResponseMapper.INSTANCE::toAdoptionRequestResponse)
+                .map(
+                        req -> {
+                            Pet pet = petRepository.findById(req.getPetId()).get();
+                            return AdoptionRequestResponseMapper.INSTANCE
+                                    .toAdoptionRequestUserResponse(req, pet);
+                        })
                 .toList();
     }
 
-    public List<AdoptionRequestResponse> getAllAdoptionRequests(
+    public List<AdoptionRequestAdminResponse> getAllAdoptionRequests(
             AdoptionRequestStatus status, String startDate, String endDate) {
 
         LocalDateTime start =
@@ -63,25 +68,44 @@ public class AdoptionRequestService {
         return adoptionRequests.stream()
                 .map(
                         req -> {
-                            Optional<Pet> petOpt = petRepository.findById(req.getPetId());
-                            Optional<User> userOpt = userRepository.findById(req.getUserId());
-                            String petName = petOpt.map(Pet::getName).orElse("");
-                            String petBreed = petOpt.map(p -> p.getBreed().toString()).orElse("");
-                            String userName = userOpt.map(User::getName).orElse("");
-                            return new AdoptionRequestResponse(
-                                    req.getId(),
-                                    req.getPetId(),
-                                    req.getUserId(),
-                                    petName,
-                                    petBreed,
-                                    userName,
-                                    req.getStatus(),
-                                    req.getMessage(),
-                                    req.getRemarks(),
-                                    req.getSubmissionDate(),
-                                    req.getCreatedAt(),
-                                    req.getUpdatedAt());
+                            Pet pet = petRepository.findById(req.getPetId()).get();
+                            User user = userRepository.findById(req.getUserId()).get();
+                            return AdoptionRequestResponseMapper.INSTANCE
+                                    .toAdoptionRequestAdminResponse(req, pet, user);
                         })
                 .toList();
     }
+
+    public void createAdoptionRequest(Long userId, Long petId, String message) {
+        // Validate pet exists
+        petRepository.findById(petId)
+                .orElseThrow(() -> new IllegalArgumentException("Pet not found"));
+
+        // Validate user exists
+        userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        AdoptionRequest newRequest = AdoptionRequest.builder()
+                .userId(userId)
+                .petId(petId)
+                .status(AdoptionRequestStatus.SUBMITTED)
+                .message(message)
+                .remarks("") // optional
+                .submissionDate(LocalDateTime.now())
+                .build();
+
+        adoptionRequestRepository.save(newRequest);
+        }
+
+        public List<Long> getPetIdsWithSubmittedRequest(Long userId) {
+                List<AdoptionRequest> requests = adoptionRequestRepository.findByUserIdOrderBySubmissionDateDesc(userId);
+                return requests.stream()
+                        .map(AdoptionRequest::getPetId)
+                        .distinct()
+                        .toList();
+                }
+
+
+
+
 }
