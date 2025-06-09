@@ -1,0 +1,228 @@
+.donation-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+/* 头部样式 */
+.donation-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.donation-header h1 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.donation-header p {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* 主要内容 */
+.donation-main {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+/* 左侧表单样式  */
+.donation-form {
+    flex: 1;
+    padding: 25px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: relative; 
+    min-height: 500px; 
+}
+
+.donation-form h2 {
+    font-size: 1.3rem;
+    margin: 20px 0 10px;
+    color: #2c3e50;
+}
+
+.amount-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.note-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    resize: vertical;
+    min-height: 100px;
+    margin-bottom: 5px;
+}
+
+.file-upload {
+    display: inline-block;
+    padding: 10px 15px;
+    background: #3498db;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.file-upload:hover {
+    background: #2980b9;
+}
+
+.file-input {
+    display: none;
+}
+
+.file-name {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.file-requirements {
+    font-size: 0.8rem;
+    color: #e74c3c;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+/* DONATE按钮样式  */
+.donate-btn {
+    width: calc(100% - 50px); 
+    padding: 15px;
+    background: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute; 
+    bottom: 25px; 
+    left: 25px; 
+    transition: background 0.3s;
+}
+
+.donate-btn:hover {
+    background: #2ecc71;
+}
+
+/* 右侧边栏 */
+.donation-sidebar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.bank-details {
+    padding: 20px;
+    background: #f0f7fc;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.bank-details h2 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.bank-details p {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+
+.bank-details strong {
+    display: block;
+    margin-top: 5px;
+    font-size: 1.1rem;
+}
+
+.donation-image {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* 底部快速链接 */
+.donation-footer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding-top: 30px;
+    border-top: 1px solid #eee;
+}
+
+.footer-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-column h4 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.footer-column a, .footer-column span {
+    color: #555;
+    margin-bottom: 8px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.footer-column a:hover {
+    color: #3498db;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .donation-main {
+        flex-direction: column;
+    }
+    
+    .donation-footer {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .donation-footer {
+        grid-template-columns: 1fr;
+    }
+    
+    .donation-header h1 {
+        font-size: 2rem;
+    }
+    
+  
+    .donation-form {
+        min-height: auto;
+        padding-bottom: 80px; 
+    }
+    
+    .donate-btn {
+        width: calc(100% - 40px);
+        left: 20px;
+        bottom: 20px;
+    }
+}
