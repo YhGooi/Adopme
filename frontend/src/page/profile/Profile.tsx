@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../store/auth.store';
-import '../css/profile.css';
-import '../css/appointments.css';
-import '../css/profileComponents.css';
-import PersonalInfo from './profile/PersonalInfo';
-import Appointments from './profile/Appointments';
-import AdoptionRequests from './profile/AdoptionRequests';
-import Donations from './profile/Donations';
+import { useAuthStore } from '../../store/auth.store';
+import '../../css/profile/profileComponents.css';
+import PersonalInfo from './PersonalInfo';
+import Appointments from './Appointments';
+import AdoptionRequests from './AdoptionRequests';
+import Donations from './Donations';
 
 const Profile = () => {
     const [activeTab, setActiveTab] = useState('personal');
@@ -54,7 +52,7 @@ const Profile = () => {
                         className={`profile-tab ${activeTab === 'donations' ? 'active' : ''}`} 
                         onClick={() => handleTabClick('donations')}
                     >
-                        Donation
+                        Donations
                     </div>
                 </div>
             </div>

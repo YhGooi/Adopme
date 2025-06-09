@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/auth.store';
 import { user_details } from '../store/auth.store';
 
-import '../css/common.css';
+import '../css/shared/common.css';
 import '../css/login.css';
 
 const Login: React.FC = () => {

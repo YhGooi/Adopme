@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuthStore, user_details } from '../store/auth.store';
 import { Client } from '@stomp/stompjs';
-import '/src/css/messaging.css';
+import '/src/css/shared/messaging.css';
 
 interface Message {
     id?: number;

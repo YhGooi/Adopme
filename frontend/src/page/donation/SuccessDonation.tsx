@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import '../css/successdonation.css'; 
+import '../../css/donation/successDonation.css';
 
 const SuccessDonation = () => {
     return (

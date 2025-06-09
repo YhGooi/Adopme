@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { usePetListingStore } from '../store/petListing.store';
-import { useAuthStore } from '../store/auth.store';
-import '../css/PetListing.css';
-import { Pet } from '../store/petListing.store';
+import { usePetListingStore } from '../../store/petListing.store';
+import { useAuthStore } from '../../store/auth.store';
+import { Pet } from '../../store/petListing.store';
 import { useNavigate } from 'react-router-dom';
-import { user_details } from '../store/auth.store';
-import ChatIcon from '../assets/png/Chat.png';
+import { user_details } from '../../store/auth.store';
+import '../../css/petListing/petListing.css';
+import ChatIcon from '../../assets/png/Chat.png';
 
 const PetListing = () => {
   const { pets, fetchPets } = usePetListingStore();

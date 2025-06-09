@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import { useAuthStore } from '../store/auth.store';
 import { user_details } from '../store/auth.store';
-import '../css/common.css';
+import '../css/shared/common.css';
 
 const Register: React.FC = () => {
     const authStore = useAuthStore((state) => state) as any;
