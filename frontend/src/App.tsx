@@ -7,7 +7,7 @@ import Layout from "./Layout";
 import Home from "./page/Home";
 import Login from "./page/Login";
 import Signup from "./page/SignUp";
-import PetListing from "./page/PetListing";
+import PetListing from "./page/petListing/PetListing";
 import Messaging from './page/Messaging';
 import Profile from './page/profile/Profile';
 // Admin
@@ -32,7 +32,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/pet_listing" element={<PetListing />} />
+          <Route path="/pet-listing" element={<PetListing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/messaging" element={<Messaging />} />

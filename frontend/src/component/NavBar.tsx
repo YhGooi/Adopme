@@ -20,7 +20,7 @@ const NavBar = () => {
                     {/* Navigation Buttons */}
                     <div className="navbar-buttons">
                         <button onClick={() => navigate("/home")}>Home</button>
-                        <button onClick={() => navigate("/pet_listing")}>Find a Pet</button>
+                        <button onClick={() => navigate("/pet-listing")}>Find a Pet</button>
                         <button onClick={() => navigate("/donation")}>Donation</button>
                         <button onClick={() => navigate("/appointment")}>Appointment</button>
                         {/* Admin Dropdown - Only show if user is admin */}

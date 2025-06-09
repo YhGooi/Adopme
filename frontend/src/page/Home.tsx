@@ -27,7 +27,7 @@ const Home: React.FC = () => {
             className="hero-image w-full h-auto object-cover block"
         />
         <div className="hero-button-container">
-            <button className="hero-button" onClick={() => navigate('/pet_listing')}>
+            <button className="hero-button" onClick={() => navigate('/pet-listing')}>
             ADOPT ME
             </button>
         </div>
@@ -39,7 +39,7 @@ const Home: React.FC = () => {
       {/* Left Text Block */}
       <div className="polaroid-text">
         <h3>LOOKING FOR<br />MORE?</h3>
-        <button className="link-button" onClick={() => navigate('/pet_listing')}>
+        <button className="link-button" onClick={() => navigate('/pet-listing')}>
           VIEW LISTING
         </button>
 
@@ -76,7 +76,7 @@ const Home: React.FC = () => {
 
         <div className="content">
           <h2>READY<br />TO<br />ADOPT?</h2>
-          <button className="white-link" onClick={() => navigate('/pet_listing')}>
+          <button className="white-link" onClick={() => navigate('/pet-listing')}>
             APPLY NOW
           </button>
         </div>

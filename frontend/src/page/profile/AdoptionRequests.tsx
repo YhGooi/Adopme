@@ -124,7 +124,7 @@ const AdoptionRequests = () => {
                     </p>
                     <button 
                         className="profile-action-button"
-                        onClick={() => navigate('/pet_listing')}
+                        onClick={() => navigate('/pet-listing')}
                     >
                         Find a Pet
                     </button>
