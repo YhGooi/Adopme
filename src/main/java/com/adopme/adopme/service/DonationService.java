@@ -13,10 +13,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+ 
 @Service
 public class DonationService {
 
@@ -65,4 +69,28 @@ public class DonationService {
 
         return DonationResponseMapper.INSTANCE.toDonationResponse(updatedDonation);
     }
+    
+    @Transactional(rollbackFor = IOException.class)
+    public DonationResponse createDonation(Long userId, BigDecimal amount, 
+                                      MultipartFile receipt) throws IOException {
+
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Donation amount is RM0.");
+        }
+        if (receipt.isEmpty()) {
+            throw new IllegalArgumentException("Receipt must be uploaded.");
+        }
+
+        Donation donation = Donation.builder()
+                .userId(userId)
+                .amount(amount)
+                .donationDate(LocalDateTime.now())
+                .status(DonationStatus.PROCESSING)
+                .build();
+
+        Donation savedDonation = donationRepository.save(donation);
+        return DonationResponseMapper.INSTANCE.toDonationResponse(savedDonation);
+    }
+
+    
 }

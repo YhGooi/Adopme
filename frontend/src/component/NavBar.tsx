@@ -21,7 +21,7 @@ const NavBar = () => {
                     <div className="navbar-buttons">
                         <button onClick={() => navigate("/home")}>Home</button>
                         <button onClick={() => navigate("/pet_listing")}>Find a Pet</button>
-                        <button onClick={() => navigate("/donation/Donation")}>Donation</button>
+                        <button onClick={() => navigate("/UserDonation")}>Donation</button>
                         <button onClick={() => navigate("/appointment")}>Appointment</button>
                         {/* Admin Dropdown - Only show if user is admin */}
                         {userStore.type === 'ADMIN' && authStore.isLogin && (
