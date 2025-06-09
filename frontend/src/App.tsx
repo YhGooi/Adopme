@@ -13,6 +13,10 @@ import Messaging from './page/Messaging';
 import Profile from './page/Profile';
 import AdoptionRequestList from "./page/admin/adoption-request/AdoptionRequestList";
 import AdoptionRequestDetails from "./page/admin/adoption-request/AdoptionRequestDetails";
+import AdminPetListing from "./page/admin/pet/PetListing";
+import CreatePet from "./page/admin/pet/CreatePet";
+import PetDetails from "./page/admin/pet/PetDetails";
+import EditPet from "./page/admin/pet/EditPet";
 
 function App() {
   return (
@@ -29,6 +33,10 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/admin/adoption-request-list" element={<AdoptionRequestList />} />
           <Route path="/admin/adoption-request-details/:requestId" element={<AdoptionRequestDetails />} />
+          <Route path="/admin/pet-listing" element={<AdminPetListing />} />
+          <Route path="/admin/create-pet" element={<CreatePet />} />
+          <Route path="/admin/pet-details/:petId" element={<PetDetails />} />
+          <Route path="/admin/edit-pet/:petId" element={<EditPet />} />
         </Route>
       </Routes>
     </Router >

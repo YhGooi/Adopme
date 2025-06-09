@@ -35,6 +35,9 @@ const NavBar = () => {
                                     <button onClick={() => navigate("/admin/adoption-request-list")}>
                                         Adoption Requests
                                     </button>
+                                    <button onClick={() => navigate("/admin/pet-listing")}>
+                                        Pet Listings
+                                    </button>
                                 </div>
                             </div>
                         )}

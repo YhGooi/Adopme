@@ -1,5 +1,7 @@
 package com.adopme.adopme.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.*;
 
 import lombok.*;
@@ -25,6 +27,7 @@ public class Pet {
     private String name;
 
     @Column(nullable = false)
+    @JsonProperty("dateOfBirth")
     private LocalDate dob;
 
     @Column(nullable = false)
