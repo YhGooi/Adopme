@@ -22,6 +22,7 @@ import SuccessDonation from "./page/SuccessDonation";
 import MakeAppointment from "./page/Appointment/MakeAppointment";
 import AppointmentSuccess from "./page/Appointment/AppointmentSuccess";
 import AppointmentRequestList from "./page/admin/appoint-request/AppointmentRequestList";
+import DonationRequestList from "./page/admin/donation-request/DonationRequestList";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route path="/userdonation" element={<UserDonation />} />
           <Route path="/SuccessDonation" element={<SuccessDonation />} />
           <Route path="/admin/appointment-request-list" element={<AppointmentRequestList />} />
+          <Route path="/admin/donation-request-list" element={<DonationRequestList />} />
           <Route path="/appointment" element={<MakeAppointment />} />
           <Route path="/appointment/success" element={<AppointmentSuccess />} />
         </Route>
