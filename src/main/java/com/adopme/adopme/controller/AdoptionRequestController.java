@@ -2,7 +2,6 @@ package com.adopme.adopme.controller;
 
 import com.adopme.adopme.dto.adoption.AdoptionRequestAdminResponse;
 import com.adopme.adopme.dto.adoption.AdoptionRequestUserResponse;
-
 import com.adopme.adopme.model.AdoptionRequestStatus;
 import com.adopme.adopme.service.AdoptionRequestService;
 
@@ -58,12 +57,11 @@ public class AdoptionRequestController {
 
     @PostMapping
     public ResponseEntity<?> createAdoptionRequest(
-            @RequestHeader("user-id") Long userId,
-            @RequestBody Map<String, String> payload) {
+            @RequestHeader("user-id") Long userId, @RequestBody Map<String, String> payload) {
         try {
             System.out.println("Received userId: " + userId);
             System.out.println("Payload: " + payload);
-            
+
             Long petId = Long.parseLong(payload.get("petId"));
             String message = payload.get("message");
 
@@ -76,10 +74,8 @@ public class AdoptionRequestController {
     }
 
     @GetMapping("/submitted")
-    public ResponseEntity<List<Long>> getSubmittedPetIds(
-            @RequestHeader("userId") Long userId) {
+    public ResponseEntity<List<Long>> getSubmittedPetIds(@RequestHeader("userId") Long userId) {
         List<Long> submittedPetIds = adoptionRequestService.getPetIdsWithSubmittedRequest(userId);
         return ResponseEntity.ok(submittedPetIds);
     }
-
 }

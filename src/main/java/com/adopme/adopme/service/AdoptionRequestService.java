@@ -78,34 +78,31 @@ public class AdoptionRequestService {
 
     public void createAdoptionRequest(Long userId, Long petId, String message) {
         // Validate pet exists
-        petRepository.findById(petId)
+        petRepository
+                .findById(petId)
                 .orElseThrow(() -> new IllegalArgumentException("Pet not found"));
 
         // Validate user exists
-        userRepository.findById(userId)
+        userRepository
+                .findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        AdoptionRequest newRequest = AdoptionRequest.builder()
-                .userId(userId)
-                .petId(petId)
-                .status(AdoptionRequestStatus.SUBMITTED)
-                .message(message)
-                .remarks("") // optional
-                .submissionDate(LocalDateTime.now())
-                .build();
+        AdoptionRequest newRequest =
+                AdoptionRequest.builder()
+                        .userId(userId)
+                        .petId(petId)
+                        .status(AdoptionRequestStatus.SUBMITTED)
+                        .message(message)
+                        .remarks("") // optional
+                        .submissionDate(LocalDateTime.now())
+                        .build();
 
         adoptionRequestRepository.save(newRequest);
-        }
+    }
 
-        public List<Long> getPetIdsWithSubmittedRequest(Long userId) {
-                List<AdoptionRequest> requests = adoptionRequestRepository.findByUserIdOrderBySubmissionDateDesc(userId);
-                return requests.stream()
-                        .map(AdoptionRequest::getPetId)
-                        .distinct()
-                        .toList();
-                }
-
-
-
-
+    public List<Long> getPetIdsWithSubmittedRequest(Long userId) {
+        List<AdoptionRequest> requests =
+                adoptionRequestRepository.findByUserIdOrderBySubmissionDateDesc(userId);
+        return requests.stream().map(AdoptionRequest::getPetId).distinct().toList();
+    }
 }

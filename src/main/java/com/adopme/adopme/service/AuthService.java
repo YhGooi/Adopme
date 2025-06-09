@@ -29,7 +29,7 @@ public class AuthService {
 
     public Boolean authenticate(String email, String password) {
         String passwordHashed = userRepository.findPasswordHashByEmail(email);
-        //System.out.println("passwordHashed: " + passwordHashed);
+        // System.out.println("passwordHashed: " + passwordHashed);
         return skip_encryption
                 ? passwordHashed.equals(password)
                 : passwordHashed.equals(hashSHA256(password));
