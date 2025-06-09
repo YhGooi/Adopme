@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import logo from '../assets/png/Logo.png';
-import login_icon from '../assets/png/User_icon.png';
-import '/src/css/navbar.css';
+import login_icon from '../assets/png/UserIcon.png';
+import '/src/css/shared/navbar.css';
 import { useAuthStore } from '../store/auth.store';
 import { user_details } from '../store/auth.store';
 
@@ -20,8 +20,8 @@ const NavBar = () => {
                     {/* Navigation Buttons */}
                     <div className="navbar-buttons">
                         <button onClick={() => navigate("/home")}>Home</button>
-                        <button onClick={() => navigate("/pet_listing")}>Find a Pet</button>
-                        <button onClick={() => navigate("/UserDonation")}>Donation</button>
+                        <button onClick={() => navigate("/pet-listing")}>Find a Pet</button>
+                        <button onClick={() => navigate("/donation")}>Donation</button>
                         <button onClick={() => navigate("/appointment")}>Appointment</button>
                         {/* Admin Dropdown - Only show if user is admin */}
                         {userStore.type === 'ADMIN' && authStore.isLogin && (

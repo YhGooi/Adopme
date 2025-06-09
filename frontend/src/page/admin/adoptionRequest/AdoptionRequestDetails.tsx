@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthStore, user_details } from '../../../store/auth.store';
-import '../../../css/common.css';
-import '../../../css/adoptionRequestDetails.css';
+import '../../../css/shared/common.css';
+import '../../../css/admin/adoptionRequestDetails.css';
 
 interface User {
     id: number;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '/src/css/appointment.css';
+import '/src/css/appointment/appointment.css';
 import { useAuthStore, user_details } from '../../store/auth.store';
 
 type Pet = {
@@ -8,7 +8,7 @@ type Pet = {
   name: string;
 };
 
-const MakeAppointment = () => {
+const Appointment = () => {
   const authStore = useAuthStore((state) => state) as any;
   const userStore = user_details((state) => state) as any;
 
@@ -128,4 +128,4 @@ const MakeAppointment = () => {
   );
 };
 
-export default MakeAppointment;
+export default Appointment;

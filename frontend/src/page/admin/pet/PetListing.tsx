@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore, user_details } from '../../../store/auth.store';
-import '../../../css/common.css';
-import '../../../css/adminPetListing.css';
+import '../../../css/shared/common.css';
+import '../../../css/admin/petListing.css';
 
 interface Pet {
     id: number;

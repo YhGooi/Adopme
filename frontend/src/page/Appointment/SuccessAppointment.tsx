@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { CheckCircle } from 'lucide-react';
-import '/src/css/appointment.css';
+import '/src/css/appointment/appointmentSuccess.css';
 
 const SuccessAppointment = () => {
   return (

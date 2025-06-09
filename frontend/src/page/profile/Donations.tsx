@@ -1,10 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useAuthStore, user_details } from '../../store/auth.store';
-import '../../css/profile.css';
-import '../../css/profileComponents.css';
+import '../../css/profile/donations.css';
+import '../../css/profile/profileComponents.css';
 
-// Define interface for DonationResponse
 interface DonationResponse {
     id: number;
     userId: number;
@@ -100,7 +99,7 @@ const Donations = () => {
                 </p>
                 <button 
                     className="profile-action-button"
-                    onClick={() => navigate('/donation/Donation')}
+                    onClick={() => navigate('/donation')}
                 >
                     Make a Donation
                 </button>
