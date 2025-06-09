@@ -37,6 +37,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/messaging" element={<Messaging />} />
           <Route path="/profile" element={<Profile />} />
+
           <Route path="/admin/adoption-request-list" element={<AdoptionRequestList />} />
           <Route path="/admin/adoption-request-details/:requestId" element={<AdoptionRequestDetails />} />
           <Route path="/admin/pet-listing" element={<AdminPetListing />} />
@@ -44,8 +45,10 @@ function App() {
           <Route path="/admin/pet-details/:petId" element={<PetDetails />} />
           <Route path="/admin/edit-pet/:petId" element={<EditPet />} />
           <Route path="/admin/appointment-request-list" element={<AppointmentRequestList />} />
+
           <Route path="/donation" element={<Donation />} />
           <Route path="/donation/success" element={<SuccessDonation />} />
+
           <Route path="/appointment" element={<Appointment />} />
           <Route path="/appointment/success" element={<SuccessAppointment />} />
         </Route>
