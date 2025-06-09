@@ -22,6 +22,7 @@ const DonationRequestList = () => {
     const [startDate, setStartDate] = useState<string>('');
     const [endDate, setEndDate] = useState<string>('');
     const [selectedStatus, setSelectedStatus] = useState<'PROCESSING' | 'SUCCESS' | 'UNSUCCESS' | ''>('');
+    const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
 
     const authStore = useAuthStore();
 
@@ -91,6 +92,21 @@ const DonationRequestList = () => {
     useEffect(() => {
         fetchDonations();
     }, [fetchDonations]);
+
+    // Add event listener to close dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (openDropdownId !== null && 
+                !(event.target as Element).closest('.dropdown-container')) {
+                setOpenDropdownId(null);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [openDropdownId]);
 
     const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -172,6 +188,54 @@ const DonationRequestList = () => {
         }
     };
 
+    // Toggle dropdown visibility and set its position
+    const toggleDropdown = (donationId: number, event: React.MouseEvent<HTMLButtonElement>) => {
+        // Prevent event from bubbling to document click handler
+        event.stopPropagation();
+        
+        if (openDropdownId === donationId) {
+            setOpenDropdownId(null);
+        } else {
+            setOpenDropdownId(donationId);
+        }
+    };
+    
+    // Handle donation status update
+    const handleUpdateStatus = async (donationId: number, newStatus: 'SUCCESS' | 'UNSUCCESS') => {
+        try {
+            setLoading(true);
+            // Create URLSearchParams to match the controller's @RequestParam format
+            const params = new URLSearchParams();
+            params.append('donationId', donationId.toString());
+            params.append('donationStatus', newStatus);
+            
+            const response = await fetch(`http://localhost:8080/donation/update`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${authStore.token}`
+                },
+                body: params
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Failed to update status: ${response.status}`);
+            }
+            
+            // Update local state to reflect the change
+            setDonations(donations.map(donation => 
+                donation.id === donationId ? { ...donation, status: newStatus } : donation
+            ));
+            
+            // Close the dropdown
+            setOpenDropdownId(null);
+        } catch (err: any) {
+            console.error('Error updating donation status:', err);
+            setError(err.message || 'Failed to update donation status');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const todayStr = new Date().toISOString().split('T')[0];
 
     // Loading and error states are now handled as part of the main render
@@ -248,7 +312,7 @@ const DonationRequestList = () => {
                                     <td>{formatDate(donation.donationDate)}</td>
                                     <td>{donation.userName}</td>
                                     <td>{formatAmount(donation.amount)}</td>
-                                    <td className="action-cell">
+                                    <td>
                                         {donation.hasReceipt && (
                                             <button 
                                                 onClick={() => handleViewReceipt(donation.id)}
@@ -258,11 +322,32 @@ const DonationRequestList = () => {
                                             </button>
                                         )}
                                     </td>
-                                    <td className="action-cell">{getStatusDisplay(donation.status)}</td>
-                                    <td className="nav-button-cell">
-                                        <button className="nav-button">
-                                            &gt;
-                                        </button>
+                                    <td>{getStatusDisplay(donation.status)}</td>
+                                    <td>
+                                        <div className={`dropdown-container ${openDropdownId === donation.id ? 'dropdown-open' : ''}`}>
+                                            <button 
+                                                className="nav-button"
+                                                onClick={(event) => toggleDropdown(donation.id, event)}
+                                            >
+                                                &gt;
+                                            </button>
+                                            {openDropdownId === donation.id && (
+                                                <div className="status-dropdown">
+                                                    <button 
+                                                        className="dropdown-option approve"
+                                                        onClick={() => handleUpdateStatus(donation.id, 'SUCCESS')}
+                                                    >
+                                                        CONFIRMED
+                                                    </button>
+                                                    <button 
+                                                        className="dropdown-option reject"
+                                                        onClick={() => handleUpdateStatus(donation.id, 'UNSUCCESS')}
+                                                    >
+                                                        DECLINED
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
                                     </td>
                                 </tr>
                             ))}
