@@ -90,7 +90,7 @@ const Home: React.FC = () => {
       <div className="support-us-content">
         <div className="text-block">
           <h3>SUPPORT<br />US</h3>
-          <button className="white-link" onClick={() => navigate('/donation/Donation')}>
+          <button className="white-link" onClick={() => navigate('/UserDonation')}>
             SEE HOW CAN YOU HELP
           </button>
         </div>
