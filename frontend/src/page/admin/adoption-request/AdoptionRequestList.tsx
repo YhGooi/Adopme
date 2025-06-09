@@ -158,8 +158,15 @@ const AdoptionRequestList: React.FC = () => {
         fetchRequests();
     };
 
-    const handleRowClick = (requestId: number) => {
-        navigate(`/admin/adoption-request-details/${requestId}`);
+    const createSlug = (petName: string) => {
+        return petName.toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-') // Replace non-alphanumeric chars with hyphens
+            .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+    };
+
+    const handleRowClick = (requestId: number, petName: string) => {
+        const slug = createSlug(petName);
+        navigate(`/admin/adoption-request-details/${requestId}-${slug}`);
     };
 
     const getStatusClass = (status: AdoptionRequestBasic['status']) => {
@@ -217,8 +224,7 @@ const AdoptionRequestList: React.FC = () => {
                     <button className="clear-button" onClick={clearFilters}>Clear Filters</button>
                 </div>
             </div>
-
-            <div className="table-container">
+            <div className="adoption-request-table-container">
                 {isLoading ? (
                     <div className="loading-container">
                         <div className="loading-spinner"></div>
@@ -243,7 +249,11 @@ const AdoptionRequestList: React.FC = () => {
                         </thead>
                         <tbody>
                             {requests.map((req) => (
-                                <tr key={req.adoptionRequest.id} onClick={() => handleRowClick(req.adoptionRequest.id)}>
+                                <tr key={req.adoptionRequest.id}
+                                    onClick={() => handleRowClick(req.adoptionRequest.id, req.pet.name)}
+                                    title="See details"
+                                    style={{ position: 'relative' }}
+                                >
                                     <td>{req.adoptionRequest.id}</td>
                                     <td>{formatDisplayDate(req.adoptionRequest.submissionDate)}</td>
                                     <td>{req.pet.name}</td>

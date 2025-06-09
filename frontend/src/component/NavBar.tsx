@@ -1,4 +1,4 @@
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom"
 import logo from '../assets/png/Logo.png';
 import login_icon from '../assets/png/User_icon.png';
 import '/src/css/navbar.css';
@@ -15,7 +15,7 @@ const NavBar = () => {
             <div className="navbar-container">
                 <div className="navbar-content">
                     {/* Logo Section */}
-                    <img className="navbar-logo" src={logo}/>
+                    <img className="navbar-logo" src={logo} />
 
                     {/* Navigation Buttons */}
                     <div className="navbar-buttons">
@@ -33,6 +33,9 @@ const NavBar = () => {
                                     <button onClick={() => navigate("/admin/adoption-request-list")}>
                                         Adoption Requests
                                     </button>
+                                    <button onClick={() => navigate("/admin/pet-listing")}>
+                                        Pet Listings
+                                    </button>
                                     <button onClick={() => navigate("/admin/appointment-request-list")}>
                                         Appointment Requests
                                     </button>
@@ -43,12 +46,12 @@ const NavBar = () => {
                         {/* User Dropdown */}
                         <div className="dropdown">
                             <button className="dropdown-toggle">
-                            <img src={login_icon} alt="User Icon" className={`navbar-user-icon ${!authStore.isLogin ? 'glow-effect' : ''}`} />
-                            {authStore.isLogin && (
-                                <div className="navbar-username">
-                                {userStore.name || 'User'}
-                                </div>
-                            )}
+                                <img src={login_icon} alt="User Icon" className={`navbar-user-icon ${!authStore.isLogin ? 'glow-effect' : ''}`} />
+                                {authStore.isLogin && (
+                                    <div className="navbar-username">
+                                        {userStore.name || 'User'}
+                                    </div>
+                                )}
                             </button>
                             <div className="dropdown-menu">
                                 {!authStore.isLogin ? (
@@ -58,15 +61,15 @@ const NavBar = () => {
                                     </>
                                 ) : (
                                     <>
-                                    <button onClick={() => navigate("/messaging")}>Messages</button>
-                                    <button onClick={() => navigate("/profile")}>My Profile</button>
-                                    <button onClick={() => navigate("/signup")}>Update Profile</button>
-                                    <button onClick={() => {
-                                        authStore.logout();
-                                        navigate("/login");
+                                        <button onClick={() => navigate("/messaging")}>Messages</button>
+                                        <button onClick={() => navigate("/profile")}>My Profile</button>
+                                        <button onClick={() => navigate("/signup")}>Update Profile</button>
+                                        <button onClick={() => {
+                                            authStore.logout();
+                                            navigate("/login");
                                         }}>
-                                        Logout
-                                    </button>
+                                            Logout
+                                        </button>
                                     </>
                                 )}
                             </div>

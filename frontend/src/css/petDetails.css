@@ -1,0 +1,140 @@
+.back-link-row {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back-link {
+    color: #198754;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: color 0.2s;
+}
+
+.back-link:hover {
+    color: #145c32;
+    text-decoration: underline;
+}
+
+.details-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 1.2rem;
+}
+
+.pet-details-block {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    border-radius: 0.5rem;
+    padding: 2rem 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.pet-info-col {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    width: 100%;
+}
+
+.pet-image-col {
+    min-width: 180px;
+    max-width: 180px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.pet-image {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    border: 2px solid #badbcc;
+    background: #fff;
+}
+
+.pet-details-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    flex: 1;
+    justify-content: flex-start;
+}
+
+.pet-details-item {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: flex-start;
+}
+
+.pet-details-label {
+    font-weight: 600;
+    color: #495057;
+    min-width: 120px;
+    font-size: 1rem;
+}
+
+.pet-details-value {
+    color: #222;
+    font-size: 1rem;
+    word-break: break-word;
+}
+
+.edit-link {
+    background: #176440;
+    color: #e6f4ea;
+    border: 1px solid #176440;
+    border-radius: 4px;
+    padding: 0.4rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    margin-left: 1.5rem;
+    outline: none;
+    display: inline-block;
+}
+
+.edit-link:hover {
+    background: #145c32;
+    color: #e6f4ea;
+    border: 1px solid #145c32;
+}
+
+@media (max-width: 768px) {
+    .pet-details-block {
+        flex-direction: column;
+        padding: 1.2rem 0.5rem;
+    }
+
+    .pet-info-col {
+        flex-direction: column;
+        gap: 1.2rem;
+    }
+
+    .pet-image-col {
+        min-width: 120px;
+        max-width: 120px;
+    }
+
+    .pet-image {
+        width: 120px;
+        height: 120px;
+    }
+
+    .pet-details-label {
+        min-width: 90px;
+        font-size: 0.95rem;
+    }
+
+    .pet-details-value {
+        font-size: 0.95rem;
+    }
+}

@@ -2,12 +2,18 @@ package com.adopme.adopme.controller;
 
 import com.adopme.adopme.dto.pet.PetResponse;
 import com.adopme.adopme.model.Pet;
+import com.adopme.adopme.model.PetStatus;
 import com.adopme.adopme.service.PetService;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/pet")
@@ -30,15 +36,20 @@ public class PetController {
         return ResponseEntity.ok(pets);
     }
 
-    @PostMapping
-    public ResponseEntity<PetResponse> createPet(@RequestBody Pet pet) {
-        PetResponse saved = petService.createPet(pet);
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<PetResponse> createPet(
+            @RequestPart("pet") Pet pet,
+            @RequestPart(value = "image", required = false) MultipartFile image) {
+        PetResponse saved = petService.createPetWithImage(pet, image);
         return ResponseEntity.ok(saved);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<PetResponse> updatePet(@PathVariable Long id, @RequestBody Pet pet) {
-        PetResponse updated = petService.updatePet(id, pet);
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<PetResponse> updatePet(
+            @PathVariable Long id,
+            @RequestPart("pet") Pet pet,
+            @RequestPart(value = "image", required = false) MultipartFile image) {
+        PetResponse updated = petService.updatePetWithImage(id, pet, image);
         return ResponseEntity.ok(updated);
     }
 
@@ -46,5 +57,34 @@ public class PetController {
     public ResponseEntity<Void> deletePet(@PathVariable Long id) {
         petService.deletePet(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PetResponse> getPetById(@PathVariable Long id) {
+        PetResponse pet = petService.getPetById(id);
+        return ResponseEntity.ok(pet);
+    }
+
+    @GetMapping("/status")
+    public ResponseEntity<List<String>> getPetStatusEnum() {
+        return ResponseEntity.ok(Arrays.stream(PetStatus.values()).map(Enum::name).toList());
+    }
+
+    @GetMapping("/species")
+    public ResponseEntity<List<String>> getSpeciesEnum() {
+        return ResponseEntity.ok(
+                Arrays.stream(com.adopme.adopme.model.Species.values()).map(Enum::name).toList());
+    }
+
+    @GetMapping("/breed")
+    public ResponseEntity<Map<String, List<String>>> getBreedEnum() {
+        // Group breeds by species
+        Map<String, List<String>> breedMap =
+                Arrays.stream(com.adopme.adopme.model.Breed.values())
+                        .collect(
+                                Collectors.groupingBy(
+                                        b -> b.getSpecies().name(),
+                                        Collectors.mapping(Enum::name, Collectors.toList())));
+        return ResponseEntity.ok(breedMap);
     }
 }
