@@ -425,10 +425,10 @@ public class FabricateData implements CommandLineRunner {
                             "src",
                             "assets",
                             "png",
-                            "DuitnowQR.png");
+                            "Duitnow.png");
             receiptImage = Files.readAllBytes(receiptPath);
             System.out.println(
-                    "[DONATION]: Successfully read DuitnowQR.png receipt image ("
+                    "[DONATION]: Successfully read Duitnow.png receipt image ("
                             + receiptImage.length
                             + " bytes)");
         } catch (IOException e) {

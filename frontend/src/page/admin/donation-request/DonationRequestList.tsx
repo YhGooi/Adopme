@@ -20,7 +20,6 @@ const DonationRequestList = () => {
     const [startDate, setStartDate] = useState<string>('');
     const [endDate, setEndDate] = useState<string>('');
     const [selectedStatus, setSelectedStatus] = useState<'PROCESSING' | 'SUCCESS' | 'UNSUCCESS' | ''>('');
-    const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
 
     const authStore = useAuthStore();
 

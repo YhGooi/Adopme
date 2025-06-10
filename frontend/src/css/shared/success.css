@@ -1,0 +1,56 @@
+.success-container {
+    max-width: 50%;
+    margin: 50px auto;
+    font-family: Arial, sans-serif;
+    color: #333;
+    text-align: center;
+    background-color: #e7f0e8;
+    padding: 2rem;
+    gap: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.success-header {
+    margin-bottom: 2rem;
+}
+
+.success-header h1 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.success-header p {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* logo*/
+.success-checkmark {
+    display: inline-block;
+    color: #4CAF50;
+    font-size: 80px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    margin: 20px 0;
+    line-height: 1;
+    animation: checkmarkFadeIn 0.5s ease-out;
+}
+
+.back-home-link-container {
+    margin-top: 2rem;
+}
+
+.back-home-link {
+    color: #15803d;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.back-home-link:hover {
+    color: #14532d;
+}

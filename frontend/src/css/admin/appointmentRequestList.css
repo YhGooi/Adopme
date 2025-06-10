@@ -1,0 +1,21 @@
+.appointment-action-column {
+    width: 50px;
+}
+
+.appointment-action {
+    padding: 8px 16px;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.appointment-action.approve {
+    color: #198754;
+}
+
+.appointment-action.reject {
+    color: #dc3545;
+}

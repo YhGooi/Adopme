@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { user_details } from '../../store/auth.store';
 import axios from 'axios';
-import donationHero from '../../assets/png/DuitnowQR.png';
 import '../../css/donation/donation.css';
+import donationHero from '../../assets/png/DuitnowQR.png';
 
 
 const Donation = () => {
@@ -63,65 +63,76 @@ const Donation = () => {
 
     return (
         <div className="donation-page">
-            
-            <div className="donation-header">
-                <h1>Donation</h1>
-                <p>
-                    Thank you for being a hero to our furry friends! Your support as a Patreon helps us 
-                    provide love, care, and a second chance to animals in need. We couldn't do it without you!
-                </p>
+            <div className="donation-title-bar">
+                <h2>DONATION</h2>
             </div>
-
-            
-            <div className="donation-main">
-                <form className="donation-form" onSubmit={handleSubmit}>
-                    <h2>Donation Amount</h2>
-                    <input 
-                        type="text" 
-                        value={`RM${amount}`}
-                        onChange={(e) => setAmount(e.target.value.replace(/\D/g, ''))}
-                        className="amount-input"
-                    />                    <h2>Transfer Receipt</h2>                    <label className="file-upload">
-                        Upload ▲
-                        <input 
-                            type="file"
-                            accept="image/jpeg,image/png,image/gif,application/pdf"
-                            onChange={(e) => {
-                                const file = e.target.files?.[0];
-                                if (file) {
-                                    if (file.size > 20 * 1024 * 1024) {
-                                        alert("File size must be less than 20MB");
-                                        e.target.value = '';
-                                    } else {
-                                        setReceipt(file);
-                                    }
-                                }
-                            }}
-                            className="file-input"
-                        />
-                    </label>
-                    <p className="file-requirements">
-                        Accepted formats: JPEG, PNG, GIF, PDF • Max size: 20MB • Clear, legible transfer receipt recommended
-                    </p>
-                    {receipt && <span className="file-name">{receipt.name}</span>}
-
-                    
-                    <button 
-                        type="submit" 
-                        className="donate-btn"
-                        disabled={isSubmitting}
-                    >
-                        {isSubmitting ? 'Processing...' : 'DONATE'}
-                    </button>
-                </form>
-                
-                <div className="donation-sidebar">
-                    <div className="bank-details">
-                        <h2>Bank Details</h2>
-                        <p>Adopme Shelter <strong>1234123499</strong></p>
-                        <p>Maybank</p>
+            <div className="donation-container">
+                <div className="donation-content">
+                    <div className="donation-message">
+                        <p>
+                            Thank you for being a hero to our furry friends! Your support as a 
+                            Patreon helps us provide love, care, and a second chance to 
+                            animals in need. We couldn't do it without you!
+                        </p>
                     </div>
-                    <img src={donationHero} alt="Happy pets" className="donation-image" />
+                    <div className="donation-form-container">
+                        <form className="donation-form" onSubmit={handleSubmit}>
+                            <div className="donation-form-section">
+                                <label>Donation Amount</label>
+                                <input 
+                                    type="text" 
+                                    value={`RM ${amount}`}
+                                    onChange={(e) => setAmount(e.target.value.replace(/[^0-9]/g, ''))}
+                                    className="amount-input"
+                                />
+                            </div>
+                            
+                            <div className="donation-form-section">
+                                <label>Transfer Receipt</label>
+                                <label className="file-upload">
+                                    Upload ▲
+                                    <input 
+                                        type="file"
+                                        accept="image/jpeg,image/png,image/gif,application/pdf"
+                                        onChange={(e) => {
+                                            const file = e.target.files?.[0];
+                                            if (file) {
+                                                if (file.size > 20 * 1024 * 1024) {
+                                                    alert("File size must be less than 20MB");
+                                                    e.target.value = '';
+                                                } else {
+                                                    setReceipt(file);
+                                                }
+                                            }
+                                        }}
+                                        className="file-input"
+                                    />
+                                </label>
+                                <p className="file-requirements">
+                                    Accepted formats: JPEG, PNG, GIF, PDF • Max size: 20MB • Clear, legible transfer receipt recommended
+                                </p>
+                                {receipt && <span className="file-name">{receipt.name}</span>}
+                            </div>
+                            
+                            <button 
+                                type="submit" 
+                                className="donate-btn"
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? 'PROCESSING...' : 'DONATE'}
+                            </button>
+                        </form>
+                    
+                        <div className="vertical-divider"></div>
+                        
+                        <div className="bank-details">
+                            <h3>Bank Details</h3>
+                            <p>Adopme Shelter</p>
+                            <p>1234371699</p>
+                            <p>Maybank</p>
+                            <img src={donationHero} alt="Duitnow QR" className="donation-image" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
