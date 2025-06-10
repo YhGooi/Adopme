@@ -1,29 +1,32 @@
-/* Root container */
-.adoption-request-list {
-    display: flex;
+/* Admin List Pages Shared Styles */
+/* Common container for admin list pages */
+.admin-list-container {
     flex-direction: column;
-    min-height: 800px;
-    margin-top: 0px;
+    font-family: 'Segoe UI', sans-serif;
+    justify-content: center;
+    width: 100%;
+    height: calc(100vh - 322px);
+    align-items: center;
+    color:#000;
+    display : flex;
 }
 
 /* Sticky title bar */
-.title-bar {
+.admin-title-bar {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    top: 72px;
-    left: 0;
-    right: 0;
     z-index: 100;
     background-color: #d1e7dd;
-    padding: 1.5rem;
-    gap: 1.5rem;
+    padding: 1rem; /* Reduced padding */
+    gap: 1rem; /* Reduced gap */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.title-bar h2 {
-    margin: 0 0 1.5rem 0;
+.admin-title-bar h2 {
+    margin: 1rem 0 1rem 0;
     font-size: 24px;
     font-weight: 700;
     color: #1a1a1a;
@@ -31,7 +34,7 @@
 }
 
 /* Filters section */
-.filters {
+.admin-filters {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -39,13 +42,14 @@
     width: 100%;
 }
 
-.date-filters {
+.admin-date-filters {
     display: flex;
     gap: 1.5rem;
 }
 
-.filter-group,
-.status-filter {
+.admin-filter-group,
+.admin-status-filter {
+    height: 30px;
     background-color: white;
     padding: 0.75rem 1rem;
     border-radius: 0.5rem;
@@ -53,27 +57,39 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    width: 250px; /* Set fixed width for all filter boxes */
+    width: 200px;
 }
 
-.filter-group input[type="date"],
-.status-filter select {
+.admin-filter-group input[type="date"],
+.admin-status-filter select {
+    background-color: #f8f9fa;
     padding: 0.5rem;
     border: 1px solid #e2e8f0;
     border-radius: 0.375rem;
-    width: 150px; /* Set fixed width for inputs */
+    width: 150px;
     font-size: 0.9rem;
+    color: #4a5568;
 }
 
-.filter-group label,
-.status-filter label {
+.admin-filter-group input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(62%) sepia(11%) saturate(1095%) hue-rotate(101deg) brightness(86%) contrast(84%);
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.admin-filter-group input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+}
+
+.admin-filter-group label,
+.admin-status-filter label {
     white-space: nowrap;
     font-weight: 500;
     color: #4a5568;
     width: 50px; /* Fixed width for labels */
 }
 
-.clear-button {
+.admin-clear-button {
     background: none;
     border: none;
     color: #4a5568;
@@ -82,26 +98,21 @@
     font-weight: 500;
 }
 
-.clear-button:hover {
+.admin-clear-button:hover {
     color: #1D4ED8;
 }
 
 /* Table container */
-.adoption-request-table-container {
-    width: 90%;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
+.admin-table-container {
+    width: 60%;
+    margin: 20px auto;
     background: transparent;
-    /* Set a max height for the table area */
-    max-height: 600px;
-    overflow-y: auto;
+    overflow-y: hidden;
     box-sizing: border-box;
-    margin-top: 120px; /* To avoid overlap with sticky filter bar */
 }
 
 /* Table styles */
-.request-table {
+.admin-table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
@@ -112,7 +123,7 @@
     table-layout: fixed;
 }
 
-.request-table thead th {
+.admin-table thead th {
     background-color: #f2f2f2;
     padding: 12px 16px;
     text-align: left;
@@ -124,20 +135,25 @@
     z-index: 2;
 }
 
-.request-table tbody {
+.admin-table tbody {
+    height: calc(100vh - 500px);
     display: block;
-    max-height: 350px;
     overflow-y: auto;
     width: 100%;
 }
 
-.request-table thead, .request-table tbody tr {
+.admin-table tbody tr:last-child td {
+    border-bottom: none;
+    padding-bottom: 40px;
+}
+
+.admin-table thead, .admin-table tbody tr {
     display: table;
     width: 100%;
     table-layout: fixed;
 }
 
-.request-table td {
+.admin-table td {
     padding: 12px 15px;
     text-align: left;
     border-bottom: 1px solid #dee2e6;
@@ -146,25 +162,31 @@
     white-space: nowrap;
 }
 
+.admin-date-column {
+    width: 15%;
+}
+
 /* Status badges */
-.status-badge {
-    padding: 4px 8px;
-    border-radius: 12px;
+.admin-status-column {
+    width: 15%;
+}
+
+.admin-status-badge {
     font-size: 0.85rem;
     font-weight: 500;
     display: inline-block;
 }
 
-.status-submitted {
+.admin-status-submitted, .admin-status-pending, .admin-status-inactive {
     color: orange;
 }
 
-.status-approved {
+.admin-status-approved, .admin-status-active {
     color: green;
 }
 
-.status-rejected {
-    color: rgba(175, 9, 9, 0.837);
+.admin-status-rejected, .admin-status-adopted {
+    color: red;
 }
 
 /* Loading state */
@@ -204,22 +226,12 @@
     color: #666;
 }
 
-/* Responsive: fallback to horizontal scroll on small screens */
-@media (max-width: 900px) {
-    .table-container {
-        max-width: 98vw;
-        padding: 0;
-    }
-    .request-table {
-        font-size: 0.95rem;
-    }
-}
-
-.request-table tbody tr {
+/* Interactive rows */
+.admin-table tbody tr {
     cursor: pointer;
     transition: background 0.15s;
 }
 
-.request-table tbody tr:hover {
+.admin-table tbody tr:hover {
     background: #e7f0e8;
 }

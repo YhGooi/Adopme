@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore, user_details } from '../../../store/auth.store';
-import '../../../css/shared/common.css';
-import '../../../css/admin/adoptionRequestList.css';
+import '../../../css/admin/adminList.css';
 import Breed, { getBreedDisplayName } from '../../../model/Breed';
 
 interface User {
@@ -65,7 +64,10 @@ const AdoptionRequestList: React.FC = () => {
 
     const formatDisplayDate = (dateStr: string) => {
         const date = new Date(dateStr);
-        return date.toLocaleDateString('en-GB');
+        const day = date.getDate();
+        const month = date.toLocaleString('default', { month: 'short' });
+        const year = date.getFullYear();
+        return `${day} ${month} ${year}`;
     };
 
     const clearFilters = () => {
@@ -151,12 +153,12 @@ const AdoptionRequestList: React.FC = () => {
     const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setter(value);
-        fetchRequests();
+        fetchRequests;
     };
 
     const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedStatus(e.target.value as 'SUBMITTED' | 'APPROVED' | 'REJECTED' | '');
-        fetchRequests();
+        fetchRequests;
     };
 
     const createSlug = (petName: string) => {
@@ -172,9 +174,9 @@ const AdoptionRequestList: React.FC = () => {
 
     const getStatusClass = (status: AdoptionRequestBasic['status']) => {
         switch (status) {
-            case 'SUBMITTED': return 'status-submitted';
-            case 'APPROVED': return 'status-approved';
-            case 'REJECTED': return 'status-rejected';
+            case 'SUBMITTED': return 'admin-status-submitted';
+            case 'APPROVED': return 'admin-status-approved';
+            case 'REJECTED': return 'admin-status-rejected';
             default: return '';
         }
     };
@@ -186,12 +188,12 @@ const AdoptionRequestList: React.FC = () => {
     };
 
     return (
-        <div className="common_theme adoption-request-list">
-            <div className="title-bar">
+        <div className="admin-list-container">
+            <div className="admin-title-bar">
                 <h2>PET ADOPTION REQUEST</h2>
-                <div className="filters">
-                    <div className="date-filters">
-                        <div className="filter-group">
+                <div className="admin-filters">
+                    <div className="admin-date-filters">
+                        <div className="admin-filter-group">
                             <label htmlFor="startDate">From:</label>
                             <input
                                 type="date"
@@ -201,7 +203,7 @@ const AdoptionRequestList: React.FC = () => {
                                 onChange={handleDateChange(setStartDate)}
                             />
                         </div>
-                        <div className="filter-group">
+                        <div className="admin-filter-group">
                             <label htmlFor="endDate">To:</label>
                             <input
                                 type="date"
@@ -213,7 +215,7 @@ const AdoptionRequestList: React.FC = () => {
                             />
                         </div>
                     </div>
-                    <div className="status-filter">
+                    <div className="admin-status-filter">
                         <label htmlFor="status">Status:</label>
                         <select
                             id="status"
@@ -226,10 +228,11 @@ const AdoptionRequestList: React.FC = () => {
                             <option value="REJECTED">Rejected</option>
                         </select>
                     </div>
-                    <button className="clear-button" onClick={clearFilters}>Clear Filters</button>
+                    <button className="admin-clear-button" onClick={clearFilters}>Clear Filters</button>
                 </div>
             </div>
-            <div className="adoption-request-table-container">
+
+            <div className="admin-table-container">
                 {isLoading ? (
                     <div className="loading-container">
                         <div className="loading-spinner"></div>
@@ -240,16 +243,14 @@ const AdoptionRequestList: React.FC = () => {
                 ) : requests.length === 0 ? (
                     <div className="no-data-message">No adoption requests found</div>
                 ) : (
-                    <table className="request-table">
+                    <table className="admin-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Date</th>
+                                <th className={"admin-date-column"}>Date</th>
                                 <th>Pet Name</th>
                                 <th>Breed</th>
                                 <th>Applicant Name</th>
-                                <th>Status</th>
-                                <th></th>
+                                <th className={"admin-status-column"}>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -259,17 +260,15 @@ const AdoptionRequestList: React.FC = () => {
                                     title="See details"
                                     style={{ position: 'relative' }}
                                 >
-                                    <td>{req.adoptionRequest.id}</td>
-                                    <td>{formatDisplayDate(req.adoptionRequest.submissionDate)}</td>
+                                    <td className={"admin-date-column"}>{formatDisplayDate(req.adoptionRequest.submissionDate)}</td>
                                     <td>{req.pet.name}</td>
                                     <td>{getBreedDisplayName(stringToBreed(req.pet.breed))}</td>
                                     <td>{req.user.name}</td>
-                                    <td>
-                                        <span className={`status-badge ${getStatusClass(req.adoptionRequest.status)}`}>
+                                    <td className={"admin-status-column"}>
+                                        <span className={`admin-status-badge ${getStatusClass(req.adoptionRequest.status)}`}>
                                             {req.adoptionRequest.status}
                                         </span>
                                     </td>
-                                    <td>&gt;</td>
                                 </tr>
                             ))}
                         </tbody>

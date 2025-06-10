@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore, user_details } from '../../../store/auth.store';
 import Species, { getSpeciesDisplayName } from '../../../model/Species';
 import Breed, { getBreedDisplayName } from '../../../model/Breed';
-import '../../../css/shared/common.css';
+import '../../../css/admin/adminList.css';
 import '../../../css/admin/petListing.css';
 
 interface Pet {
@@ -84,22 +84,23 @@ const AdminPetListing: React.FC = () => {
 
     const getStatusClass = (status: string) => {
         switch (status?.toLowerCase()) {
-            case 'active': return 'status-active';
-            case 'inactive': return 'status-inactive';
-            case 'adopted': return 'status-adopted';
-            default: return 'status-active';
+            case 'active': return 'admin-status-active';
+            case 'inactive': return 'admin-status-inactive';
+            case 'adopted': return 'admin-status-adopted';
+            default: return 'admin-status-active';
         }
     };
 
     return (
-        <div className="pet-listing">
-            <div className="title-bar">
-                <h2>Pet Listing</h2>
+        <div className="admin-list-container">
+            <div className="admin-title-bar">
+                <h2>PET LISTING</h2>
             </div>
-            <div className="admin-pet-table-container">
-                <div className="table-header">
+            
+            <div className="admin-table-container">
+                <div className="admin-create-button-container">
                     <button
-                        className="create-pet-button"
+                        className="admin-create-pet-button"
                         onClick={() => navigate('/admin/create-pet')}
                     >
                         Create New Pet
@@ -115,17 +116,15 @@ const AdminPetListing: React.FC = () => {
                 ) : pets.length === 0 ? (
                     <div className="no-data-message">No pets found</div>
                 ) : (
-                    <table className="pet-table">
+                    <table className="admin-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Name</th>
                                 <th>Species</th>
                                 <th>Breed</th>
                                 <th>Gender</th>
                                 <th>Vaccinated</th>
-                                <th>Status</th>
-                                <th></th>
+                                <th className={"admin-status-column"}>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -135,18 +134,16 @@ const AdminPetListing: React.FC = () => {
                                     onClick={() => handleRowClick(pet.id, pet.name)}
                                     style={{ cursor: 'pointer' }}
                                 >
-                                    <td>{pet.id}</td>
                                     <td>{pet.name}</td>
                                     <td>{getSpeciesDisplayName(stringToSpecies(pet.species))}</td>
                                     <td>{getBreedDisplayName(stringToBreed(pet.breed))}</td>
                                     <td>{pet.gender}</td>
-                                    <td>{pet.vaccinated ? 'Yes' : 'No'}</td>
-                                    <td>
-                                        <span className={`status-badge ${getStatusClass(pet.status)}`}>
+                                    <td style={{ paddingLeft: '40px' }}>{pet.vaccinated ? '✓' : 'X'}</td>
+                                    <td className={"admin-status-column"}>
+                                        <span className={`admin-status-badge ${getStatusClass(pet.status)}`}>
                                             {pet.status || 'Active'}
                                         </span>
                                     </td>
-                                    <td>&gt;</td>
                                 </tr>
                             ))}
                         </tbody>

@@ -4,18 +4,16 @@
     flex-direction: row;
     width: 100%;
     max-width: 100%;
-    height: auto;
+    height: 250px;
     background-color: #B2D8E8;
     box-sizing: border-box;
     position: relative;
-    padding: 1rem;
-    margin: 0;
+    padding: 0 20%
 }
 
 /* Each column */
 .footer-column {
     flex: 1;
-    min-width: 250px;
     margin: 1rem;
     padding: 0 1rem;
 }
@@ -69,13 +67,4 @@
 .footer-column a:hover {
     text-decoration: underline;
     color: #1D4ED8;
-}
-
-.footer-bottom {
-    width: 100%;
-    text-align: center;
-    padding: 1rem 0;
-    background-color: #9fc5d3;
-    color: #333;
-    font-size: 0.875rem;
 }

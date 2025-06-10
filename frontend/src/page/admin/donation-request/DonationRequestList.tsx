@@ -1,8 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useAuthStore } from '../../../store/auth.store';
-import '../../../css/shared/common.css';
-import '../../../css/table.css';
-import '../../../css//admin/donationRequestList.css';
+import '../../../css/admin/adminList.css';
+import '../../../css/admin/donationRequestList.css';
 
 // Define interface for donation data based on DonationAdminResponse from backend
 interface DonationAdminResponse {
@@ -111,14 +110,12 @@ const DonationRequestList = () => {
     const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setter(value);
-        // We use setTimeout to ensure the state is updated before fetching
-        setTimeout(fetchDonations, 0);
+        fetchDonations;
     };
 
     const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedStatus(e.target.value as 'PROCESSING' | 'SUCCESS' | 'UNSUCCESS' | '');
-        // We use setTimeout to ensure the state is updated before fetching
-        setTimeout(fetchDonations, 0);
+        fetchDonations;
     };
 
     // Format date to match the design
@@ -135,17 +132,12 @@ const DonationRequestList = () => {
         return `RM ${amount.toFixed(2)}`;
     };
 
-    // Maps backend status to display status
-    const getStatusDisplay = (status: string) => {
-        switch(status) {
-            case 'PROCESSING':
-                return <span className="status-pending">Pending</span>;
-            case 'SUCCESS':
-                return <span className="status-approved">Approved</span>;
-            case 'UNSUCCESS':
-                return <span className="status-rejected">Rejected</span>;
-            default:
-                return <span>{status}</span>;
+    const getStatusClass = (status: DonationAdminResponse['status']) => {
+        switch (status) {
+            case 'PROCESSING': return 'admin-status-pending';
+            case 'SUCCESS': return 'admin-status-approved';
+            case 'UNSUCCESS': return 'admin-status-rejected';
+            default: return '';
         }
     };
 
@@ -187,18 +179,6 @@ const DonationRequestList = () => {
             alert('Failed to download receipt. Please try again.');
         }
     };
-
-    // Toggle dropdown visibility and set its position
-    const toggleDropdown = (donationId: number, event: React.MouseEvent<HTMLButtonElement>) => {
-        // Prevent event from bubbling to document click handler
-        event.stopPropagation();
-        
-        if (openDropdownId === donationId) {
-            setOpenDropdownId(null);
-        } else {
-            setOpenDropdownId(donationId);
-        }
-    };
     
     // Handle donation status update
     const handleUpdateStatus = async (donationId: number, newStatus: 'SUCCESS' | 'UNSUCCESS') => {
@@ -225,9 +205,6 @@ const DonationRequestList = () => {
             setDonations(donations.map(donation => 
                 donation.id === donationId ? { ...donation, status: newStatus } : donation
             ));
-            
-            // Close the dropdown
-            setOpenDropdownId(null);
         } catch (err: any) {
             console.error('Error updating donation status:', err);
             setError(err.message || 'Failed to update donation status');
@@ -240,12 +217,12 @@ const DonationRequestList = () => {
 
     // Loading and error states are now handled as part of the main render
     return (
-        <div className="common_theme donation-request-list">
-            <div className="title-bar">
-                <h2>DONATION LIST</h2>
-                <div className="filters">
-                    <div className="date-filters">
-                        <div className="filter-group">
+        <div className="admin-list-container">
+            <div className="admin-title-bar">
+                <h2>DONATION REQUEST</h2>
+                <div className="admin-filters">
+                    <div className="admin-date-filters">
+                        <div className="admin-filter-group">
                             <label htmlFor="startDate">From:</label>
                             <input
                                 type="date"
@@ -255,7 +232,7 @@ const DonationRequestList = () => {
                                 onChange={handleDateChange(setStartDate)}
                             />
                         </div>
-                        <div className="filter-group">
+                        <div className="admin-filter-group">
                             <label htmlFor="endDate">To:</label>
                             <input
                                 type="date"
@@ -267,7 +244,7 @@ const DonationRequestList = () => {
                             />
                         </div>
                     </div>
-                    <div className="status-filter">
+                    <div className="admin-status-filter">
                         <label htmlFor="status">Status:</label>
                         <select
                             id="status"
@@ -275,16 +252,16 @@ const DonationRequestList = () => {
                             onChange={handleStatusChange}
                         >
                             <option value="">All</option>
-                            <option value="PROCESSING">Pending</option>
-                            <option value="SUCCESS">Approved</option>
-                            <option value="UNSUCCESS">Rejected</option>
+                            <option value="PROCESSING">Processing</option>
+                            <option value="SUCCESS">Success</option>
+                            <option value="UNSUCCESS">Unsuccess</option>
                         </select>
                     </div>
-                    <button className="clear-button" onClick={clearFilters}>Clear Filters</button>
+                    <button className="admin-clear-button" onClick={clearFilters}>Clear Filters</button>
                 </div>
             </div>
 
-            <div className="donation-request-table-container">
+            <div className="admin-table-container">
                 {loading ? (
                     <div className="loading-container">
                         <div className="loading-spinner"></div>
@@ -295,59 +272,58 @@ const DonationRequestList = () => {
                 ) : donations.length === 0 ? (
                     <div className="no-data-message">No donations found</div>
                 ) : (
-                    <table className="custom-table">
+                    <table className="admin-table">
                         <thead>
                             <tr>
-                                <th>Date</th>
+                                <th className={"admin-date-column"}>Date</th>
                                 <th>Donor Name</th>
                                 <th>Amount</th>
-                                <th>Receipt</th>
-                                <th>Status</th>
-                                <th></th>
+                                <th className={"admin-status-column"}>Status</th>
+                                <th className="donation-action-column">Receipt</th>
+                                <th className="donation-action-column"></th>
+                                <th className="donation-action-column"></th>
                             </tr>
                         </thead>
                         <tbody>
                             {donations.map((donation) => (
-                                <tr key={donation.id}>
-                                    <td>{formatDate(donation.donationDate)}</td>
+                                <tr key={donation.id} style={{ position: 'relative' }}>
+                                    <td  className={"admin-date-column"}>{formatDate(donation.donationDate)}</td>
                                     <td>{donation.userName}</td>
                                     <td>{formatAmount(donation.amount)}</td>
-                                    <td>
+                                    <td className={"admin-status-column"}>
+                                        <span className={`admin-status-badge ${getStatusClass(donation.status)}`}>
+                                            {donation.status}
+                                        </span>
+                                    </td>
+                                    <td className="donation-action-column">
                                         {donation.hasReceipt && (
                                             <button 
                                                 onClick={() => handleViewReceipt(donation.id)}
-                                                className="receipt-button"
+                                                className="donation-receipt-button"
                                             >
                                                 View
                                             </button>
                                         )}
                                     </td>
-                                    <td>{getStatusDisplay(donation.status)}</td>
-                                    <td>
-                                        <div className={`dropdown-container ${openDropdownId === donation.id ? 'dropdown-open' : ''}`}>
+                                    <td className="donation-action-column">
+                                        {donation.status === 'PROCESSING' && (
                                             <button 
-                                                className="nav-button"
-                                                onClick={(event) => toggleDropdown(donation.id, event)}
+                                                className="dropdown-option approve"
+                                                onClick={() => handleUpdateStatus(donation.id, 'SUCCESS')}
                                             >
-                                                &gt;
+                                                ✓
                                             </button>
-                                            {openDropdownId === donation.id && (
-                                                <div className="status-dropdown">
-                                                    <button 
-                                                        className="dropdown-option approve"
-                                                        onClick={() => handleUpdateStatus(donation.id, 'SUCCESS')}
-                                                    >
-                                                        CONFIRMED
-                                                    </button>
-                                                    <button 
-                                                        className="dropdown-option reject"
-                                                        onClick={() => handleUpdateStatus(donation.id, 'UNSUCCESS')}
-                                                    >
-                                                        DECLINED
-                                                    </button>
-                                                </div>
-                                            )}
-                                        </div>
+                                        )}
+                                    </td>
+                                    <td className="donation-action-column">
+                                        {donation.status === 'PROCESSING' && (
+                                            <button 
+                                                className="dropdown-option reject"
+                                                onClick={() => handleUpdateStatus(donation.id, 'UNSUCCESS')}
+                                            >
+                                                X
+                                            </button>
+                                        )}
                                     </td>
                                 </tr>
                             ))}

@@ -1,146 +1,4 @@
-.pet-listing {
-    display: flex;
-    flex-direction: column;
-    min-height: 800px;
-    margin-top: 0px;
-}
-
-/* Light green container that sticks to navbar */
-.title-bar {
-    position: fixed;
-    top: 72px;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    background-color: #d1e7dd;
-    text-align: center;
-    padding: 1.5rem;
-    margin: 0;
-    border-bottom: 1px solid #badbcc;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Loading and error states */
-.loading-cell,
-.error-cell,
-.empty-cell {
-    text-align: center;
-    padding: 2rem !important;
-}
-
-.loading-cell {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-}
-
-.loading-spinner {
-    width: 24px;
-    height: 24px;
-    border: 3px solid #f3f3f3;
-    border-top: 3px solid #3498db;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-.admin-pet-table-container {
-    width: 90%;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-    background: transparent;
-    max-height: 600px;
-    overflow-y: auto;
-    box-sizing: border-box;
-    margin-top: 120px;
-}
-
-/* Ensure the table header stays sticky */
-.pet-table thead {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    background: #f8f9fa;
-}
-
-.pet-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.pet-table th {
-    background-color: #f8f9fa;
-    color: #4a5568;
-    font-weight: 600;
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 2px solid #e2e8f0;
-}
-
-.pet-table td {
-    padding: 1rem;
-    border-bottom: 1px solid #e2e8f0;
-    color: #2d3748;
-}
-
-.pet-table tr:last-child td {
-    border-bottom: none;
-}
-
-.pet-table tr:hover {
-    background-color: #e7f0e8;
-}
-
-/* Status badges */
-.status-badge {
-    padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    display: inline-block;
-    text-transform: capitalize;
-}
-
-.status-active {
-    background-color: #d4edda;
-    color: #155724;
-}
-
-.status-inactive {
-    background-color: #fff3cd;
-    color: #856404;
-}
-
-.status-adopted {
-    background-color: #cce5ff;
-    color: #0066cc;
-}
-
-.title-bar h2 {
-    margin: 0;
-    font-size: 28px;
-    font-weight: 700;
-    color: #1a1a1a;
-    letter-spacing: -0.5px;
-}
-
-.table-header {
+.admin-create-button-container {
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -148,7 +6,7 @@
     padding: 0.5rem 0;
 }
 
-.create-pet-button {
+.admin-create-pet-button {
     background-color: #6f9c76;
     color: white;
     border: none;
@@ -164,7 +22,7 @@
     gap: 0.5rem;
 }
 
-.create-pet-button:hover {
+.admin-create-pet-button:hover {
     background-color: #5d8464;
     box-shadow: 0 4px 8px rgba(111, 156, 118, 0.3);
     transform: translateY(-1px);

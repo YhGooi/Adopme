@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuthStore } from '../../../store/auth.store';
 import { useNavigate } from 'react-router-dom';
 import '../../../css/shared/common.css';
-import '../../../css/table.css';
-import '../../../css/admin/appointmentList.css';
+import '../../../css/admin/adminList.css';
 
 interface AppointmentDetail {
     id: number;
@@ -106,7 +105,7 @@ const AppointmentRequestList: React.FC = () => {
         <div className="common_theme">
             <div>
                 <h2>APPOINTMENT REQUEST</h2>
-                <div className="title-bar">
+                <div className="admin-title-bar">
                     <div className="filters">
                         <div className="date-filters">
                             <div className="filter-group">
