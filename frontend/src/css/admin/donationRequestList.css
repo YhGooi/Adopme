@@ -21,10 +21,10 @@
     transition: all 0.2s ease;
 }
 
-.dropdown-option.approve {
+.donation-action.approve {
     color: #198754;
 }
 
-.dropdown-option.reject {
+.donation-action.reject {
     color: #dc3545;
 }
