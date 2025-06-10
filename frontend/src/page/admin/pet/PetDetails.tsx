@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthStore, user_details } from '../../../store/auth.store';
+import Species, { getSpeciesDisplayName } from '../../../model/Species';
+import Breed, { getBreedDisplayName } from '../../../model/Breed';
 import '../../../css/shared/common.css';
 import '../../../css/admin/petDetails.css';
 
@@ -20,6 +22,26 @@ interface Pet {
     createdAt: string;
     updatedAt: string;
 }
+
+// Helper function to convert string to Species enum
+const stringToSpecies = (speciesKey: string): Species => {
+    return Species[speciesKey as keyof typeof Species];
+};
+
+// Helper function to convert string to Breed enum
+const stringToBreed = (breedKey: string): Breed => {
+    return Breed[breedKey as keyof typeof Breed];
+};
+
+// Helper function to get readable status name
+const getStatusDisplayName = (status: string): string => {
+    const statusMap: Record<string, string> = {
+        'ACTIVE': 'Active',
+        'INACTIVE': 'Inactive',
+        'ADOPTED': 'Adopted'
+    };
+    return statusMap[status] || status;
+};
 
 const PetDetailsPage: React.FC = () => {
     const navigate = useNavigate();
@@ -112,12 +134,12 @@ const PetDetailsPage: React.FC = () => {
                             <div className="pet-details-item"><div className="pet-details-label">Age:</div><div className="pet-details-value">{pet.age} years</div></div>
                             <div className="pet-details-item"><div className="pet-details-label">Date of Birth:</div><div className="pet-details-value">{new Date(pet.dob).toLocaleDateString('en-GB')}</div></div>
                             <div className="pet-details-item"><div className="pet-details-label">Gender:</div><div className="pet-details-value">{pet.gender}</div></div>
-                            <div className="pet-details-item"><div className="pet-details-label">Species:</div><div className="pet-details-value">{pet.species}</div></div>
-                            <div className="pet-details-item"><div className="pet-details-label">Breed:</div><div className="pet-details-value">{pet.breed}</div></div>
+                            <div className="pet-details-item"><div className="pet-details-label">Species:</div><div className="pet-details-value">{getSpeciesDisplayName(stringToSpecies(pet.species))}</div></div>
+                            <div className="pet-details-item"><div className="pet-details-label">Breed:</div><div className="pet-details-value">{getBreedDisplayName(stringToBreed(pet.breed))}</div></div>
                             <div className="pet-details-item"><div className="pet-details-label">Weight:</div><div className="pet-details-value">{pet.weight} kg</div></div>
                             <div className="pet-details-item"><div className="pet-details-label">Vaccinated:</div><div className="pet-details-value">{pet.vaccinated ? 'Yes' : 'No'}</div></div>
                             <div className="pet-details-item"><div className="pet-details-label">Description:</div><div className="pet-details-value">{pet.description}</div></div>
-                            <div className="pet-details-item"><div className="pet-details-label">Status:</div><div className="pet-details-value">{pet.status}</div></div>
+                            <div className="pet-details-item"><div className="pet-details-label">Status:</div><div className="pet-details-value">{getStatusDisplayName(pet.status)}</div></div>
                         </div>
                     </div>
                 </div>

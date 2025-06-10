@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore, user_details } from '../../../store/auth.store';
+import Species, { getSpeciesDisplayName } from '../../../model/Species';
+import Breed, { getBreedDisplayName, getBreedsForSpecies } from '../../../model/Breed';
 import '../../../css/shared/common.css';
 import '../../../css/admin/pet.css';
 
@@ -11,8 +13,8 @@ const CreatePet: React.FC = () => {
         gender: '',
         weight: '',
         vaccinated: false,
-        species: '',
-        breed: '',
+        species: '' as Species | '',
+        breed: '' as Breed | '',
         description: '',
         status: ''
     });
@@ -20,16 +22,19 @@ const CreatePet: React.FC = () => {
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [statusOptions, setStatusOptions] = useState<string[]>([]);
-    const [speciesOptions, setSpeciesOptions] = useState<string[]>([]);
-    const [breedOptions, setBreedOptions] = useState<string[]>([]);
-    const [allBreeds, setAllBreeds] = useState<{ [species: string]: string[] }>({});
+    // Fixed status options with readable display values
+    const statusOptions = [
+        { value: 'ACTIVE', label: 'Active' },
+        { value: 'INACTIVE', label: 'Inactive' },
+        { value: 'ADOPTED', label: 'Adopted' }
+    ];
+    const [breedOptions, setBreedOptions] = useState<Breed[]>([]);
 
     const navigate = useNavigate();
     const { token } = useAuthStore();
     const { type } = user_details();
 
-    // Fetch enums and check auth
+    // Check auth only
     useEffect(() => {
         if (!token) {
             navigate('/login');
@@ -39,37 +44,18 @@ const CreatePet: React.FC = () => {
             setError('You are not authorized to view this page');
             return;
         }
-        fetch('http://localhost:8080/pet/status', {
-            headers: token ? { 'Authorization': `Bearer ${token}` } : {}
-        })
-            .then(res => res.json())
-            .then(setStatusOptions)
-            .catch(() => setStatusOptions(['ACTIVE', 'INACTIVE', 'ADOPTED']));
-        fetch('http://localhost:8080/pet/species', {
-            headers: token ? { 'Authorization': `Bearer ${token}` } : {}
-        })
-            .then(res => res.json())
-            .then(setSpeciesOptions)
-            .catch(() => setSpeciesOptions([]));
-        fetch('http://localhost:8080/pet/breed', {
-            headers: token ? { 'Authorization': `Bearer ${token}` } : {}
-        })
-            .then(res => res.json())
-            .then(setAllBreeds)
-            .catch(() => setAllBreeds({}));
     }, [token, type, navigate]);
 
     // Update breed options when species changes
     useEffect(() => {
-        if (formData.species && allBreeds) {
-            const key = formData.species.toUpperCase();
-            setBreedOptions(allBreeds[key] || []);
+        if (formData.species) {
+            setBreedOptions(getBreedsForSpecies(formData.species as Species));
             setFormData(prev => ({ ...prev, breed: '' }));
         } else {
             setBreedOptions([]);
             setFormData(prev => ({ ...prev, breed: '' }));
         }
-    }, [formData.species, allBreeds]);
+    }, [formData.species]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value, type } = e.target;
@@ -192,7 +178,7 @@ const CreatePet: React.FC = () => {
                                         >
                                             <option value="">Select Status</option>
                                             {statusOptions.map(opt => (
-                                                <option key={opt} value={opt}>{opt.charAt(0) + opt.slice(1).toLowerCase()}</option>
+                                                <option key={opt.value} value={opt.value}>{opt.label}</option>
                                             ))}
                                         </select>
                                     </div>
@@ -260,8 +246,8 @@ const CreatePet: React.FC = () => {
                                             required
                                         >
                                             <option value="">Select Species</option>
-                                            {speciesOptions.map(opt => (
-                                                <option key={opt} value={opt}>{opt.charAt(0) + opt.slice(1).toLowerCase()}</option>
+                                            {Object.values(Species).map(species => (
+                                                <option key={species} value={species}>{getSpeciesDisplayName(species)}</option>
                                             ))}
                                         </select>
                                     </div>
@@ -276,8 +262,8 @@ const CreatePet: React.FC = () => {
                                             disabled={!formData.species}
                                         >
                                             <option value="">{formData.species ? 'Select Breed' : 'Select species first'}</option>
-                                            {breedOptions.map(opt => (
-                                                <option key={opt} value={opt}>{opt.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</option>
+                                            {breedOptions.map(breed => (
+                                                <option key={breed} value={breed}>{getBreedDisplayName(breed)}</option>
                                             ))}
                                         </select>
                                     </div>

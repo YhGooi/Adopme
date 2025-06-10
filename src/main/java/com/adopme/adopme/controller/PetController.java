@@ -2,7 +2,6 @@ package com.adopme.adopme.controller;
 
 import com.adopme.adopme.dto.pet.PetResponse;
 import com.adopme.adopme.model.Pet;
-import com.adopme.adopme.model.PetStatus;
 import com.adopme.adopme.service.PetService;
 
 import org.springframework.http.MediaType;
@@ -10,10 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/pet")
@@ -63,28 +59,5 @@ public class PetController {
     public ResponseEntity<PetResponse> getPetById(@PathVariable Long id) {
         PetResponse pet = petService.getPetById(id);
         return ResponseEntity.ok(pet);
-    }
-
-    @GetMapping("/status")
-    public ResponseEntity<List<String>> getPetStatusEnum() {
-        return ResponseEntity.ok(Arrays.stream(PetStatus.values()).map(Enum::name).toList());
-    }
-
-    @GetMapping("/species")
-    public ResponseEntity<List<String>> getSpeciesEnum() {
-        return ResponseEntity.ok(
-                Arrays.stream(com.adopme.adopme.model.Species.values()).map(Enum::name).toList());
-    }
-
-    @GetMapping("/breed")
-    public ResponseEntity<Map<String, List<String>>> getBreedEnum() {
-        // Group breeds by species
-        Map<String, List<String>> breedMap =
-                Arrays.stream(com.adopme.adopme.model.Breed.values())
-                        .collect(
-                                Collectors.groupingBy(
-                                        b -> b.getSpecies().name(),
-                                        Collectors.mapping(Enum::name, Collectors.toList())));
-        return ResponseEntity.ok(breedMap);
     }
 }

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore, user_details } from '../../../store/auth.store';
+import Species, { getSpeciesDisplayName } from '../../../model/Species';
+import Breed, { getBreedDisplayName } from '../../../model/Breed';
 import '../../../css/shared/common.css';
 import '../../../css/admin/petListing.css';
 
@@ -13,6 +15,16 @@ interface Pet {
     vaccinated: boolean;
     status: string;
 }
+
+// Helper function to convert string to Species enum
+const stringToSpecies = (speciesKey: string): Species => {
+    return Species[speciesKey as keyof typeof Species];
+};
+
+// Helper function to convert string to Breed enum
+const stringToBreed = (breedKey: string): Breed => {
+    return Breed[breedKey as keyof typeof Breed];
+};
 
 const AdminPetListing: React.FC = () => {
     const [pets, setPets] = useState<Pet[]>([]);
@@ -123,11 +135,18 @@ const AdminPetListing: React.FC = () => {
                                     onClick={() => handleRowClick(pet.id, pet.name)}
                                     style={{ cursor: 'pointer' }}
                                 >
-                                    <td>{pet.id}</td><td>{pet.name}</td><td>{pet.species}</td><td>{pet.breed}</td><td>{pet.gender}</td><td>{pet.vaccinated ? 'Yes' : 'No'}</td><td>
+                                    <td>{pet.id}</td>
+                                    <td>{pet.name}</td>
+                                    <td>{getSpeciesDisplayName(stringToSpecies(pet.species))}</td>
+                                    <td>{getBreedDisplayName(stringToBreed(pet.breed))}</td>
+                                    <td>{pet.gender}</td>
+                                    <td>{pet.vaccinated ? 'Yes' : 'No'}</td>
+                                    <td>
                                         <span className={`status-badge ${getStatusClass(pet.status)}`}>
                                             {pet.status || 'Active'}
                                         </span>
-                                    </td><td>&gt;</td>
+                                    </td>
+                                    <td>&gt;</td>
                                 </tr>
                             ))}
                         </tbody>

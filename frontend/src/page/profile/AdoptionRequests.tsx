@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore, user_details } from '../../store/auth.store';
 import '../../css/profile/adoptionRequests.css';
 import '../../css/profile/profileComponents.css';
+import Breed, { getBreedDisplayName } from '../../model/Breed';
 
 interface PetResponse {
     id: number;
@@ -35,6 +36,11 @@ export interface AdoptionRequestResponse {
     adoptionRequest: AdoptionRequestBasicResponse;
     pet: PetResponse;
 }
+
+// Helper function to convert string to Breed enum
+const stringToBreed = (breedKey: string): Breed => {
+    return Breed[breedKey as keyof typeof Breed];
+};
 
 const AdoptionRequests = () => {
     const [adoptionRequests, setAdoptionRequests] = useState<AdoptionRequestResponse[]>([]);
@@ -172,7 +178,7 @@ const AdoptionRequests = () => {
                             <div className="adoption-request-details">
                                 <div className="pet-name">{request.pet.name}</div>
                                 <div className="pet-info">
-                                    {request.pet.age} year old, {request.pet.gender}, {request.pet.breed}
+                                    {request.pet.age} year old, {request.pet.gender}, {getBreedDisplayName(stringToBreed(request.pet.breed))}
                                 </div>
                             </div>
                             

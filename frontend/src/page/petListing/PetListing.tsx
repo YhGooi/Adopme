@@ -6,6 +6,18 @@ import { useNavigate } from 'react-router-dom';
 import { user_details } from '../../store/auth.store';
 import '../../css/petListing/petListing.css';
 import ChatIcon from '../../assets/png/Chat.png';
+import Species, { getSpeciesDisplayName } from '../../model/Species';
+import Breed, { getBreedDisplayName } from '../../model/Breed';
+
+// Helper function to convert string to Species enum
+const stringToSpecies = (speciesKey: string): Species => {
+    return Species[speciesKey as keyof typeof Species];
+};
+
+// Helper function to convert string to Breed enum
+const stringToBreed = (breedKey: string): Breed => {
+    return Breed[breedKey as keyof typeof Breed];
+};
 
 const PetListing = () => {
   const { pets, fetchPets } = usePetListingStore();
@@ -166,7 +178,7 @@ const PetListing = () => {
           <select value={speciesFilter} onChange={(e) => setSpeciesFilter(e.target.value)}>
             <option value="">All Species</option>
             {speciesOptions.map((species, idx) => (
-              <option key={idx} value={species}>{species}</option>
+              <option key={idx} value={species}>{getSpeciesDisplayName(stringToSpecies(species))}</option>
             ))}
           </select>
 
@@ -217,9 +229,9 @@ const PetListing = () => {
                 <div className="pet-info-grid">
                   <div><strong>Date of Birth:</strong> {pet.dob}</div>
                   <div><strong>Gender:</strong> {pet.gender}</div>
-                  <div><strong>Species:</strong> {pet.species}</div>
+                  <div><strong>Species:</strong> {getSpeciesDisplayName(stringToSpecies(pet.species))}</div>
                   <div><strong>Weight:</strong> {pet.weight} kg</div>
-                  <div><strong>Breed:</strong> {pet.breed}</div>
+                  <div><strong>Breed:</strong> {getBreedDisplayName(stringToBreed(pet.breed))}</div>
                   <div><strong>Vaccinated:</strong> {pet.vaccinated ? 'Yes' : 'No'}</div>
                 </div>
                 <p className="pet-description">{pet.description}</p>

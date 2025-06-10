@@ -418,9 +418,19 @@ public class FabricateData implements CommandLineRunner {
     private static byte[] getReceiptImage() {
         byte[] receiptImage;
         try {
-            Path receiptPath = Paths.get(System.getProperty("user.dir"), "frontend", "src", "assets", "png", "DuitnowQR.png");
+            Path receiptPath =
+                    Paths.get(
+                            System.getProperty("user.dir"),
+                            "frontend",
+                            "src",
+                            "assets",
+                            "png",
+                            "DuitnowQR.png");
             receiptImage = Files.readAllBytes(receiptPath);
-            System.out.println("[DONATION]: Successfully read DuitnowQR.png receipt image (" + receiptImage.length + " bytes)");
+            System.out.println(
+                    "[DONATION]: Successfully read DuitnowQR.png receipt image ("
+                            + receiptImage.length
+                            + " bytes)");
         } catch (IOException e) {
             System.err.println("[DONATION]: Failed to read receipt image: " + e.getMessage());
             receiptImage = new byte[0]; // Fallback to empty array if file can't be read
