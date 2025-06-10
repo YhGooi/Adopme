@@ -3,8 +3,7 @@ import { useAuthStore } from '../../../store/auth.store';
 import '../../../css/admin/adminList.css';
 import '../../../css/admin/donationRequestList.css';
 
-// Define interface for donation data based on DonationAdminResponse from backend
-interface DonationAdminResponse {
+interface Donation {
     id: number;
     userId: number;
     userName: string;
@@ -15,7 +14,7 @@ interface DonationAdminResponse {
 }
 
 const DonationRequestList = () => {
-    const [donations, setDonations] = useState<DonationAdminResponse[]>([]);
+    const [donations, setDonations] = useState<Donation[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [startDate, setStartDate] = useState<string>('');
@@ -41,25 +40,15 @@ const DonationRequestList = () => {
 
             const url = new URL('http://localhost:8080/donation');
 
-            // Set start date to beginning of the day
-            const formattedStartDate = startDate
-                ? new Date(startDate).toISOString()
-                : new Date('1990-01-01').toISOString();
-            url.searchParams.append('startDate', formattedStartDate);
+            if (startDate) {
+                const formattedStartDate = new Date(startDate).toISOString();
+                url.searchParams.append('startDate', formattedStartDate);
+            }
 
-            // Set end date to end of the selected day or current day
-            const formattedEndDate = endDate
-                ? (() => {
-                    const d = new Date(endDate);
-                    d.setHours(23, 59, 59, 999);
-                    return d.toISOString();
-                })()
-                : (() => {
-                    const d = new Date();
-                    d.setHours(23, 59, 59, 999);
-                    return d.toISOString();
-                })();
-            url.searchParams.append('endDate', formattedEndDate);
+            if (endDate) {
+                const formattedEndDate = new Date(endDate).toISOString();
+                url.searchParams.append('endDate', formattedEndDate);
+            }
 
             // Status is optional
             if (selectedStatus) {
@@ -92,21 +81,6 @@ const DonationRequestList = () => {
         fetchDonations();
     }, [fetchDonations]);
 
-    // Add event listener to close dropdown when clicking outside
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (openDropdownId !== null && 
-                !(event.target as Element).closest('.dropdown-container')) {
-                setOpenDropdownId(null);
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [openDropdownId]);
-
     const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setter(value);
@@ -132,7 +106,7 @@ const DonationRequestList = () => {
         return `RM ${amount.toFixed(2)}`;
     };
 
-    const getStatusClass = (status: DonationAdminResponse['status']) => {
+    const getStatusClass = (status: Donation['status']) => {
         switch (status) {
             case 'PROCESSING': return 'admin-status-pending';
             case 'SUCCESS': return 'admin-status-approved';
@@ -215,7 +189,6 @@ const DonationRequestList = () => {
 
     const todayStr = new Date().toISOString().split('T')[0];
 
-    // Loading and error states are now handled as part of the main render
     return (
         <div className="admin-list-container">
             <div className="admin-title-bar">
@@ -308,7 +281,7 @@ const DonationRequestList = () => {
                                     <td className="donation-action-column">
                                         {donation.status === 'PROCESSING' && (
                                             <button 
-                                                className="dropdown-option approve"
+                                                className="donation-action approve"
                                                 onClick={() => handleUpdateStatus(donation.id, 'SUCCESS')}
                                             >
                                                 ✓
@@ -318,7 +291,7 @@ const DonationRequestList = () => {
                                     <td className="donation-action-column">
                                         {donation.status === 'PROCESSING' && (
                                             <button 
-                                                className="dropdown-option reject"
+                                                className="donation-action reject"
                                                 onClick={() => handleUpdateStatus(donation.id, 'UNSUCCESS')}
                                             >
                                                 X
