@@ -177,15 +177,15 @@
     display: inline-block;
 }
 
-.admin-status-submitted, .admin-status-pending, .admin-status-inactive {
+.admin-status-submitted, .admin-status-pending, .admin-status-inactive, .admin-status-requested {
     color: orange;
 }
 
-.admin-status-approved, .admin-status-active {
+.admin-status-approved, .admin-status-active, .admin-status-confirmed {
     color: green;
 }
 
-.admin-status-rejected, .admin-status-adopted {
+.admin-status-rejected, .admin-status-adopted, .admin-status-declined {
     color: red;
 }
 

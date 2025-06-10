@@ -1,6 +1,6 @@
 package com.adopme.adopme.controller;
 
-import com.adopme.adopme.dto.appointment.AppointmentDetailResponse;
+import com.adopme.adopme.dto.appointment.AppointmentAdminResponse;
 import com.adopme.adopme.dto.appointment.AppointmentRequest;
 import com.adopme.adopme.dto.appointment.AppointmentResponse;
 import com.adopme.adopme.model.AppointmentStatus;
@@ -68,22 +68,12 @@ public class AppointmentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AppointmentResponse>> getAllAppointments(
+    public ResponseEntity<List<AppointmentAdminResponse>> getAllAppointments(
             @RequestParam(required = false) AppointmentStatus status,
-            @RequestParam String startDate,
-            @RequestParam String endDate) {
-        List<AppointmentResponse> appointments =
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate) {
+        List<AppointmentAdminResponse> appointments =
                 appointmentService.getAllAppointments(status, startDate, endDate);
-        return ResponseEntity.ok(appointments);
-    }
-
-    @GetMapping("/filter/details")
-    public ResponseEntity<List<AppointmentDetailResponse>> getAllAppointmentsWithDetails(
-            @RequestParam(required = false) AppointmentStatus status,
-            @RequestParam String startDate,
-            @RequestParam String endDate) {
-        List<AppointmentDetailResponse> appointments =
-                appointmentService.getAllAppointmentsWithDetails(status, startDate, endDate);
         return ResponseEntity.ok(appointments);
     }
 

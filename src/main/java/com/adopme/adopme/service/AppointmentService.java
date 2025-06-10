@@ -1,12 +1,16 @@
 package com.adopme.adopme.service;
 
-import com.adopme.adopme.dto.appointment.AppointmentDetailResponse;
+import com.adopme.adopme.dto.appointment.AppointmentAdminResponse;
 import com.adopme.adopme.dto.appointment.AppointmentRequest;
 import com.adopme.adopme.dto.appointment.AppointmentResponse;
 import com.adopme.adopme.dto.appointment.AppointmentResponseMapper;
 import com.adopme.adopme.model.Appointment;
 import com.adopme.adopme.model.AppointmentStatus;
+import com.adopme.adopme.model.Pet;
+import com.adopme.adopme.model.User;
 import com.adopme.adopme.repository.AppointmentRepository;
+import com.adopme.adopme.repository.PetRepository;
+import com.adopme.adopme.repository.UserRepository;
 import com.adopme.adopme.repository.spec.AppointmentSpecifications;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +25,17 @@ import java.util.List;
 public class AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
+    private final UserRepository userRepository;
+    private final PetRepository petRepository;
 
     @Autowired
-    public AppointmentService(AppointmentRepository appointmentRepository) {
+    public AppointmentService(
+            AppointmentRepository appointmentRepository,
+            UserRepository userRepository,
+            PetRepository petRepository) {
         this.appointmentRepository = appointmentRepository;
+        this.userRepository = userRepository;
+        this.petRepository = petRepository;
     }
 
     public List<AppointmentResponse> getAppointmentsByUserId(Long userId) {
@@ -35,7 +46,7 @@ public class AppointmentService {
                 .toList();
     }
 
-    public List<AppointmentResponse> getAllAppointments(
+    public List<AppointmentAdminResponse> getAllAppointments(
             AppointmentStatus status, String startDate, String endDate) {
 
         LocalDateTime start =
@@ -46,7 +57,7 @@ public class AppointmentService {
         LocalDateTime end =
                 endDate != null
                         ? LocalDateTime.ofInstant(Instant.parse(endDate), ZoneId.systemDefault())
-                        : LocalDateTime.now();
+                        : LocalDateTime.now().plusYears(1);
 
         Specification<Appointment> spec = AppointmentSpecifications.withFilters(status, start, end);
 
@@ -54,17 +65,14 @@ public class AppointmentService {
         List<Appointment> appointments = appointmentRepository.findAll(spec, sort);
 
         return appointments.stream()
-                .map(AppointmentResponseMapper.INSTANCE::toAppointmentResponse)
+                .map(
+                        req -> {
+                            User user = userRepository.findById(req.getUserId()).get();
+                            Pet pet = petRepository.findById(req.getPetId()).get();
+                            return AppointmentResponseMapper.INSTANCE.toAppointmentAdminResponse(
+                                    req, user, pet);
+                        })
                 .toList();
-    }
-
-    public List<AppointmentDetailResponse> getAllAppointmentsWithDetails(
-            AppointmentStatus status, String startDate, String endDate) {
-
-        LocalDateTime start = LocalDate.parse(startDate).atStartOfDay();
-        LocalDateTime end = LocalDate.parse(endDate).atTime(LocalTime.MAX);
-
-        return appointmentRepository.findAppointmentsWithDetails(status, start, end);
     }
 
     public AppointmentResponse updateAppointmentStatus(
