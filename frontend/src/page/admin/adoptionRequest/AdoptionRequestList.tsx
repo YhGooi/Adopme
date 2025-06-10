@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore, user_details } from '../../../store/auth.store';
 import '../../../css/shared/common.css';
 import '../../../css/admin/adoptionRequestList.css';
+import Breed, { getBreedDisplayName } from '../../../model/Breed';
 
 interface User {
     id: number;
@@ -180,6 +181,10 @@ const AdoptionRequestList: React.FC = () => {
 
     const todayStr = new Date().toISOString().split('T')[0];
 
+    const stringToBreed = (breedKey: string): Breed => {
+        return Breed[breedKey as keyof typeof Breed];
+    };
+
     return (
         <div className="common_theme adoption-request-list">
             <div className="title-bar">
@@ -257,7 +262,7 @@ const AdoptionRequestList: React.FC = () => {
                                     <td>{req.adoptionRequest.id}</td>
                                     <td>{formatDisplayDate(req.adoptionRequest.submissionDate)}</td>
                                     <td>{req.pet.name}</td>
-                                    <td>{req.pet.breed}</td>
+                                    <td>{getBreedDisplayName(stringToBreed(req.pet.breed))}</td>
                                     <td>{req.user.name}</td>
                                     <td>
                                         <span className={`status-badge ${getStatusClass(req.adoptionRequest.status)}`}>

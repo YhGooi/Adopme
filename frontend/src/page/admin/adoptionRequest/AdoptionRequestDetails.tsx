@@ -3,6 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthStore, user_details } from '../../../store/auth.store';
 import '../../../css/shared/common.css';
 import '../../../css/admin/adoptionRequestDetails.css';
+import Species, { getSpeciesDisplayName } from '../../../model/Species';
+import Breed, { getBreedDisplayName } from '../../../model/Breed';
 
 interface User {
     id: number;
@@ -160,6 +162,14 @@ const AdoptionRequestDetailsPage: React.FC = () => {
         navigate('/admin/adoption-request-list');
     };
 
+    const stringToSpecies = (speciesKey: string): Species => {
+        return Species[speciesKey as keyof typeof Species];
+    };
+
+    const stringToBreed = (breedKey: string): Breed => {
+        return Breed[breedKey as keyof typeof Breed];
+    };
+
     if (isLoading) {
         return (
             <div className="loading-container">
@@ -188,8 +198,8 @@ const AdoptionRequestDetailsPage: React.FC = () => {
                             <div className="adoption-request-details-item"><div className="adoption-request-details-label">Age:</div><div className="adoption-request-details-value">{details.pet.age} years</div></div>
                             <div className="adoption-request-details-item"><div className="adoption-request-details-label">Date of Birth:</div><div className="adoption-request-details-value">{new Date(details.pet.dob).toLocaleDateString('en-GB')}</div></div>
                             <div className="adoption-request-details-item"><div className="adoption-request-details-label">Gender:</div><div className="adoption-request-details-value">{details.pet.gender}</div></div>
-                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Species:</div><div className="adoption-request-details-value">{details.pet.species}</div></div>
-                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Breed:</div><div className="adoption-request-details-value">{details.pet.breed}</div></div>
+                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Species:</div><div className="adoption-request-details-value">{getSpeciesDisplayName(stringToSpecies(details.pet.species))}</div></div>
+                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Breed:</div><div className="adoption-request-details-value">{getBreedDisplayName(stringToBreed(details.pet.breed))}</div></div>
                             <div className="adoption-request-details-item"><div className="adoption-request-details-label">Weight:</div><div className="adoption-request-details-value">{details.pet.weight} kg</div></div>
                             <div className="adoption-request-details-item"><div className="adoption-request-details-label">Vaccinated:</div><div className="adoption-request-details-value">{details.pet.vaccinated ? 'Yes' : 'No'}</div></div>
                             <div className="adoption-request-details-item"><div className="adoption-request-details-label">Description:</div><div className="adoption-request-details-value">{details.pet.description}</div></div>
