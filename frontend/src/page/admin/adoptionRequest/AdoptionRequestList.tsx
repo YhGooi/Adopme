@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore, user_details } from '../../../store/auth.store';
 import '../../../css/shared/common.css';
 import '../../../css/admin/adoptionRequestList.css';
-import Species from '../../../model/Species';
 import Breed, { getBreedDisplayName } from '../../../model/Breed';
 
 interface User {
