@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useAuthStore } from '../../../store/auth.store';
-import { useNavigate } from 'react-router-dom';
-import '../../../css/shared/common.css';
 import '../../../css/admin/adminList.css';
+import '../../../css/admin/appointmentRequestList.css';
 
-interface AppointmentDetail {
+interface Appointment {
     id: number;
     appointmentDateTime: string;
     createdAt: string;
@@ -14,186 +13,239 @@ interface AppointmentDetail {
 }
 
 const AppointmentRequestList: React.FC = () => {
-    const [appointments, setAppointments] = useState<AppointmentDetail[]>([]);
+    const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [startDate, setStartDate] = useState(
-        new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
-    );
-    const [endDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
-    const [selectedStatus, setSelectedStatus] = useState<string>('REQUESTED'); // Default to show REQUESTED appointments
+    const [startDate, setStartDate] = useState<string>('');
+    const [endDate, setEndDate] = useState<string>('');
+    const [selectedStatus, setSelectedStatus] = useState<'REQUESTED' | 'CONFIRMED' | 'DECLINED' | ''>('REQUESTED'); // Default to show REQUESTED appointments
     const authStore = useAuthStore();
-    const navigate = useNavigate();
 
-    // Check if user is logged in and is admin
-    useEffect(() => {
-        const checkAuth = async () => {
-            if (!authStore.isLogin) {
-                navigate('/');
-                return;
-            }
-        };
+    const clearFilters = () => {
+        setStartDate('');
+        setEndDate('');
+        setSelectedStatus('');
+        fetchAppointments();
+    };
+    
+    const fetchAppointments = useCallback(async () => {
+        if (!authStore.token) return;
 
-        checkAuth();
-    }, [authStore.isLogin, authStore.token, navigate]);
-
-    const fetchAppointments = async () => {
         try {
+            setLoading(true);
+            setError(null);
+
             setLoading(true);            
-            let url = `http://localhost:8080/appointment/filter/details?startDate=${startDate}&endDate=${endDate}`;
-            if (selectedStatus) {
-                url += `&status=${selectedStatus}`;
+            const url = new URL(`http://localhost:8080/appointment`);
+
+            if (startDate) {
+                const formattedStartDate = new Date(startDate).toISOString();
+                url.searchParams.append('startDate', formattedStartDate);
             }
-            
-            const response = await fetch(url, {
+
+            if (endDate) {
+                const formattedEndDate = new Date(endDate).toISOString();
+                url.searchParams.append('endDate', formattedEndDate);
+            }
+
+            // Status is optional
+            if (selectedStatus) {
+                url.searchParams.append('status', selectedStatus);
+            }
+
+            const response = await fetch(url.toString(), {
+                method: 'GET',
                 headers: {
+                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authStore.token}`
                 }
             });
-
+            
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`HTTP error! Status: ${response.status}`);
             }
-
+            
             const data = await response.json();
             setAppointments(data);
-            setError(null);
-        } catch (error) {
-            console.error('Error fetching appointments:', error);
-            setError('Failed to load appointments');
+        } catch (err: any) {
+            console.error('Error fetching appointments:', err);
+            setError(err.message || 'Failed to load appointments');
+        } finally {
+            setLoading(false);
+        }
+    }, [authStore.token, startDate, endDate, selectedStatus]);
+
+    useEffect(() => {
+        fetchAppointments();
+    }, [fetchAppointments]);
+
+
+    const handleDateChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setter(value);
+        fetchAppointments;
+    };
+
+    const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedStatus(e.target.value as 'REQUESTED' | 'CONFIRMED' | 'DECLINED' | '');
+        fetchAppointments;
+    };
+
+    // Format date to match the design
+    const formatDate = (dateString: string) => {
+        const date = new Date(dateString);
+        const day = date.getDate();
+        const month = date.toLocaleString('default', { month: 'short' });
+        const year = date.getFullYear();
+        return `${day} ${month} ${year}`;
+    };
+
+    const getStatusClass = (status: Appointment['status']) => {
+        switch (status) {
+            case 'REQUESTED': return 'admin-status-requested';
+            case 'CONFIRMED': return 'admin-status-confirmed';
+            case 'DECLINED': return 'admin-status-declined';
+            default: return '';
+        }
+    };
+
+    const handleUpdateStatus = async (appointmentId: number, newStatus: 'CONFIRMED' | 'DECLINED') => {
+        try {
+            setLoading(true);
+            // Create URLSearchParams to match the controller's @RequestParam format
+            const params = new URLSearchParams();
+            params.append('appointmentId', appointmentId.toString());
+            params.append('status', newStatus);
+            
+            const response = await fetch(`http://localhost:8080/appointment/update`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${authStore.token}`
+                },
+                body: params
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Failed to update status: ${response.status}`);
+            }
+            
+            // Update local state to reflect the change
+            setAppointments(appointments.map(appointment => 
+                appointment.id === appointmentId ? { ...appointment, status: newStatus } : appointment
+            ));
+        } catch (err: any) {
+            console.error('Error updating donation status:', err);
+            setError(err.message || 'Failed to update donation status');
         } finally {
             setLoading(false);
         }
     };
 
-    useEffect(() => {
-        fetchAppointments();
-    }, [authStore.token, startDate, endDate, selectedStatus]);    const handleStatusUpdate = async (appointmentId: number, newStatus: string) => {
-        try {
-            const response = await fetch(`http://localhost:8080/appointment/update?appointmentId=${appointmentId}&status=${newStatus}`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${authStore.token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            fetchAppointments();
-        } catch (error) {
-            console.error('Error updating appointment:', error);
-            setError('Failed to update appointment status');
-        }
-    };
-
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleString();
-    };
-
-    if (loading) {
-        return <div className="common_theme">Loading appointments...</div>;
-    }
-
-    if (error) {
-        return <div className="common_theme">Error: {error}</div>;
-    }
+    const todayStr = new Date().toISOString().split('T')[0];
 
     return (
-        <div className="common_theme">
-            <div>
+        <div className="admin-list-container">
+            <div className="admin-title-bar">
                 <h2>APPOINTMENT REQUEST</h2>
-                <div className="admin-title-bar">
-                    <div className="filters">
-                        <div className="date-filters">
-                            <div className="filter-group">
-                                <label>From: </label>
-                                <input
-                                    type="date"
-                                    value={startDate}
-                                    onChange={(e) => setStartDate(e.target.value)}
-                                />
-                            </div>
-                            <div className="filter-group">
-                                <label>To: </label>
-                                <input
-                                    type="date"
-                                    value={endDate}
-                                    onChange={(e) => setEndDate(e.target.value)}
-                                />
-                            </div>
-                            <div className="status-filter">
-                                <label>Status: </label>
-                                <select
-                                    value={selectedStatus}
-                                    onChange={(e) => setSelectedStatus(e.target.value)}
-                                    style={{ padding: '5px', borderRadius: '4px' }}
-                                >
-                                    <option value="">All</option>
-                                    <option value="REQUESTED">Requested</option>
-                                    <option value="CONFIRMED">Confirmed</option>
-                                    <option value="DECLINED">Declined</option>
-                                </select>
-                            </div>
+                <div className="admin-filters">
+                    <div className="admin-date-filters">
+                        <div className="admin-filter-group">
+                            <label htmlFor="startDate">From:</label>
+                            <input
+                                type="date"
+                                id="startDate"
+                                value={startDate}
+                                max={endDate ? endDate : todayStr}
+                                onChange={handleDateChange(setStartDate)}
+                            />
+                        </div>
+                        <div className="admin-filter-group">
+                            <label htmlFor="endDate">To:</label>
+                            <input
+                                type="date"
+                                id="endDate"
+                                value={endDate}
+                                min={startDate || ''}
+                                max={todayStr}
+                                onChange={handleDateChange(setEndDate)}
+                            />
                         </div>
                     </div>
+                    <div className="admin-status-filter">
+                        <label htmlFor="status">Status:</label>
+                        <select
+                            id="status"
+                            value={selectedStatus}
+                            onChange={handleStatusChange}
+                        >
+                            <option value="">All</option>
+                            <option value="REQUESTED">Requested</option>
+                            <option value="CONFIRMED">Confirmed</option>
+                            <option value="DECLINED">Declined</option>
+                        </select>
+                    </div>
+                    <button className="admin-clear-button" onClick={clearFilters}>Clear Filters</button>
                 </div>
-                <div className="table-container">
-                    <table className="custom-table">
+            </div>
+
+            <div className="admin-table-container">
+                {loading ? (
+                    <div className="loading-container">
+                        <div className="loading-spinner"></div>
+                        <span>Loading appointments...</span>
+                    </div>
+                ) : error ? (
+                    <div className="error-message">{error}</div>
+                ) : appointments.length === 0 ? (
+                    <div className="no-data-message">No appointments found</div>
+                ) : (
+                    <table className="admin-table">
                         <thead>
                             <tr>
-                                <th>Requested Date</th>
+                                <th className={"admin-date-column"}>Date</th>
                                 <th>User Name</th>
-                                <th>Appointment Time</th>
                                 <th>Pet Name</th>
-                                <th>Status</th>
-                                <th>Actions</th>
+                                <th className={"admin-status-column"}>Status</th>
+                                <th className="appointment-action-column"></th>
+                                <th className="appointment-action-column"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {appointments.map((appointment, index) => (
-                                <tr key={index}>
-                                    <td>{formatDate(appointment.createdAt)}</td>
+                            {appointments.map((appointment) => (
+                                <tr key={appointment.id} style={{ position: 'relative' }}>
+                                    <td  className={"admin-date-column"}>{formatDate(appointment.appointmentDateTime)}</td>
                                     <td>{appointment.userName}</td>
-                                    <td>{formatDate(appointment.appointmentDateTime)}</td>
                                     <td>{appointment.petName}</td>
-                                    <td>
-                                        <span className={`status-${appointment.status.toLowerCase()}`}>
+                                    <td className={"admin-status-column"}>
+                                        <span className={`admin-status-badge ${getStatusClass(appointment.status)}`}>
                                             {appointment.status}
                                         </span>
                                     </td>
-                                    <td>
+                                    <td className="appointment-action-column">
                                         {appointment.status === 'REQUESTED' && (
-                                            <>
-                                                <button
-                                                    onClick={() => handleStatusUpdate(appointment.id, 'CONFIRMED')}
-                                                    className="action-button confirm"
-                                                >
-                                                    Confirm
-                                                </button>
-                                                <button
-                                                    onClick={() => handleStatusUpdate(appointment.id, 'DECLINED')}
-                                                    className="action-button decline"
-                                                >
-                                                    Decline
-                                                </button>
-                                            </>
+                                            <button 
+                                                className="appointment-action approve"
+                                                onClick={() => handleUpdateStatus(appointment.id, 'CONFIRMED')}
+                                            >
+                                                ✓
+                                            </button>
+                                        )}
+                                    </td>
+                                    <td className="appointment-action-column">
+                                        {appointment.status === 'REQUESTED' && (
+                                            <button 
+                                                className="appointment-action reject"
+                                                onClick={() => handleUpdateStatus(appointment.id, 'DECLINED')}
+                                            >
+                                                X
+                                            </button>
                                         )}
                                     </td>
                                 </tr>
                             ))}
-                            {appointments.length === 0 && (
-                                <tr>
-                                    <td colSpan={6} style={{ textAlign: 'center', padding: '20px' }}>
-                                        No appointments found
-                                    </td>
-                                </tr>
-                            )}
                         </tbody>
                     </table>
-                </div>
+                )}
             </div>
         </div>
     );
