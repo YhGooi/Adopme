@@ -182,3 +182,29 @@
     color: #1D4ED8;
 }
 
+/* Unread message count styles */
+.message-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-unread-count {
+    background-color: #e74c3c;
+    color: white;
+    border-radius: 50%;
+    min-width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    margin-left: 8px;
+    padding: 0 6px;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+

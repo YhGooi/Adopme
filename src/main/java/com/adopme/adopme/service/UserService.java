@@ -87,4 +87,12 @@ public class UserService {
         User user = optionalUser.get();
         return UserResponseMapper.INSTANCE.toUserResponse(user);
     }
+
+    public String findAdmin() {
+        List<User> admins = userRepository.findByType(UserType.ADMIN);
+        if (admins.isEmpty()) {
+            throw new IllegalStateException("No admin users found in the system");
+        }
+        return admins.get(0).getEmail(); // Return the first admin's email
+    }
 }

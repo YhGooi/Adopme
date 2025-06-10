@@ -38,7 +38,7 @@ public class MessagingController {
 
             System.out.println("Message sent: " + savedMessage); // Debug log
         } catch (Exception e) {
-            // System.err("Error sending message: " + e.getMessage());
+            System.err.println("Error sending message: " + e.getMessage());
         }
     }
 
@@ -49,6 +49,32 @@ public class MessagingController {
         try {
             List<ChatMessage> messages = chatMessageService.getChatHistory(sender, recipient);
             return ResponseEntity.ok(messages);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PostMapping("/messages/read/{sender}/{recipient}")
+    @ResponseBody
+    public ResponseEntity<Void> markMessagesAsRead(
+            @PathVariable String sender,
+            @PathVariable String recipient) {
+        try {
+            chatMessageService.markMessagesAsRead(sender, recipient);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/messages/unread/{sender}/{recipient}")
+    @ResponseBody
+    public ResponseEntity<Long> getUnreadCount(
+            @PathVariable String sender,
+            @PathVariable String recipient) {
+        try {
+            long unreadCount = chatMessageService.getUnreadCount(sender, recipient);
+            return ResponseEntity.ok(unreadCount);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
