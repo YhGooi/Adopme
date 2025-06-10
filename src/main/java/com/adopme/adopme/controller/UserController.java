@@ -148,5 +148,24 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }    
+    @GetMapping("/find-admin")
+    public ResponseEntity<Map<String, String>> findAdmin() {
+        try {
+            String adminEmail = userService.findAdmin();
+            Map<String, String> response = new HashMap<>();
+            response.put("email", adminEmail);
+            return ResponseEntity.ok(response);
+        } catch (IllegalStateException e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "No admin users found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(errorResponse);
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Error finding admin user");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(errorResponse);
+        }
     }
 }

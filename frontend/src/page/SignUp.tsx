@@ -1,9 +1,11 @@
 import React, { useState,useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/auth.store';
 import { user_details } from '../store/auth.store';
 import '../css/shared/common.css';
 
 const Register: React.FC = () => {
+    const navigate = useNavigate();
     const authStore = useAuthStore((state) => state) as any;
     const userStore = user_details((state) => state) as any;
 
@@ -119,7 +121,7 @@ const Register: React.FC = () => {
     return (
         <div className="common_theme">
             <div className="green_container">
-                {!authStore.isLogin && (<a className="back-link" href="#">&#x3C; Already have an account?</a>) }
+                {!authStore.isLogin && (<a className="back-link" onClick={() => navigate('/login')}>&#x3C; Already have an account?</a>) }
                 <form className="center" onSubmit={handleSubmit}>
                     <h2>{authStore.isLogin ? 'UPDATE PROFILE' : 'SIGN UP'}</h2>
 

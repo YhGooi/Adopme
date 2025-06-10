@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { user_details } from '../../store/auth.store';
 import '../../css/petListing/petListing.css';
 import ChatIcon from '../../assets/png/Chat.png';
+import { Client } from '@stomp/stompjs';
 import Species, { getSpeciesDisplayName } from '../../model/Species';
 import Breed, { getBreedDisplayName } from '../../model/Breed';
 
@@ -106,8 +107,72 @@ const PetListing = () => {
 
     setSelectedPet(pet);
     setShowModal(true);
-  };
+  };  const handleChatClick = async (pet: Pet) => {
+    try {
+      // Get first admin to message
+      const response = await fetch('http://localhost:8080/user/find-admin', {
+        headers: {
+          'Authorization': `Bearer ${useAuthStore.getState().token}`,
+          'Content-Type': 'application/json'
+        }
+      });
 
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to find admin contact');
+      }
+
+      const adminEmail = data.email;
+      
+      // Create pet details summary
+      const petSummary = `Hello! I'm interested in ${pet.name}:
+        - Species: ${getSpeciesDisplayName(stringToSpecies(pet.species))}
+        - Breed: ${getBreedDisplayName(stringToBreed(pet.breed))}
+        - Age: ${pet.age} years
+        - Gender: ${pet.gender}
+        - Vaccinated: ${pet.vaccinated ? 'Yes' : 'No'}
+
+        I would like to know more about this pet.`;
+      const client = new Client({
+        brokerURL: 'ws://localhost:8080/ws',
+        connectHeaders: {
+          Authorization: `Bearer ${useAuthStore.getState().token}`
+        }
+      });
+
+      // Connect and send message
+      client.onConnect = () => {
+        const message = {
+          sender: user_details.getState().email,
+          recipient: adminEmail,
+          content: petSummary,
+          timestamp: new Date().toISOString(),
+          read: false
+        };
+
+        client.publish({
+          destination: '/app/chat.private',
+          body: JSON.stringify(message),
+          headers: {
+            'Authorization': `Bearer ${useAuthStore.getState().token}`
+          }
+        });
+
+        // Cleanup and disconnect
+        client.deactivate();
+        
+        // Navigate to messaging page
+        navigate('/messaging');
+      };
+
+      // Activate the client
+      client.activate();
+
+    } catch (error) {
+      console.error('Error initiating chat:', error);
+      alert('Failed to start chat with admin. Please try again later.');
+    }
+  };
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -243,13 +308,21 @@ const PetListing = () => {
                   >
                     {submittedPetIds.includes(pet.id) ? "REQUESTED" : "ADOPT"}
                   </button>
-                  {isLogin && (
+                  {isLogin && (                    
                     <div className="chat-icon-wrapper">
                       <img
                         src={ChatIcon}
                         alt="Chat"
                         className="chat-icon"
-                        onClick={() => navigate('/messaging')}
+                        onClick={(e) => {
+                          e.stopPropagation(); 
+                          if (!isLogin) {
+                            alert('Please log in to chat with admin.');
+                            navigate('/login');
+                            return;
+                          }
+                          handleChatClick(pet);
+                        }}
                       />
                     </div>
                   )}

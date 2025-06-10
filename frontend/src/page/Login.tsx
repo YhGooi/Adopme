@@ -122,7 +122,7 @@ const Login: React.FC = () => {
                 {/* Sign Up Side Panel */}
                 <div className="login-side-panel">
                     <h2>NEW TO US?</h2>
-                    <button>Sign Up</button>
+                    <button onClick={() => navigate('/signup')}>Sign Up</button>
                 </div>
             </div>
         </div>
