@@ -57,8 +57,7 @@ public class MessagingController {
     @PostMapping("/messages/read/{sender}/{recipient}")
     @ResponseBody
     public ResponseEntity<Void> markMessagesAsRead(
-            @PathVariable String sender,
-            @PathVariable String recipient) {
+            @PathVariable String sender, @PathVariable String recipient) {
         try {
             chatMessageService.markMessagesAsRead(sender, recipient);
             return ResponseEntity.ok().build();
@@ -70,8 +69,7 @@ public class MessagingController {
     @GetMapping("/messages/unread/{sender}/{recipient}")
     @ResponseBody
     public ResponseEntity<Long> getUnreadCount(
-            @PathVariable String sender,
-            @PathVariable String recipient) {
+            @PathVariable String sender, @PathVariable String recipient) {
         try {
             long unreadCount = chatMessageService.getUnreadCount(sender, recipient);
             return ResponseEntity.ok(unreadCount);

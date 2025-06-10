@@ -11,21 +11,23 @@ import java.util.List;
 @Service
 public class ChatMessageService {
 
-    @Autowired
-    private ChatMessageRepository chatMessageRepository;
+    @Autowired private ChatMessageRepository chatMessageRepository;
 
     public ChatMessage save(ChatMessage chatMessage) {
         return chatMessageRepository.save(chatMessage);
     }
 
     public List<ChatMessage> getChatHistory(String sender, String recipient) {
-        return chatMessageRepository.findBySenderAndRecipientOrRecipientAndSenderOrderByTimestampAsc(
-                sender, recipient, sender, recipient);
+        return chatMessageRepository
+                .findBySenderAndRecipientOrRecipientAndSenderOrderByTimestampAsc(
+                        sender, recipient, sender, recipient);
     }
 
     public void markMessagesAsRead(String sender, String recipient) {
-        List<ChatMessage> unreadMessages = chatMessageRepository.findBySenderAndRecipientOrRecipientAndSenderOrderByTimestampAsc(
-                sender, recipient, sender, recipient);
+        List<ChatMessage> unreadMessages =
+                chatMessageRepository
+                        .findBySenderAndRecipientOrRecipientAndSenderOrderByTimestampAsc(
+                                sender, recipient, sender, recipient);
 
         for (ChatMessage message : unreadMessages) {
             if (message.getSender().equals(sender) && !message.isRead()) {
@@ -36,8 +38,10 @@ public class ChatMessageService {
     }
 
     public long getUnreadCount(String sender, String recipient) {
-        List<ChatMessage> messages = chatMessageRepository.findBySenderAndRecipientOrRecipientAndSenderOrderByTimestampAsc(
-                sender, recipient, sender, recipient);
+        List<ChatMessage> messages =
+                chatMessageRepository
+                        .findBySenderAndRecipientOrRecipientAndSenderOrderByTimestampAsc(
+                                sender, recipient, sender, recipient);
 
         return messages.stream()
                 .filter(msg -> msg.getSender().equals(sender) && !msg.isRead())

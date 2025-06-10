@@ -16,7 +16,7 @@ public class ChatMessage {
 
     private String sender;
     private String recipient;
-    private String content;    
+    private String content;
     private LocalDateTime timestamp;
 
     @Column(name = "is_read", nullable = false)
