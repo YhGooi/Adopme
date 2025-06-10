@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore, user_details } from '../../../store/auth.store';
 import '../../../css/shared/common.css';
 import '../../../css/admin/adoptionRequestList.css';
-import Species, { getSpeciesDisplayName } from '../../../model/Species';
+import Species from '../../../model/Species';
 import Breed, { getBreedDisplayName } from '../../../model/Breed';
 
 interface User {
@@ -182,12 +182,6 @@ const AdoptionRequestList: React.FC = () => {
 
     const todayStr = new Date().toISOString().split('T')[0];
 
-    // Helper function to convert string to Species enum
-    const stringToSpecies = (speciesKey: string): Species => {
-        return Species[speciesKey as keyof typeof Species];
-    };
-
-    // Helper function to convert string to Breed enum
     const stringToBreed = (breedKey: string): Breed => {
         return Breed[breedKey as keyof typeof Breed];
     };
@@ -254,7 +248,6 @@ const AdoptionRequestList: React.FC = () => {
                                 <th>Date</th>
                                 <th>Pet Name</th>
                                 <th>Breed</th>
-                                <th>Species</th>
                                 <th>Applicant Name</th>
                                 <th>Status</th>
                                 <th></th>
@@ -271,7 +264,6 @@ const AdoptionRequestList: React.FC = () => {
                                     <td>{formatDisplayDate(req.adoptionRequest.submissionDate)}</td>
                                     <td>{req.pet.name}</td>
                                     <td>{getBreedDisplayName(stringToBreed(req.pet.breed))}</td>
-                                    <td>{getSpeciesDisplayName(stringToSpecies(req.pet.species))}</td>
                                     <td>{req.user.name}</td>
                                     <td>
                                         <span className={`status-badge ${getStatusClass(req.adoptionRequest.status)}`}>
