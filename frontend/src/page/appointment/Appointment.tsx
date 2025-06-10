@@ -89,7 +89,6 @@ const Appointment = () => {
                   type="datetime-local"
                   value={dateTime}
                   onChange={(e) => setDateTime(e.target.value)}
-                  className="appointment-date-input"
                   required
                 />
               </div>
@@ -99,7 +98,6 @@ const Appointment = () => {
                 <select
                   value={petId}
                   onChange={(e) => setPetId(e.target.value)}
-                  className="appointment-pet-input"
                   required
                 >
                   <option value="">-- Select Pet --</option>
