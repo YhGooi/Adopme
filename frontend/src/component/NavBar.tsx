@@ -39,6 +39,9 @@ const NavBar = () => {
                                     <button onClick={() => navigate("/admin/appointment-request-list")}>
                                         Appointment Requests
                                     </button>
+                                    <button onClick={() => navigate("/admin/donation-request-list")}>
+                                        Donation Requests
+                                    </button>
                                 </div>
                             </div>
                         )}

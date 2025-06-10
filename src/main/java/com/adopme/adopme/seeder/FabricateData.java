@@ -26,7 +26,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -217,6 +221,8 @@ public class FabricateData implements CommandLineRunner {
                 return;
             }
 
+            byte[] receiptImage = getReceiptImage();
+
             for (int i = 0; i < 15; i++) {
                 User user = users.get(random.nextInt(users.size()));
                 BigDecimal amount = BigDecimal.valueOf(faker.number().randomDouble(2, 10, 1000));
@@ -227,15 +233,12 @@ public class FabricateData implements CommandLineRunner {
                 DonationStatus status =
                         DonationStatus.values()[random.nextInt(DonationStatus.values().length)];
 
-                // Create empty receipt byte array for now
-                byte[] receipt = new byte[0];
-
                 Donation donation =
-                        new Donation(user.getId(), amount, donationDate, status, receipt);
+                        new Donation(user.getId(), amount, donationDate, status, receiptImage);
 
                 donationRepository.save(donation);
             }
-            System.out.println("[DONATION]: Fabricated 15 fake donations.");
+            System.out.println("[DONATION]: Fabricated 15 fake donations with receipt images.");
         } else {
             System.out.println("[DONATION]: Already exist - skipped fabricating.");
         }
@@ -351,7 +354,7 @@ public class FabricateData implements CommandLineRunner {
                                     random.nextInt(DonationStatus.values().length)];
 
             // Create empty receipt byte array for now
-            byte[] receipt = new byte[0];
+            byte[] receipt = getReceiptImage();
 
             Donation donation =
                     new Donation(demoUser.getId(), amount, donationDate, status, receipt);
@@ -410,5 +413,18 @@ public class FabricateData implements CommandLineRunner {
                         .filter(breed -> breed.getSpecies() == species)
                         .toList();
         return matchingBreeds.get(random.nextInt(matchingBreeds.size()));
+    }
+
+    private static byte[] getReceiptImage() {
+        byte[] receiptImage;
+        try {
+            Path receiptPath = Paths.get(System.getProperty("user.dir"), "frontend", "src", "assets", "png", "DuitnowQR.png");
+            receiptImage = Files.readAllBytes(receiptPath);
+            System.out.println("[DONATION]: Successfully read DuitnowQR.png receipt image (" + receiptImage.length + " bytes)");
+        } catch (IOException e) {
+            System.err.println("[DONATION]: Failed to read receipt image: " + e.getMessage());
+            receiptImage = new byte[0]; // Fallback to empty array if file can't be read
+        }
+        return receiptImage;
     }
 }

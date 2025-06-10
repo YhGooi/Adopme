@@ -14,9 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.List;
 
 @Service
@@ -40,8 +38,15 @@ public class AppointmentService {
     public List<AppointmentResponse> getAllAppointments(
             AppointmentStatus status, String startDate, String endDate) {
 
-        LocalDateTime start = LocalDateTime.parse(startDate);
-        LocalDateTime end = LocalDateTime.parse(endDate);
+        LocalDateTime start =
+                startDate != null
+                        ? LocalDateTime.ofInstant(Instant.parse(startDate), ZoneId.systemDefault())
+                        : LocalDateTime.now().minusYears(1);
+
+        LocalDateTime end =
+                endDate != null
+                        ? LocalDateTime.ofInstant(Instant.parse(endDate), ZoneId.systemDefault())
+                        : LocalDateTime.now();
 
         Specification<Appointment> spec = AppointmentSpecifications.withFilters(status, start, end);
 

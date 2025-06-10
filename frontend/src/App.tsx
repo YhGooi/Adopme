@@ -18,6 +18,7 @@ import CreatePet from "./page/admin/pet/CreatePet";
 import PetDetails from "./page/admin/pet/PetDetails";
 import EditPet from "./page/admin/pet/EditPet";
 import AppointmentRequestList from "./page/admin/appointmentRequest/AppointmentRequestList";
+import DonationRequestList from "./page/admin/donation-request/DonationRequestList";
 // Donation
 import Donation from "./page/donation/Donation";
 import SuccessDonation from "./page/donation/SuccessDonation";
@@ -45,6 +46,7 @@ function App() {
           <Route path="/admin/pet-details/:petId" element={<PetDetails />} />
           <Route path="/admin/edit-pet/:petId" element={<EditPet />} />
           <Route path="/admin/appointment-request-list" element={<AppointmentRequestList />} />
+          <Route path="/admin/donation-request-list" element={<DonationRequestList />} />
 
           <Route path="/donation" element={<Donation />} />
           <Route path="/donation/success" element={<SuccessDonation />} />

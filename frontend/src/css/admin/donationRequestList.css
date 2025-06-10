@@ -1,0 +1,327 @@
+/* Root container */
+.donation-request-list {
+    display: flex;
+    flex-direction: column;
+    min-height: 800px;
+    margin-top: 0px;
+}
+
+/* Sticky title bar */
+.title-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    top: 72px;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background-color: #d1e7dd;
+    padding: 1.5rem;
+    gap: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.title-bar h2 {
+    margin: 0 0 1.5rem 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-align: center;
+}
+
+/* Filters section */
+.filters {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.date-filters {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.filter-group,
+.status-filter {
+    background-color: white;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 250px; /* Set fixed width for all filter boxes */
+}
+
+.filter-group input[type="date"],
+.status-filter select {
+    padding: 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.375rem;
+    width: 150px; /* Set fixed width for inputs */
+    font-size: 0.9rem;
+}
+
+.filter-group label,
+.status-filter label {
+    white-space: nowrap;
+    font-weight: 500;
+    color: #4a5568;
+    width: 50px; /* Fixed width for labels */
+}
+
+.clear-button {
+    background: none;
+    border: none;
+    color: #4a5568;
+    cursor: pointer;
+    padding: 0.5rem;
+    font-weight: 500;
+}
+
+.clear-button:hover {
+    color: #1D4ED8;
+}
+
+/* Table container */
+.donation-request-table-container {
+    width: 90%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    background: transparent;
+    /* Set a max height for the table area */
+    max-height: 600px;
+    overflow-y: auto;
+    overflow-x: visible; /* Allow dropdowns to be shown */
+    box-sizing: border-box;
+    margin-top: 120px; /* To avoid overlap with sticky filter bar */
+}
+
+/* Table styling */
+.custom-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: visible; /* Keep visible to allow dropdowns to show */
+    table-layout: fixed;
+    position: relative; /* Add position context for absolute positioned children */
+}
+
+.custom-table thead th {
+    background-color: #f2f2f2;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #dee2e6;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.custom-table tbody {
+    display: block;
+    max-height: 350px;
+    overflow-y: auto;
+    overflow-x: visible; /* Allow dropdowns to overflow horizontally */
+    width: 100%;
+}
+
+.custom-table thead, .custom-table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.custom-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Style for the cell containing the dropdown to allow proper positioning */
+.custom-table td:last-child {
+    overflow: visible;
+    position: relative;
+}
+
+.custom-table tr td:last-child {
+    position: relative;
+    overflow: visible !important; /* Override any inherited overflow */
+}
+
+.custom-table .status-cell {
+    text-align: left;
+}
+
+.custom-table tr:hover {
+    background: #e7f0e8;
+}
+
+/* Status badges */
+.status-pending,
+.status-approved,
+.status-rejected {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: auto;
+    margin-right: 5px;
+    align-self: center;
+}
+
+.status-pending {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #FFC107; /* Yellow for pending */
+}
+
+.status-approved {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: #4CAF50; /* Green for approved */
+}
+
+.status-rejected {
+    background-color: rgba(244, 67, 54, 0.1);
+    color: #F44336; /* Red for rejected */
+}
+
+/* Buttons */
+.receipt-button {
+    background: none;
+    border: none;
+    color: #3498db;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+}
+
+.nav-button {
+    color: black;
+    background-color: white;
+    width: 5px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Loading state */
+.loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #1976d2;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Messages */
+.error-message,
+.no-data-message {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+}
+
+/* Dropdown styling */
+.dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+.status-dropdown {
+    position: absolute;
+    right: 0;
+    top: 30px; /* Position below the button */
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    z-index: 9999; /* Very high z-index */
+    display: flex;
+    flex-direction: column;
+    min-width: 120px;
+    transform-origin: top right;
+    animation: dropdown-appear 0.2s ease-out;
+}
+
+@keyframes dropdown-appear {
+    from { 
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to { 
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.dropdown-option {
+    padding: 8px 16px;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.dropdown-option:hover {
+    background-color: #f5f5f5;
+}
+
+.dropdown-option.approve {
+    color: #198754;
+}
+
+.dropdown-option.reject {
+    color: #dc3545;
+}
+
+.dropdown-option.approve:hover {
+    background-color: #e6f7e6;
+    color: #2e7d32;
+}
+
+.dropdown-option.reject:hover {
+    background-color: #ffeaea;
+    color: #d32f2f;
+}
+
+/* Reset overflow for the container only when dropdown is open */
+.dropdown-container.dropdown-open {
+    overflow: visible;
+}

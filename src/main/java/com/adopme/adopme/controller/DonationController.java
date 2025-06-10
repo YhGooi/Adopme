@@ -1,5 +1,6 @@
 package com.adopme.adopme.controller;
 
+import com.adopme.adopme.dto.donation.DonationAdminResponse;
 import com.adopme.adopme.dto.donation.DonationResponse;
 import com.adopme.adopme.model.DonationStatus;
 import com.adopme.adopme.service.DonationService;
@@ -46,21 +47,29 @@ public class DonationController {
     }
 
     @GetMapping
-    public ResponseEntity<List<DonationResponse>> getAllDonations(
+    public ResponseEntity<List<DonationAdminResponse>> getAllDonations(
             @RequestParam(required = false) DonationStatus status,
-            @RequestParam String startDate,
-            @RequestParam String endDate) {
-        List<DonationResponse> donations =
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate) {
+        List<DonationAdminResponse> donations =
                 donationService.getAllDonations(status, startDate, endDate);
         return ResponseEntity.ok(donations);
     }
 
     @PostMapping("/update")
-    public ResponseEntity<DonationResponse> updateDonation(
-            @RequestParam Long userId, @RequestParam DonationStatus donationStatus) {
-        DonationResponse updatedDonation =
-                donationService.updateDonationStatus(userId, donationStatus);
-        return ResponseEntity.ok(updatedDonation);
+    public ResponseEntity<Void> updateDonation(
+            @RequestParam Long donationId, @RequestParam DonationStatus donationStatus) {
+        donationService.updateDonationStatus(donationId, donationStatus);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{donationId}/receipt")
+    public ResponseEntity<byte[]> getReceipt(@PathVariable Long donationId) {
+        byte[] receipt = donationService.getReceipt(donationId);
+        return ResponseEntity.ok()
+                .header("Content-Type", "image/jpeg")
+                .header("Content-Disposition", "inline; filename=\"receipt.jpg\"")
+                .body(receipt);
     }
 
     @PostMapping
