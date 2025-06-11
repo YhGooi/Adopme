@@ -1,0 +1,159 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+
+.polaroid-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.polaroid-text-container {
+  min-width: 300px;
+  color: black;
+  font-weight: bold;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding: 0px 64px;
+}
+
+.polaroid-text-container h2 {
+  font-size: 2.5rem;
+  line-height: 1.5;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: black;
+  text-align: left;
+}
+
+.polaroid-text-container button {
+  background: none;
+  border: none;
+  color: black;
+  text-decoration: underline;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+}
+
+.polaroid-container {
+  flex: 1;
+  position: relative;
+  padding: 20px 0;
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  margin-left: 15px;
+}
+
+.polaroid-container::-webkit-scrollbar {
+  display: none;
+}
+
+.polaroid-cards {
+  display: flex;
+  gap: 5px;
+  padding: 12px 24px;
+  min-width: min-content;
+}
+
+.polaroid-card {
+  background: white;
+  padding: 18px 18px 30px 18px;
+  width: 300px;
+  text-align: center;
+  font-family: 'Permanent Marker', cursive;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  margin-left: -5px;
+  position: relative;
+  z-index: 1;
+}
+
+.polaroid-card:nth-child(odd) {
+  transform: rotate(-3deg) translateY(5px);
+  z-index: 2;
+}
+
+.polaroid-card:nth-child(even) {
+  transform: rotate(3deg) translateY(-5px);
+  z-index: 1;
+}
+
+.polaroid-card:hover {
+  transform: rotate(0) scale(1.05);
+  z-index: 10;
+}
+
+.polaroid-card .polaroid-image-container {
+  width: 100%;
+  height: 281px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  border-radius: 0;
+}
+
+.polaroid-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+.polaroid-card p {
+  margin: 10px auto;
+  font-family: 'Permanent Marker', cursive;
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: normal;
+}
+
+@media (max-width: 768px) {
+  .polaroid-section {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .polaroid-text-container {
+    width: 90%;
+    padding: 0 20px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .polaroid-text-container h2 {
+    text-align: center;
+  }
+  
+  .polaroid-text-container button {
+    align-self: center;
+    text-align: center;
+  }
+  
+  .polaroid-container {
+    width: 100%;
+    padding: 10px 0;
+    margin-left: 0;
+  }
+  
+  .polaroid-card {
+    width: 300px;  /* Slightly smaller on mobile for better fit */
+    margin-left: -10px;  /* Less overlap on mobile */
+  }
+  
+  .polaroid-card .image-container {
+    height: 246px;  /* Adjusted proportionally */
+  }
+  
+  .polaroid-card p {
+    font-size: 1.4rem;  /* Slightly smaller on mobile */
+  }
+}
