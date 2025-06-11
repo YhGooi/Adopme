@@ -12,12 +12,12 @@ import Breed, { getBreedDisplayName } from '../../model/Breed';
 
 // Helper function to convert string to Species enum
 const stringToSpecies = (speciesKey: string): Species => {
-    return Species[speciesKey as keyof typeof Species];
+  return Species[speciesKey as keyof typeof Species];
 };
 
 // Helper function to convert string to Breed enum
 const stringToBreed = (breedKey: string): Breed => {
-    return Breed[breedKey as keyof typeof Breed];
+  return Breed[breedKey as keyof typeof Breed];
 };
 
 const PetListing = () => {
@@ -32,12 +32,18 @@ const PetListing = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [submittedPetIds, setSubmittedPetIds] = useState<number[]>([]);
 
-  const userId = user_details.getState().id;
-
   const petsPerPage = 5;
 
   const indexOfLastPet = currentPage * petsPerPage;
   const indexOfFirstPet = indexOfLastPet - petsPerPage;
+
+  const clearFilters = () => {
+    setSearchQuery('');
+    setSpeciesFilter
+    setAgeFilter('');
+    setGenderFilter('');
+    fetchPets();
+  };
 
   const filteredPets = pets
     .filter((pet) => {
@@ -107,7 +113,7 @@ const PetListing = () => {
 
     setSelectedPet(pet);
     setShowModal(true);
-  };  const handleChatClick = async (pet: Pet) => {
+  }; const handleChatClick = async (pet: Pet) => {
     try {
       // Get first admin to message
       const response = await fetch('http://localhost:8080/user/find-admin', {
@@ -123,7 +129,7 @@ const PetListing = () => {
       }
 
       const adminEmail = data.email;
-      
+
       // Create pet details summary
       const petSummary = `Hello! I'm interested in ${pet.name}:
         - Species: ${getSpeciesDisplayName(stringToSpecies(pet.species))}
@@ -160,7 +166,7 @@ const PetListing = () => {
 
         // Cleanup and disconnect
         client.deactivate();
-        
+
         // Navigate to messaging page
         navigate('/messaging');
       };
@@ -227,11 +233,11 @@ const PetListing = () => {
 
   return (
     <div className="pet-listing-container">
-      <div className="pet-listing-banner">
-        <h2 className="title">Pet Listing</h2>
-        <div className="filter-bar">
-          <div className="search-container">
-            <span className="search-icon">🔍</span>
+      <div className="pet-listing-title-bar">
+        <h2>PET LISTING</h2>
+        <div className="pet-listing-filters">
+          <div className="pet-listing-filter-group">
+            <span className="pet-listing-search-icon">🔍</span>
             <input
               type="text"
               placeholder="Search..."
@@ -239,27 +245,34 @@ const PetListing = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-
-          <select value={speciesFilter} onChange={(e) => setSpeciesFilter(e.target.value)}>
-            <option value="">All Species</option>
-            {speciesOptions.map((species, idx) => (
-              <option key={idx} value={species}>{getSpeciesDisplayName(stringToSpecies(species))}</option>
-            ))}
-          </select>
-
-          <select value={ageFilter} onChange={(e) => setAgeFilter(e.target.value)}>
-            <option value="">All Ages</option>
-            <option value="0-1">0 - 1 years</option>
-            <option value="1-3">1 - 3 years</option>
-            <option value="3+">3+ years</option>
-          </select>
-
-          <select value={genderFilter} onChange={(e) => setGenderFilter(e.target.value)}>
-            <option value="">All Genders</option>
-            {genderOptions.map((gender, idx) => (
-              <option key={idx} value={gender}>{gender}</option>
-            ))}
-          </select>
+          <div className="pet-listing-filter-group">
+            <label>Species:</label>
+            <select value={speciesFilter} onChange={(e) => setSpeciesFilter(e.target.value)}>
+              <option value="">All Species</option>
+              {speciesOptions.map((species, idx) => (
+                <option key={idx} value={species}>{getSpeciesDisplayName(stringToSpecies(species))}</option>
+              ))}
+            </select>
+          </div>
+          <div className="pet-listing-filter-group">
+            <label>Age:</label>
+            <select value={ageFilter} onChange={(e) => setAgeFilter(e.target.value)}>
+              <option value="">All Ages</option>
+              <option value="0-1">0 - 1 years</option>
+              <option value="1-3">1 - 3 years</option>
+              <option value="3+">3+ years</option>
+            </select>
+          </div>
+          <div className="pet-listing-filter-group">
+            <label>Gender:</label>
+            <select value={genderFilter} onChange={(e) => setGenderFilter(e.target.value)}>
+              <option value="">All Genders</option>
+              {genderOptions.map((gender, idx) => (
+                <option key={idx} value={gender}>{gender}</option>
+              ))}
+            </select>
+          </div>
+          <button className="pet-listing-clear-button" onClick={clearFilters}>Clear Filters</button>
         </div>
       </div>
 
@@ -286,7 +299,9 @@ const PetListing = () => {
           .map((pet, index) => (
             <div className="pet-card" key={pet.id}>
               <div className={`polaroid ${index % 2 === 0 ? 'rotate-left' : 'rotate-right'}`}>
-                <img src={getImageUrl(pet.petImageUrl)} alt={pet.name} />
+                <div className="image-container">
+                  <img src={getImageUrl(pet.petImageUrl)} alt={pet.name} />
+                </div>
                 <p className="caption">{pet.name}, {pet.age.toFixed(1)} years old</p>
               </div>
 
@@ -300,7 +315,8 @@ const PetListing = () => {
                   <div><strong>Vaccinated:</strong> {pet.vaccinated ? 'Yes' : 'No'}</div>
                 </div>
                 <p className="pet-description">{pet.description}</p>
-                <div className="adopt-button-wrapper">
+              </div>
+              <div className="pet-action-container">
                   <button
                     className="adopt-button"
                     onClick={() => handleAdoptClick(pet)}
@@ -308,14 +324,14 @@ const PetListing = () => {
                   >
                     {submittedPetIds.includes(pet.id) ? "REQUESTED" : "ADOPT"}
                   </button>
-                  {isLogin && (                    
+                  {isLogin && (
                     <div className="chat-icon-wrapper">
                       <img
                         src={ChatIcon}
                         alt="Chat"
                         className="chat-icon"
                         onClick={(e) => {
-                          e.stopPropagation(); 
+                          e.stopPropagation();
                           if (!isLogin) {
                             alert('Please log in to chat with admin.');
                             navigate('/login');
@@ -327,7 +343,6 @@ const PetListing = () => {
                     </div>
                   )}
                 </div>
-              </div>
             </div>
           ))}
       </div>
@@ -347,10 +362,10 @@ const PetListing = () => {
       {showModal && selectedPet && (
         <div className="modal-overlay">
           <div className="modal">
-            <button className="close-button" onClick={handleCloseModal}>✕</button>
             <div className="modal-content">
               <img src={getImageUrl(selectedPet.petImageUrl)} alt={selectedPet.name} />
               <div className="modal-form">
+                <button className="close-button" onClick={handleCloseModal}>✕</button>
                 <h3>Leave a message to the shelter</h3>
                 <textarea
                   placeholder="Tell us why you want to adopt this pet."
