@@ -3,7 +3,7 @@
     flex-direction: column;
     font-family: 'Segoe UI', sans-serif;
     width: 100%;
-    min-height: calc(100vh - 322px);
+    min-height: calc(100vh - 450px);
     align-items: center;
     color:#000;
     padding-bottom: 3rem;

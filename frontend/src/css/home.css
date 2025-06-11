@@ -1,179 +1,87 @@
-/* home.css */
-@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
-
-.font-handwriting {
-  font-family: 'Patrick Hand', cursive;
+.home-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #FDF1E5;
 }
 
 .hero-section {
     position: relative;
     width: 100%;
-    /* margin-top: 72px; */
-  }
+    margin-top: -25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
   
-  .hero-image {
+.hero-image {
     width: 100%;
+    height: auto;
     display: block;
     object-fit: cover;
-  }
+}
   
-  .hero-button-container {
+.hero-button-container {
     position: absolute;
-    top: 32%;
-    left: 50%;
-    transform: translate(-50%, 0%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     z-index: 10;
-  }
+    width: 100%;
+    top: 50px;
+    text-align: center;
+}
+
+.hero-title {
+    color: black;
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 50px;
+    text-align: center;
+}
   
-  .hero-button {
+.hero-button {
     background-color: #E9F3E9;
     color: black;
-    padding: 12px 24px;
-    border-radius: 8px;
+    padding: 16px 32px;
+    border-radius: 10px;
     font-weight: 600;
+    font-size: 1.2rem;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
     border: none;
-  }  
+    cursor: pointer;
+}  
   
-  .hero-button:hover {
+.hero-button:hover {
     background-color: #f3f3f3;
-  }
-  
-  .polaroid-section {
-    background-color: #FDF1E5;
-    padding: 4rem 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 4rem;
-    flex-wrap: wrap;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .polaroid-text {
-    flex: 0 0 200px;
-    color: black;
-    font-weight: bold;
+    transform: translateY(-2px);
+}
+
+.home-section {
+    height: 600px;
+    width: 100%;
+}
+
+.home-image-section {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.ready-adopt-section h2 {
+    font-size: 5rem;
+    line-height: 1.5;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: white;
     text-align: left;
-    margin-top: 1rem;
-  }
-  
-  .polaroid-text h3 {
-    font-size: 1.5rem;
-    line-height: 1.3;
-    margin-bottom: 0.75rem;
-    color: black;
-  }
-  
-  .polaroid-text a {
-    font-weight: 700;
-    text-decoration: underline;
-    color: black;
-    font-size: 0.9rem;
-  }
-  
-  .polaroid-cards {
-    display: flex;
-    justify-content: center;
-    position: relative;
-    gap: 0;
-    margin-top: 2rem;
-  }
-  
-  
-  .polaroid-card {
-    background-color: white;
-    width: 180px;
-    padding: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    position: absolute;
-    transition: transform 0.3s ease;
-    color: #000;
-  }
-  
-  .polaroid-card:hover {
-    transform: scale(1.05);
-  }
-  
-  /* Overlapping position and z-index */
-  .polaroid-card:nth-child(1) {
-    transform: rotate(-5deg);
-    left: 0px;
-    z-index: 4;
-  }
-  
-  .polaroid-card:nth-child(2) {
-    transform: rotate(2deg);
-    left: 160px;
-    z-index: 3;
-  }
-  
-  .polaroid-card:nth-child(3) {
-    transform: rotate(-3deg);
-    left: 320px;
-    z-index: 2;
-  }
-  
-  .polaroid-card:nth-child(4) {
-    transform: rotate(3deg);
-    left: 480px;
-    z-index: 1;
-  }
-  
-  
-  .polaroid-wrapper {
-    position: relative;
-    width: 640px; /* was 700px, now adjusted for 4 cards with more spacing */
-    margin: 0 auto;
-    min-height: 300px;
-  }  
-  
-  .image-container {
-    width: 100%;
-    height: 220px;
-    overflow: hidden;
-    background-color: #eee;
-  }
-  
-  .image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .polaroid-card p {
-    margin-top: 12px;
-    font-family: 'Patrick Hand', cursive;
-    font-size: 0.9rem;
-    text-align: center;
-  }
-  
-  .ready-adopt-section {
-    position: relative;
-    width: 100%;
-    height: 400px;
-    overflow: hidden;
-  }
-  
-  .bg-image {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* or object-fit: contain if you want full image visible */
-    z-index: 1;
-  }
-  
-  .overlay {
-    position: absolute;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.2);
-    z-index: 2;
-  }
-  
-  .content {
+}
+
+.ready-adopt-content {
     position: absolute;
     inset: 0;
     z-index: 3;
@@ -184,83 +92,60 @@
     color: white;
     font-weight: bold;
     font-size: 48px;
-  }
+}
   
-  .content a {
-    color: white;
-    text-decoration: underline;
-    font-size: 14px;
-  }
-
-  .support-us-section {
-    position: relative;
-    width: 100%;
-    height: 400px;
-    overflow: hidden;
-  }
-  
-  .support-us-bg {
+.home-bg-image {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     z-index: 1;
-  }
+}
   
-  /* Text content block */
-  .support-us-content {
+.support-us-bg {
     position: absolute;
     inset: 0;
-    z-index: 2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.support-us-content {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     padding: 0 64px;
-  }
-  
-  .support-us-content .text-block {
-    text-align: right;
-    color: white;
-  }
-  
-  .support-us-content h3 {
-    font-size: 48px;
-    font-weight: 900;
-    margin: 0 0 12px;
-    line-height: 1.1;
-  }
-  
-  .support-us-content a {
     color: white;
     font-weight: bold;
-    text-decoration: underline;
-    font-size: 14px;
-    text-underline-offset: 4px;
-  }
+    font-size: 48px;
+}
   
-  .link-button {
-  background: none;
-  border: none;
-  color: black;
-  text-decoration: underline;
-  font-weight: 700;
-  font-size: 0.9rem;
-  cursor: pointer;
-  padding: 0;
+.support-us-content h2 {
+    font-size: 5rem;
+    line-height: 1.2;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    color: white;
+    text-align: center;
 }
 
 .white-link {
-  background: none;
-  border: none;
-  color: white;
-  text-decoration: underline;
-  font-size: 1rem;
-  cursor: pointer;
-  padding: 0;
-  font-weight: bold;
+    background: none;
+    border: none;
+    color: white;
+    text-decoration: underline;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0;
+    font-weight: bold;
 }
 
 .white-link:hover {
-  opacity: 0.8;
+    opacity: 0.8;
 }
