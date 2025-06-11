@@ -109,7 +109,7 @@ const UpdateProfile: React.FC = () => {
     return (
         <div className="common_theme">
             <div className="green_container update-profile-container">
-                <a className="back-link" onClick={() => navigate('/profile')}>&#x3C; &nbsp; Back to Profile</a>
+                <a className="back-link" onClick={() => navigate('/profile')}>&lt; &nbsp; Back to Profile</a>
                 <form className="center update-profile-form" onSubmit={handleSubmit}>
                     <h2>UPDATE PROFILE</h2>
 

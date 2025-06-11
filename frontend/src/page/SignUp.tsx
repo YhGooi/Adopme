@@ -122,7 +122,7 @@ const Register: React.FC = () => {
     return (
         <div className="common_theme">
             <div className="green_container">
-                {!authStore.isLogin && (<a className="back-link" onClick={() => navigate('/login')}>&#x3C; &nbsp; Already have an account?</a>)}
+                {!authStore.isLogin && (<a className="back-link" onClick={() => navigate('/login')}>&lt; &nbsp; Already have an account?</a>)}
                 <form className="center" onSubmit={handleSubmit}>
                     <h2>{authStore.isLogin ? 'UPDATE PROFILE' : 'SIGN UP'}</h2>
 

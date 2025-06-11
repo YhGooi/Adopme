@@ -118,7 +118,7 @@ const PetDetailsPage: React.FC = () => {
         <div className="common_theme">
             <div className="green_container">
                 <div className="back-link-row">
-                    <span className="back-link" onClick={handleGoBack}>&lt; Back to List</span>
+                    <span className="back-link" onClick={handleGoBack}>&lt; &nbsp; Back to List</span>
                     <span className="edit-link" onClick={() => navigate(`/admin/edit-pet/${pet.id}-${pet.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`)}>
                         Edit
                     </span>

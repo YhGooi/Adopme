@@ -5,6 +5,7 @@ import '../../../css/shared/common.css';
 import '../../../css/admin/adoptionRequestDetails.css';
 import Species, { getSpeciesDisplayName } from '../../../model/Species';
 import Breed, { getBreedDisplayName } from '../../../model/Breed';
+import { formatHousingType, formatPettingExperience } from '../../../utils/formatters';
 
 interface User {
     id: number;
@@ -183,78 +184,77 @@ const AdoptionRequestDetailsPage: React.FC = () => {
         return <div className="error-message">{error || 'No data available'}</div>;
     } return (
         <div className="common_theme">
-            <div className="green_container">
+            <div className="adoption-request-details-container">
                 <div className="back-link-row">
-                    <span className="back-link" onClick={handleGoBack}>&lt; Back to List</span>
+                    <span className="back-link" onClick={handleGoBack}>&lt; &nbsp; Back to List</span>
                 </div>
-                <h3 className="details-title">Pet Details</h3>
-                <div className="pet-details-block">
-                    <div className="pet-info-col">
-                        <div className="pet-image-col">
-                            <img src={details.pet.petImageUrl} alt={details.pet.name} className="pet-image" />
+                <div className="details-container">
+                    <div className="adoption-request-pet-details-block">
+                        <h3 className="adoption-request-details-title">Pet Details</h3>
+                        <div className="adoption-request-pet-info-col">
+                            <div className="adoption-request-pet-details-list">
+                                <div className="adoption-request-pet-details-item"><div className="adoption-request-pet-details-label">Name:</div><div className="adoption-request-pet-details-value">{details.pet.name}</div></div>
+                                <div className="adoption-request-pet-details-item"><div className="adoption-request-pet-details-label">Age:</div><div className="adoption-request-pet-details-value">{details.pet.age} years</div></div>
+                                <div className="adoption-request-pet-details-item"><div className="adoption-request-pet-details-label">Date of Birth:</div><div className="adoption-request-pet-details-value">{new Date(details.pet.dob).toLocaleDateString('en-GB')}</div></div>
+                                <div className="adoption-request-pet-details-item"><div className="adoption-request-pet-details-label">Gender:</div><div className="adoption-request-pet-details-value">{details.pet.gender}</div></div>
+                                <div className="adoption-request-pet-details-item"><div className="adoption-request-pet-details-label">Species:</div><div className="adoption-request-pet-details-value">{getSpeciesDisplayName(stringToSpecies(details.pet.species))}</div></div>
+                                <div className="adoption-request-pet-details-item"><div className="adoption-request-pet-details-label">Breed:</div><div className="adoption-request-pet-details-value">{getBreedDisplayName(stringToBreed(details.pet.breed))}</div></div>
+                                <div className="adoption-request-pet-details-item"><div className="adoption-request-pet-details-label">Weight:</div><div className="adoption-request-pet-details-value">{details.pet.weight} kg</div></div>
+                                <div className="adoption-request-pet-details-item"><div className="adoption-request-pet-details-label">Vaccinated:</div><div className="adoption-request-pet-details-value">{details.pet.vaccinated ? 'Yes' : 'No'}</div></div>
+                                <div className="adoption-request-pet-details-item"><div className="adoption-request-pet-details-label">Description:</div><div className="adoption-request-pet-details-value">{details.pet.description}</div></div>
+                            </div>
                         </div>
-                        <div className="adoption-request-details-list">
-                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Name:</div><div className="adoption-request-details-value">{details.pet.name}</div></div>
-                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Age:</div><div className="adoption-request-details-value">{details.pet.age} years</div></div>
-                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Date of Birth:</div><div className="adoption-request-details-value">{new Date(details.pet.dob).toLocaleDateString('en-GB')}</div></div>
-                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Gender:</div><div className="adoption-request-details-value">{details.pet.gender}</div></div>
-                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Species:</div><div className="adoption-request-details-value">{getSpeciesDisplayName(stringToSpecies(details.pet.species))}</div></div>
-                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Breed:</div><div className="adoption-request-details-value">{getBreedDisplayName(stringToBreed(details.pet.breed))}</div></div>
-                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Weight:</div><div className="adoption-request-details-value">{details.pet.weight} kg</div></div>
-                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Vaccinated:</div><div className="adoption-request-details-value">{details.pet.vaccinated ? 'Yes' : 'No'}</div></div>
-                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Description:</div><div className="adoption-request-details-value">{details.pet.description}</div></div>
+                    </div>
+                    <div className="vertical-divider"></div>
+                    <div className="adoption-request-applicant-details-block">
+                        <h3 className="adoption-request-details-title">Applicant Details</h3>
+                        <div className="adoption-request-applicant-info-col">
+                            <div className="adoption-request-applicant-details-list">
+                                <div className="adoption-request-applicant-details-item"><div className="adoption-request-applicant-details-label">Name:</div><div className="adoption-request-applicant-details-value">{details.user.name}</div></div>
+                                <div className="adoption-request-applicant-details-item"><div className="adoption-request-applicant-details-label">Date of Birth:</div><div className="adoption-request-applicant-details-value">{new Date(details.user.dateOfBirth).toLocaleDateString('en-GB')}</div></div>
+                                <div className="adoption-request-applicant-details-item"><div className="adoption-request-applicant-details-label">Phone Number:</div><div className="adoption-request-applicant-details-value">{details.user.phoneNo}</div></div>
+                                <div className="adoption-request-applicant-details-item"><div className="adoption-request-applicant-details-label">Email:</div><div className="adoption-request-applicant-details-value">{details.user.email}</div></div>
+                                <div className="adoption-request-applicant-details-item"><div className="adoption-request-applicant-details-label">Address:</div><div className="adoption-request-applicant-details-value">{details.user.address}</div></div>
+                                <div className="adoption-request-applicant-details-item"><div className="adoption-request-applicant-details-label">Housing Type:</div><div className="adoption-request-applicant-details-value">{formatHousingType(details.user.housingType)}</div></div>
+                                <div className="adoption-request-applicant-details-item"><div className="adoption-request-applicant-details-label">Occupation:</div><div className="adoption-request-applicant-details-value">{details.user.occupation}</div></div>
+                                <div className="adoption-request-applicant-details-item"><div className="adoption-request-applicant-details-label">Petting Experience:</div><div className="adoption-request-applicant-details-value">{formatPettingExperience(details.user.pettingExperience)}</div></div>
+                                <div className="adoption-request-applicant-details-item"><div className="adoption-request-applicant-details-label">Current Number of Pets at Home:</div><div className="adoption-request-applicant-details-value">{details.user.currentPets}</div></div>
+                                <div className="adoption-request-applicant-details-item"><div className="adoption-request-applicant-details-label">Message:</div><div className="adoption-request-applicant-details-value">{details.adoptionRequest.message}</div></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <hr className="section-divider" />
-                <h3 className="details-title">Applicant Details</h3>
-                <div className="applicant-details-block">
-                    <div className="applicant-info-col">
-                        <div className="adoption-request-details-list">
-                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Name:</div><div className="adoption-request-details-value">{details.user.name}</div></div>
-                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Date of Birth:</div><div className="adoption-request-details-value">{new Date(details.user.dateOfBirth).toLocaleDateString('en-GB')}</div></div>
-                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Phone Number:</div><div className="adoption-request-details-value">{details.user.phoneNo}</div></div>
-                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Email:</div><div className="adoption-request-details-value">{details.user.email}</div></div>
-                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Address:</div><div className="adoption-request-details-value">{details.user.address}</div></div>
-                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Housing Type:</div><div className="adoption-request-details-value">{details.user.housingType}</div></div>
-                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Occupation:</div><div className="adoption-request-details-value">{details.user.occupation}</div></div>
-                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Petting Experience:</div><div className="adoption-request-details-value">{details.user.pettingExperience}</div></div>
-                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Current Number of Pets at Home:</div><div className="adoption-request-details-value">{details.user.currentPets}</div></div>
-                            <div className="adoption-request-details-item"><div className="adoption-request-details-label">Message:</div><div className="adoption-request-details-value">{details.adoptionRequest.message}</div></div>
+                <div className="adoption-request-action-container">
+                    <div className="status-row">
+                        <div className="status-label">Status</div>
+                        <div className="status-field">
+                            {isEditing ? (
+                                <select
+                                    value={editedStatus}
+                                    onChange={(e) => setEditedStatus(e.target.value as typeof editedStatus)}
+                                    className={`status-select status-${editedStatus.toLowerCase()}`}
+                                >
+                                    <option value="SUBMITTED">Submitted</option>
+                                    <option value="APPROVED">Approved</option>
+                                    <option value="REJECTED">Rejected</option>
+                                </select>
+                            ) : (
+                                <span className={`status-badge status-${details.adoptionRequest.status.toLowerCase()}`}>
+                                    {details.adoptionRequest.status}
+                                </span>
+                            )}
                         </div>
                     </div>
-                </div>
-                <hr className="section-divider" />
-                <div className="status-row">
-                    <div className="status-label">Status</div>
-                    <div className="status-field">
-                        {isEditing ? (
-                            <select
-                                value={editedStatus}
-                                onChange={(e) => setEditedStatus(e.target.value as typeof editedStatus)}
-                                className={`status-select status-${editedStatus.toLowerCase()}`}
-                            >
-                                <option value="SUBMITTED">Submitted</option>
-                                <option value="APPROVED">Approved</option>
-                                <option value="REJECTED">Rejected</option>
-                            </select>
+                    <div className="details-actions-row">
+                        {!isEditing ? (
+                            <button onClick={handleEdit} className="adoption-request-edit-button">Edit</button>
                         ) : (
-                            <span className={`status-badge status-${details.adoptionRequest.status.toLowerCase()}`}>
-                                {details.adoptionRequest.status}
-                            </span>
+                            <>
+                                <button onClick={handleSave} className="adoption-request-save-button">Save</button>
+                                <button onClick={handleCancel} className="adoption-request-cancel-button">Discard</button>
+                            </>
                         )}
                     </div>
-                </div>
-                <div className="details-actions-row">
-                    <button onClick={handleGoBack} className="back-button">Back to List</button>
-                    {!isEditing ? (
-                        <button onClick={handleEdit} className="edit-button">Edit</button>
-                    ) : (
-                        <>
-                            <button onClick={handleSave} className="save-button">Save</button>
-                            <button onClick={handleCancel} className="cancel-button">Discard</button>
-                        </>
-                    )}
                 </div>
             </div>
         </div>
