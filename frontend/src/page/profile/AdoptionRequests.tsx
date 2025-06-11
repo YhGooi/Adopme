@@ -167,17 +167,17 @@ const AdoptionRequests = () => {
                             key={request.adoptionRequest.id} 
                             className="adoption-request-item"
                         >
-                            <div className="pet-image-container">
+                            <div className="profile-pet-image-container">
                                 <img 
                                     src={request.pet.petImageUrl} 
                                     alt={request.pet.name} 
-                                    className="pet-image"
+                                    className="profile-pet-image"
                                 />
                             </div>
                             
                             <div className="adoption-request-details">
-                                <div className="pet-name">{request.pet.name}</div>
-                                <div className="pet-info">
+                                <div className="profile-pet-name">{request.pet.name}</div>
+                                <div className="profile-pet-info">
                                     {request.pet.age} year old, {request.pet.gender}, {getBreedDisplayName(stringToBreed(request.pet.breed))}
                                 </div>
                             </div>
