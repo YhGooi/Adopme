@@ -1,7 +1,8 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/auth.store';
 import { user_details } from '../store/auth.store';
+import { formatHousingType, formatPettingExperience } from '../utils/formatters';
 import '../css/shared/common.css';
 
 const Register: React.FC = () => {
@@ -62,8 +63,8 @@ const Register: React.FC = () => {
         }
         try {
             const url = authStore.isLogin
-            ? 'http://localhost:8080/user/update'
-            : 'http://localhost:8080/user/register';
+                ? 'http://localhost:8080/user/update'
+                : 'http://localhost:8080/user/register';
 
             const response = await fetch(url, {
                 method: 'POST',
@@ -82,7 +83,7 @@ const Register: React.FC = () => {
             const data = await response.json();
 
             if (authStore.isLogin) {
-            alert('Registration successful!');
+                alert('Registration successful!');
                 alert('Profile updated successfully!');
                 // Update user store with new data
                 userStore.set('name', formData.name);
@@ -121,7 +122,7 @@ const Register: React.FC = () => {
     return (
         <div className="common_theme">
             <div className="green_container">
-                {!authStore.isLogin && (<a className="back-link" onClick={() => navigate('/login')}>&#x3C; Already have an account?</a>) }
+                {!authStore.isLogin && (<a className="back-link" onClick={() => navigate('/login')}>&#x3C; &nbsp; Already have an account?</a>)}
                 <form className="center" onSubmit={handleSubmit}>
                     <h2>{authStore.isLogin ? 'UPDATE PROFILE' : 'SIGN UP'}</h2>
 
@@ -129,7 +130,7 @@ const Register: React.FC = () => {
                     <input type="text" id="name" value={formData.name} onChange={handleChange} required placeholder="John Smith" />
 
                     <label>Date of Birth</label>
-                    <input type="date" id="dateOfBirth" value={formData.dateOfBirth} required onChange={handleChange}/>
+                    <input type="date" id="dateOfBirth" value={formData.dateOfBirth} required onChange={handleChange} />
 
                     <label>Phone Number</label>
                     <input type="tel" id="phoneNo" value={formData.phoneNo} onChange={handleChange} required placeholder="+60123456789" />
@@ -140,9 +141,8 @@ const Register: React.FC = () => {
                     <label>Housing Type</label>
                     <select id="housingType" value={formData.housingType} onChange={handleChange} required>
                         <option value="">Select Housing Type</option>
-                        <option value="LANDED">LANDED</option>
-                        <option value="CONDO">CONDO</option>
-                        {/* Add more */}
+                        <option value="LANDED">Landed Property</option>
+                        <option value="CONDO">Condominium/Apartment</option>
                     </select>
 
                     <label>Occupation</label>
@@ -151,11 +151,10 @@ const Register: React.FC = () => {
                     <label>Petting Experience</label>
                     <select id="pettingExperience" value={formData.pettingExperience} required onChange={handleChange}>
                         <option value="">Select experience</option>
-                        <option value="NONE">NONE</option>
-                        <option value="LITTLE">LITTLE</option>
-                        <option value="SOME">SOME</option>
-                        <option value="LOT">LOT</option>
-                        {/* Add more */}
+                        <option value="NONE">No Experience</option>
+                        <option value="LITTLE">Little Experience</option>
+                        <option value="SOME">Some Experience</option>
+                        <option value="LOT">Experienced Pet Owner</option>
                     </select>
 
                     <label>Current Number of Pets at Home</label>
@@ -170,8 +169,11 @@ const Register: React.FC = () => {
                     <label>Confirm Password</label>
                     <input type="password" id="confirmPassword" value={formData.confirmPassword} required onChange={handleChange} placeholder="Confirm your password here..." />
 
+
                     <br />
-                    <button type="submit">{authStore.isLogin ? 'Update' : 'Register'}</button>
+                    <div className="profile-action-button">
+                        <button type="submit"> Register</button>
+                    </div>
                 </form>
             </div>
         </div>

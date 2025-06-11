@@ -14,15 +14,30 @@
     border-radius: 10px;
     width: 65%;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin: 5rem auto; /* Center the container horizontally */
+    margin: 5rem auto;
 }
 
 .green_container .center{
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center children horizontally */
-    justify-content: center; /* Center children vertically if height allows */
-    text-align: center; /* Optional: centers text */
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+    margin: 0 auto;
+    width: 65%;
+}
+
+/* Form content alignment */
+.center form, .update-profile-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.center label, .update-profile-form label {
+    width: 100%;
+    text-align: left;
 }
 
 .back-link {
@@ -31,6 +46,8 @@
     text-decoration: none;
     display: inline-block;
     margin-bottom: 10px;
+    align-self: flex-start;
+    width: 100%;
 }
 
 .green_container h2 {
@@ -39,6 +56,8 @@
     font-size: 1.8rem;
     margin-bottom: 1.5rem;
     font-weight: bold;
+    width: 100%;
+    align-self: center;
 }
 
 .green_container label {
@@ -46,10 +65,11 @@
     display: block;
     margin: 12px 0 6px;
     font-weight: 600;
+    text-align: left;
 }
 
 .green_container input, select, textarea{
-    width:70%;
+    width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 6px;
@@ -57,13 +77,56 @@
     font-family: inherit;
     box-sizing: border-box;
     background-color: #FFF;
-    color:#000
+    color:#000;
+    margin-left: 0;
+    align-self: flex-start;
+}
+
+/* Style for the form buttons */
+.profile-action-button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.profile-action-button button {
+    padding: 10px 20px;
+    background-color: #76C0AE;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.profile-action-button button:hover {
+    background-color: #5AA996;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.profile-action-button button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 .green_container textarea {
     resize: vertical;
     padding-left: 1rem;
     padding-right: 1rem;
+}
+
+/* Success and error messages should be centered */
+.error-message, .loading-message, .no-data-message, 
+.update-profile-error, .update-profile-success {
+    width: 100%;
+    align-self: center;
 }
 
 .error-message {

@@ -10,6 +10,7 @@ import Signup from "./page/SignUp";
 import PetListing from "./page/petListing/PetListing";
 import Messaging from './page/Messaging';
 import Profile from './page/profile/Profile';
+import UpdateProfile from './page/profile/UpdateProfile';
 // Admin
 import AdoptionRequestList from "./page/admin/adoptionRequest/AdoptionRequestList";
 import AdoptionRequestDetails from "./page/admin/adoptionRequest/AdoptionRequestDetails";
@@ -36,6 +37,7 @@ function App() {
           <Route path="/pet-listing" element={<PetListing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/updateProfile" element={<UpdateProfile />} />
           <Route path="/messaging" element={<Messaging />} />
           <Route path="/profile" element={<Profile />} />
 
