@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../store/auth.store';
-import { user_details } from '../store/auth.store';
-import { formatHousingType, formatPettingExperience } from '../utils/formatters';
-import '../css/shared/common.css';
+import { useAuthStore } from '../../store/auth.store';
+import { user_details } from '../../store/auth.store';
+import '../../css/shared/common.css';
+import '../../css/profile/profileComponents.css';
+import '../../css/profile/updateProfile.css';
 
-const Register: React.FC = () => {
+const UpdateProfile: React.FC = () => {
     const navigate = useNavigate();
     const authStore = useAuthStore((state) => state) as any;
     const userStore = user_details((state) => state) as any;
@@ -20,11 +21,13 @@ const Register: React.FC = () => {
         pettingExperience: '',
         currentPets: 0,
         email: '',
-        password: '',
-        confirmPassword: '',
     });
 
-    // Populate form if logged in
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+
+    // Populate form with user data
     useEffect(() => {
         if (authStore.isLogin) {
             setFormData({
@@ -37,9 +40,10 @@ const Register: React.FC = () => {
                 pettingExperience: userStore.pettingExperience || '',
                 currentPets: userStore.currentPets || 0,
                 email: userStore.email || '',
-                password: '',
-                confirmPassword: '',
             });
+        } else {
+            // Redirect to login if not logged in
+            navigate('/login');
         }
     }, [authStore.isLogin]);
 
@@ -53,20 +57,17 @@ const Register: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (formData.password !== formData.confirmPassword) {
-            alert("Passwords do not match");
-            return;
-        }
         if (!formData.housingType) {
             alert("Please select a valid housing type.");
             return;
         }
-        try {
-            const url = authStore.isLogin
-                ? 'http://localhost:8080/user/update'
-                : 'http://localhost:8080/user/register';
 
-            const response = await fetch(url, {
+        setLoading(true);
+        setError('');
+        setSuccessMessage('');
+
+        try {
+            const response = await fetch('http://localhost:8080/user/update', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -77,54 +78,52 @@ const Register: React.FC = () => {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.message || 'Registration failed');
+                throw new Error(errorData.message || errorData.error || 'Update failed');
             }
 
-            const data = await response.json();
+            // Update user store with new data
+            userStore.set('name', formData.name);
+            userStore.set('dateOfBirth', formData.dateOfBirth);
+            userStore.set('phone', formData.phoneNo);
+            userStore.set('email', formData.email);
+            userStore.set('address', formData.address);
+            userStore.set('housingType', formData.housingType);
+            userStore.set('occupation', formData.occupation);
+            userStore.set('pettingExperience', formData.pettingExperience);
+            userStore.set('currentPets', formData.currentPets);
 
-            if (authStore.isLogin) {
-                alert('Registration successful!');
-                alert('Profile updated successfully!');
-                // Update user store with new data
-                userStore.set('name', formData.name);
-                userStore.set('dob', formData.dateOfBirth);
-                userStore.set('phone', formData.phoneNo);
-                userStore.set('email', formData.email);
-                userStore.set('address', formData.address);
-                userStore.set('housing', formData.housingType);
-                userStore.set('occupation', formData.occupation);
-                userStore.set('experience', formData.pettingExperience);
-                userStore.set('pets', formData.currentPets);
-            } else {
-                // Store relevant data into auth store
-                userStore.set('name', formData.name);
-                userStore.set('dateOfBirth', formData.dateOfBirth);
-                userStore.set('phone', formData.phoneNo);
-                userStore.set('email', formData.email);
-                userStore.set('address', formData.address);
-                userStore.set('housing', formData.housingType);
-                userStore.set('occupation', formData.occupation);
-                userStore.set('pettingExperience', formData.pettingExperience);
-                userStore.set('currentPets', formData.currentPets);
-                userStore.set('type', 'USERS');
+            setSuccessMessage('Profile updated successfully!');
 
-                authStore.set('isLogin', true);
-                authStore.set('token', data.token);
-                authStore.set('user', 'USER');
-            }
-            // navigate('/login');
+            // Navigate back to profile after a brief delay to show success message
+            setTimeout(() => {
+                navigate('/profile');
+            }, 1500);
         } catch (error: any) {
-            console.error('Registration error:', error);
-            alert(error.message || 'Something went wrong during registration.');
+            console.error('Update error:', error);
+            setError(error.message || 'Something went wrong during profile update.');
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <div className="common_theme">
-            <div className="green_container">
-                {!authStore.isLogin && (<a className="back-link" onClick={() => navigate('/login')}>&#x3C; &nbsp; Already have an account?</a>)}
-                <form className="center" onSubmit={handleSubmit}>
-                    <h2>{authStore.isLogin ? 'UPDATE PROFILE' : 'SIGN UP'}</h2>
+            <div className="green_container update-profile-container">
+                <a className="back-link" onClick={() => navigate('/profile')}>&#x3C; &nbsp; Back to Profile</a>
+                <form className="center update-profile-form" onSubmit={handleSubmit}>
+                    <h2>UPDATE PROFILE</h2>
+
+                    {error && (
+                        <div className="update-profile-error">
+                            {error}
+                        </div>
+                    )}
+
+                    {successMessage && (
+                        <div className="update-profile-success">
+                            {successMessage}
+                        </div>
+                    )}
 
                     <label>Name</label>
                     <input type="text" id="name" value={formData.name} onChange={handleChange} required placeholder="John Smith" />
@@ -161,18 +160,13 @@ const Register: React.FC = () => {
                     <input type="number" id="currentPets" value={formData.currentPets} required onChange={handleChange} min="0" />
 
                     <label>Email</label>
-                    <input type="email" id="email" value={formData.email} required onChange={handleChange} placeholder="john@gmail.com" />
-
-                    <label>Password</label>
-                    <input type="password" id="password" value={formData.password} required onChange={handleChange} placeholder="Enter your password here..." />
-
-                    <label>Confirm Password</label>
-                    <input type="password" id="confirmPassword" value={formData.confirmPassword} required onChange={handleChange} placeholder="Confirm your password here..." />
-
+                    <input type="email" id="email" value={formData.email} required onChange={handleChange} placeholder="john@gmail.com" readOnly />
 
                     <br />
                     <div className="profile-action-button">
-                        <button type="submit"> Register</button>
+                        <button type="submit" disabled={loading}>
+                            {loading ? 'Updating...' : 'Update Profile'}
+                        </button>
                     </div>
                 </form>
             </div>
@@ -180,4 +174,4 @@ const Register: React.FC = () => {
     );
 };
 
-export default Register;
+export default UpdateProfile;

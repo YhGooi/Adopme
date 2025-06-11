@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useAuthStore, user_details } from '../../store/auth.store';
 import '../../css/profile/personalInfo.css';
@@ -15,6 +16,7 @@ export interface AppointmentResponse {
 }
 
 const Appointments = () => {
+    const navigate = useNavigate();
     const [appointments, setAppointments] = useState<AppointmentResponse[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -98,7 +100,7 @@ const Appointments = () => {
                 <p style={{ color: '#888', marginBottom: '30px' }}>
                     Schedule a visit to meet your future pet today!
                 </p>
-                <button className="profile-action-button">
+                <button className="profile-action-button" onClick={() => navigate('/donation')}>
                     Schedule Visit
                 </button>
             </div>

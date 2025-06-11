@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore, user_details } from '../../store/auth.store';
+import { formatHousingType, formatPettingExperience, formatDate, getDisplayValue } from '../../utils/formatters';
 import '../../css/profile/personalInfo.css';
 import '../../css/profile/profileComponents.css';
 
@@ -57,27 +58,7 @@ const PersonalInfo = () => {
         }
     };
 
-    const formatDate = (dateString: string) => {
-        if (!dateString) return 'Not provided';
-        
-        try {
-            const date = new Date(dateString);
-            if (isNaN(date.getTime())) {
-                return 'Invalid date';
-            }
-            return date.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
-        } catch (error) {
-            console.error('Date formatting error:', error);
-            return 'Error formatting date';
-        }
-    };
-    
-    const getDisplayValue = (value: any) => {
-        if (value === null || value === undefined || value === '') {
-            return 'Not provided';
-        }
-        return value;
-    };
+    // Using imported formatting utility functions
 
     if (loading) {
         return (
@@ -134,7 +115,7 @@ const PersonalInfo = () => {
                 
                 <div className="profile-info-item">
                     <div className="profile-info-label">Housing Type:</div>
-                    <div className="profile-info-value">{getDisplayValue(userData.housingType)}</div>
+                    <div className="profile-info-value">{formatHousingType(userData.housingType)}</div>
                 </div>
                 
                 <div className="profile-info-item">
@@ -144,7 +125,7 @@ const PersonalInfo = () => {
                 
                 <div className="profile-info-item">
                     <div className="profile-info-label">Petting Experience:</div>
-                    <div className="profile-info-value">{getDisplayValue(userData.pettingExperience)}</div>
+                    <div className="profile-info-value">{formatPettingExperience(userData.pettingExperience)}</div>
                 </div>
                 
                 <div className="profile-info-item">
@@ -155,7 +136,7 @@ const PersonalInfo = () => {
             
             <button 
                 className="profile-action-button" 
-                onClick={() => navigate('/signup')}
+                onClick={() => navigate('/updateProfile')}
             >
                 Update Info
             </button>

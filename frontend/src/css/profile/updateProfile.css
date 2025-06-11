@@ -1,0 +1,60 @@
+/* UpdateProfile specific styles */
+/* Style for the readOnly email field */
+.update-profile-form input[readOnly] {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}
+
+/* Style for error message */
+.update-profile-error {
+    color: #e74c3c;
+    margin-bottom: 15px;
+    text-align: center;
+    background-color: rgba(231, 76, 60, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgba(231, 76, 60, 0.3);
+}
+
+/* Style for success message */
+.update-profile-success {
+    color: #27ae60;
+    margin-bottom: 15px;
+    text-align: center;
+    background-color: rgba(39, 174, 96, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgba(39, 174, 96, 0.3);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .update-profile-container {
+        width: 100%;
+        padding: 1rem;
+    }
+    
+    .update-profile-form input, 
+    .update-profile-form select, 
+    .update-profile-form textarea {
+        width: 90%;
+        margin-left: 0;
+    }
+    
+    .email-hint {
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .green_container {
+        padding: 1.5rem 1rem;
+        width: 90%;
+        margin: 2rem auto;
+    }
+    
+    .update-profile-form button {
+        padding: 10px 18px;
+        font-size: 14px;
+    }
+}

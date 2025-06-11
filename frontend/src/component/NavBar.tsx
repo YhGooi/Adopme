@@ -161,7 +161,7 @@ const NavBar = () => {
                                             )}
                                         </button>
                                         <button onClick={() => navigate("/profile")}>My Profile</button>
-                                        <button onClick={() => navigate("/signup")}>Update Profile</button>
+                                        <button onClick={() => navigate("/updateProfile")}>Update Profile</button>
                                         <button onClick={() => {
                                             if (stompClient?.active) {
                                                 stompClient.deactivate();
