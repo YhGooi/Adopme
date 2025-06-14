@@ -112,7 +112,8 @@ const Register: React.FC = () => {
                 authStore.set('token', data.token);
                 authStore.set('user', 'USER');
             }
-            // navigate('/login');
+            alert('Registration successful!');
+            navigate('/');
         } catch (error: any) {
             console.error('Registration error:', error);
             alert(error.message || 'Something went wrong during registration.');
@@ -171,9 +172,7 @@ const Register: React.FC = () => {
 
 
                     <br />
-                    <div className="profile-action-button">
-                        <button type="submit"> Register</button>
-                    </div>
+                    <button type="submit" className="profile-action-button" onClick={handleSubmit}> Register</button>
                 </form>
             </div>
         </div>

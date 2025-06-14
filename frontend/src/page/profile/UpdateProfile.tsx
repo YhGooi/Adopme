@@ -163,11 +163,9 @@ const UpdateProfile: React.FC = () => {
                     <input type="email" id="email" value={formData.email} required onChange={handleChange} placeholder="john@gmail.com" readOnly />
 
                     <br />
-                    <div className="profile-action-button">
-                        <button type="submit" disabled={loading}>
-                            {loading ? 'Updating...' : 'Update Profile'}
-                        </button>
-                    </div>
+                    <button className="profile-action-button" type="submit" disabled={loading}>
+                        {loading ? 'Updating...' : 'Update Profile'}
+                    </button>
                 </form>
             </div>
         </div>
