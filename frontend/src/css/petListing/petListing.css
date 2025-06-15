@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+
 /* PetListing.css */
 .pet-listing-container {
   padding: 0px 0px 2px 0px;
@@ -110,7 +112,6 @@
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
 
 .polaroid {
   background: white;
