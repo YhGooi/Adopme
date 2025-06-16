@@ -108,7 +108,7 @@ const Register: React.FC = () => {
                 userStore.set('currentPets', formData.currentPets);
                 userStore.set('type', 'USERS');
 
-                authStore.set('isLogin', true);
+                //authStore.set('isLogin', true);
                 authStore.set('token', data.token);
                 authStore.set('user', 'USER');
             }
