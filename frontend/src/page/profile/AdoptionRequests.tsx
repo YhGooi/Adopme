@@ -51,6 +51,14 @@ const AdoptionRequests = () => {
     const authStore = useAuthStore();
     const userStore = user_details(state => state);
 
+    const getImageUrl = (url: string | null | undefined) => {
+        if (!url) return null;
+        if (url.startsWith('/uploads/')) {
+            return `http://localhost:8080${url}`;
+        }
+        return url;
+    };
+
     useEffect(() => {
         fetchUserAdoptionRequests();
     }, [authStore.token, userStore.id]);
@@ -169,7 +177,7 @@ const AdoptionRequests = () => {
                         >
                             <div className="profile-pet-image-container">
                                 <img 
-                                    src={request.pet.petImageUrl} 
+                                    src={getImageUrl(request.pet.petImageUrl) || undefined} 
                                     alt={request.pet.name} 
                                     className="profile-pet-image"
                                 />

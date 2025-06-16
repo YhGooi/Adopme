@@ -17,6 +17,14 @@ const Home: React.FC = () => {
     fetchPets();
   }, []);
 
+  const getImageUrl = (url: string | null | undefined) => {
+    if (!url) return null;
+    if (url.startsWith('/uploads/')) {
+      return `http://localhost:8080${url}`;
+    }
+    return url;
+  };
+
   return (
     <div className="home-page">
       <section className="hero-section">
@@ -44,8 +52,6 @@ const Home: React.FC = () => {
         <div className="polaroid-container">
           <div className="polaroid-cards">
             {pets.map((pet) => {
-              let imageUrl = pet.petImageUrl || '';
-
               return (
                 <div
                   key={pet.id}
@@ -53,7 +59,7 @@ const Home: React.FC = () => {
                   onClick={() => navigate('/pet-listing')}
                 >
                   <div className="polaroid-image-container">
-                    <img src={imageUrl} alt={pet.name} />
+                    <img src={getImageUrl(pet.petImageUrl) || undefined} alt={pet.name} />
                   </div>
                   <p>{pet.name}, {pet.age}</p>
                 </div>
